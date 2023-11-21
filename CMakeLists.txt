@@ -8,6 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "/Users/aymenebelmeguenai/Qt/6.6.0/macos/lib/cmake/Qt6")
+set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
+
 find_package(Qt6 COMPONENTS
         Core
         Gui
@@ -35,7 +37,7 @@ set(HEADERS
 add_executable(EventX ${SOURCES} ${HEADERS})
 
 # Configurer les dossiers d'inclusion
-target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
 # Liaison des bibliothèques Qt
 target_link_libraries(EventX

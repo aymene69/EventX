@@ -21,6 +21,11 @@ public:
 
     // Getters and setters
     std::string getEventNom() const;
+    std::string getEventDate() const;
+    std::string getEventLieu() const;
+    std::vector<Participant*> getParticipants() const;
+    std::vector<Stand*> getStands() const;
+
     void setEventNom(const std::string& nom);
 
     // Methods

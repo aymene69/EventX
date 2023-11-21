@@ -15,6 +15,22 @@ std::string Event::getEventNom() const { // avoir le nom de l'event
     return eventNom;
 }
 
+std::string Event::getEventDate() const { // avoir la date de l'event
+    return eventDate;
+}
+
+std::string Event::getEventLieu() const { // avoir le lieu de l'event
+    return eventLieu;
+}
+
+std::vector<Participant*> Event::getParticipants() const { // avoir la liste des participants à l'event
+    return participants;
+}
+
+std::vector<Stand*> Event::getStands() const { // avoir la liste des stands à l'event
+    return stands;
+}
+
 void Event::setEventNom(const std::string& nom) { // changer le nom de l'event
     eventNom = nom;
 }
