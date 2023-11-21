@@ -1,10 +1,18 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.26)
 project(EventX)
 
 # Configuration C++ standard
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_PREFIX_PATH "/Users/aymenebelmeguenai/Qt/6.6.0/macos/lib/cmake/Qt6")
+find_package(Qt6 COMPONENTS
+        Core
+        Gui
+        Widgets
+        REQUIRED)
 
 # Liste des fichiers source
 set(SOURCES
@@ -25,5 +33,13 @@ set(HEADERS
 
 # Ajout de l'exécutable
 add_executable(EventX ${SOURCES} ${HEADERS})
+
 # Configurer les dossiers d'inclusion
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Liaison des bibliothèques Qt
+target_link_libraries(EventX
+        Qt::Core
+        Qt::Gui
+        Qt::Widgets
+)
