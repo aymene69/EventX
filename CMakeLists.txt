@@ -22,6 +22,10 @@ set(SOURCES
         src/Participant.cpp
         src/Stand.cpp
         src/Manager.cpp
+        src/GestionEvenement.cpp
+        src/GestionParticipant.cpp
+        src/FonctionsJson.cpp
+        src/FonctionsDemarrage.cpp
         src/main.cpp
 )
 
@@ -31,6 +35,10 @@ set(HEADERS
         include/Participant.hpp
         include/Stand.hpp
         include/Manager.hpp
+        include/GestionEvenement.hpp
+        include/GestionParticipant.hpp
+        include/FonctionsJson.hpp
+        include/FonctionsDemarrage.hpp
 )
 
 # Ajout de l'exécutable
