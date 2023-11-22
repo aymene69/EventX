@@ -11,7 +11,9 @@ private:
 
 public:
     Manager(std::string nom, int id, std::string num);
-    ~Manager();
+    virtual ~Manager();
+
+    virtual std::string getType() const;
 
     // Getters
     std::string getManagerNom() const;

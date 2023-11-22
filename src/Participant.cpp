@@ -4,6 +4,9 @@ Participant::Participant(int participantID, std::string name, bool vip, std::str
 
 Participant::~Participant() {} // destructeur
 
+std::string Participant::getType() const { // avoir le type de participant
+    return "Participant";
+}
 
 int Participant::getIDParticipantID() const { // avoir l'id du participant
     return participantID;

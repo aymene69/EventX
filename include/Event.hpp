@@ -16,8 +16,11 @@ private:
     std::vector<Stand*> stands;
 
 public:
+    // Constructor and destructor
     Event(std::string name, std::string date, std::string lieu);
-    ~Event();
+    virtual ~Event();
+
+    virtual std::string getType() const;
 
     // Getters and setters
     std::string getEventNom() const;
@@ -27,6 +30,8 @@ public:
     std::vector<Stand*> getStands() const;
 
     void setEventNom(const std::string& nom);
+    void setEventDate(const std::string& date);
+    void setEventLieu(const std::string& lieu);
 
     // Methods
     void ajouterParticipant(Participant* participant);

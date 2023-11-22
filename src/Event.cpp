@@ -2,13 +2,10 @@
 
 Event::Event(std::string name, std::string date, std::string lieu) : eventNom(name), eventDate(date), eventLieu(lieu) {} // constructeur
 
-Event::~Event() { // destructeur
-    for (auto participant : participants) {
-        delete participant;
-    }
-    for (auto stand : stands) {
-        delete stand;
-    }
+Event::~Event() {} // destructeur
+
+std::string Event::getType() const { // avoir le type de l'event
+    return "event";
 }
 
 std::string Event::getEventNom() const { // avoir le nom de l'event
@@ -33,6 +30,14 @@ std::vector<Stand*> Event::getStands() const { // avoir la liste des stands à l
 
 void Event::setEventNom(const std::string& nom) { // changer le nom de l'event
     eventNom = nom;
+}
+
+void Event::setEventDate(const std::string& date) { // changer la date de l'event
+    eventDate = date;
+}
+
+void Event::setEventLieu(const std::string& lieu) { // changer le lieu de l'event
+    eventLieu = lieu;
 }
 
 void Event::ajouterParticipant(Participant* participant) { // ajouter un participant à l'event

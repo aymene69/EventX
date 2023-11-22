@@ -14,8 +14,10 @@ private:
 
 public:
     Participant(int participantID, std::string name, bool vip, std::string numero, std::string email); // constructeur
-    ~Participant(); // destructeur
+    virtual ~Participant(); // destructeur
 
+// Getters and setters
+    virtual std::string getType() const; // avoir le type de participant
     int getIDParticipantID() const; // avoir l'id du participant
     std::string getNomParticipant() const; // avoir le nom du participant
     bool getVIPParticipant(); // savoir si le participant est VIP

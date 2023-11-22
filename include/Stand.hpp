@@ -12,9 +12,10 @@ private:
 
 public:
     Stand(std::string nom, int num);
-    ~Stand();
+    virtual ~Stand();
 
 
+    virtual std::string getType() const;
     std::string getStandNom() const;
     int getStandNum() const;
     std::vector<Manager*> getManagers();

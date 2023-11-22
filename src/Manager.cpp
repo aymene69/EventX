@@ -4,6 +4,10 @@ Manager::Manager(std::string nom, int id, std::string num) : managerNom(nom), ma
 
 Manager::~Manager() {}
 
+std::string Manager::getType() const {
+    return "Manager";
+}
+
 std::string Manager::getManagerNom() const {
     return managerNom;
 }

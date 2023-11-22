@@ -8,6 +8,10 @@ Stand::~Stand() { // destructeur
     }
 }
 
+std::string Stand::getType() const { // avoir le type de stand
+    return "Stand";
+}
+
 std::string Stand::getStandNom() const { // avoir le nom du stand
     return standNom;
 }

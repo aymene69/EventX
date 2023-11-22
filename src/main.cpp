@@ -1,6 +1,8 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <regex>
 #include <QApplication>
+#include <QMainWindow>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -10,12 +12,19 @@
 #include <QDebug>
 #include <QLineEdit>
 #include <QFormLayout>
+#include <QComboBox>
+#include <QMessageBox>
 #include "include/Event.hpp"
 #include "include/Participant.hpp"
 #include "include/Stand.hpp"
 #include "include/Manager.hpp"
 
 using json = nlohmann::json;
+
+bool verifDate(std::string date) {
+    std::regex dateRegex("([0-9]{2})/([0-9]{2})/([0-9]{4})");
+    return std::regex_match(date, dateRegex);
+}
 
 void updateJson(std::string type, void* object) {
     std::ifstream i("data.json");
@@ -57,6 +66,67 @@ void updateJson(std::string type, void* object) {
     o.close();
 }
 
+void modifierJson(std::string type, void* object, int index) {
+    std::ifstream i("data.json");
+    json j;
+    i >> j;
+    i.close();
+
+    if (type == "e") {
+        Event* event = static_cast<Event*>(object);
+        json eventJson;
+        eventJson["nom"] = event->getEventNom();
+        eventJson["date"] = event->getEventDate();
+        eventJson["lieu"] = event->getEventLieu();
+        j["events"][index] = eventJson;
+    } else if (type == "p") {
+        Participant* participant = static_cast<Participant*>(object);
+        json participantJson;
+        participantJson["nom"] = participant->getNomParticipant();
+        participantJson["vip"] = participant->getVIPParticipant();
+        participantJson["numero"] = participant->getNumParticipant();
+        participantJson["email"] = participant->getEmailParticipant();
+        j["participants"][index] = participantJson;
+    } else if (type == "s") {
+        Stand* stand = static_cast<Stand*>(object);
+        json standJson;
+        standJson["nom"] = stand->getStandNom();
+        standJson["numero"] = stand->getStandNum();
+        j["stands"][index] = standJson;
+    } else if (type == "m") {
+        Manager* manager = static_cast<Manager*>(object);
+        json managerJson;
+        managerJson["nom"] = manager->getManagerNom();
+        managerJson["numero"] = manager->getManagerNum();
+        j["managers"][index] = managerJson;
+    }
+
+    std::ofstream o("data.json");
+    o << std::setw(4) << j << std::endl;
+    o.close();
+}
+
+void supprimerJson(std::string type, void* object, int index) {
+    std::ifstream i("data.json");
+    json j;
+    i >> j;
+    i.close();
+
+    if (type == "e") {
+        j["events"].erase(index);
+    } else if (type == "p") {
+        j["participants"].erase(index);
+    } else if (type == "s") {
+        j["stands"].erase(index);
+    } else if (type == "m") {
+        j["managers"].erase(index);
+    }
+
+    std::ofstream o("data.json");
+    o << std::setw(4) << j << std::endl;
+    o.close();
+}
+
 class GestionEvenementDialog : public QDialog {
 
 public:
@@ -79,6 +149,8 @@ public:
         layout->addWidget(retour);
 
         QObject::connect(creer, &QPushButton::clicked, this, &GestionEvenementDialog::creerEvenement);
+        QObject::connect(modifier, &QPushButton::clicked, this, &GestionEvenementDialog::modifierEvenement);
+        QObject::connect(supprimer, &QPushButton::clicked, this, &GestionEvenementDialog::supprimerEvenement);
         QObject::connect(retour, &QPushButton::clicked, this, &GestionEvenementDialog::close);
 
     }
@@ -108,19 +180,153 @@ public slots:
             QString date = dateLineEdit->text();
             QString lieu = lieuLineEdit->text();
 
-            // Utilisez ces valeurs pour créer votre événement (ou appelez une fonction de création)
-            // ...
-            Event* event = new Event(nom.toStdString(), date.toStdString(), "Lyon");
-            updateJson("e", event);
+            if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
+                if (nom.isEmpty()) {
+                    QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
+                }
+                if (date.isEmpty()) {
+                    QMessageBox::warning(nullptr, "Attention !", "La date est vide");
+                }
+                if (lieu.isEmpty()) {
+                    QMessageBox::warning(nullptr, "Attention !", "Le lieu est vide");
+                }
+            } else {
+                if (!verifDate(date.toStdString())) {
+                    QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
+                    return;
+                }
+                else {
+                    // Créez un nouvel événement avec les valeurs récupérées
+                    Event *event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
 
-            // Fermez la boîte de dialogue de création
-            creerDialog.close();
-        });
-
+                    // Utilisez l'événement créé pour modifier le JSON
+                    updateJson("e", event);
+                    QMessageBox::information(nullptr, "Succès !", "L'événement a bien été créé.");
+                    // Fermez la boîte de dialogue de création
+                    creerDialog.close();
+                }
+            }
+            });
         creerDialog.exec();
     }
 
-    // Ajoutez les slots pour modifierEvenement et supprimerEvenement si nécessaire
+
+    void modifierEvenement() {
+        QDialog modifierDialog(this);
+        modifierDialog.setWindowTitle("Modifier un événement");
+
+        std::vector<Event> events;
+        json j;
+        std::ifstream i("data.json");
+        i >> j;
+        i.close();
+        const json &eventsJson = j["events"];
+        if (eventsJson.size() == 0) {
+            QMessageBox::warning(nullptr, "Attention !", "Aucun événement n'a été trouvé.");
+        } else {
+            for (json::const_iterator it = eventsJson.begin(); it != eventsJson.end(); ++it) {
+                Event event(it.value()["nom"], it.value()["date"], it.value()["lieu"]);
+                events.push_back(event);
+            }
+
+            QFormLayout formLayout(&modifierDialog);
+
+            // Ajoutez les champs nécessaires pour la modification d'un événement
+            QComboBox *comboBox = new QComboBox(&modifierDialog);
+            for (int i = 0; i < events.size(); i++) {
+                comboBox->addItem(QString::fromStdString(events[i].getEventNom()));
+            }
+
+            QLineEdit *nomLineEdit = new QLineEdit(&modifierDialog);
+            QLineEdit *dateLineEdit = new QLineEdit(&modifierDialog);
+            QLineEdit *lieuLineEdit = new QLineEdit(&modifierDialog);
+
+            formLayout.addRow("Nom de l'événement:", comboBox);
+            formLayout.addRow("Nouveau nom de l'événement:", nomLineEdit);
+            formLayout.addRow("Nouvelle date de l'événement:", dateLineEdit);
+            formLayout.addRow("Nouveau lieu de l'événement:", lieuLineEdit);
+
+            QPushButton *modifierButton = new QPushButton("Modifier", &modifierDialog);
+            formLayout.addRow("", modifierButton);
+
+            // Connectez le bouton "Modifier" à une fonction de traitement
+            QObject::connect(modifierButton, &QPushButton::clicked, [&]() {
+                // Récupérez les valeurs saisies dans les champs
+                int index = comboBox->currentIndex();
+                QString nom = nomLineEdit->text();
+                QString date = dateLineEdit->text();
+                QString lieu = lieuLineEdit->text();
+
+                if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
+                    QMessageBox::warning(nullptr, "Attention !", "Veuillez remplir tous les champs.");
+                } else {
+                    if (!verifDate(date.toStdString())) {
+                        QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
+                        return;
+                    } else {
+                        // Créez un nouvel événement avec les valeurs récupérées
+                        Event *event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
+
+                        // Utilisez l'événement créé pour modifier le JSON
+                        modifierJson("e", event, index);
+                        QMessageBox::information(nullptr, "Succès !", "L'événement a bien été modifié.");
+                        // Fermez la boîte de dialogue de modification
+                        modifierDialog.close();
+                    }
+                }
+            });
+            modifierDialog.exec();
+        }
+    }
+
+
+    void supprimerEvenement() {
+        QDialog supprimerDialog(this);
+        supprimerDialog.setWindowTitle("Supprimer un événement");
+
+        std::vector<Event> events;
+        json j;
+        std::ifstream i("data.json");
+        i >> j;
+        i.close();
+        const json& eventsJson = j["events"];
+        if (eventsJson.size() == 0) {
+            QMessageBox::warning(nullptr, "Attention !", "Aucun événement n'a été trouvé.");
+        }
+        else {
+            for (json::const_iterator it = eventsJson.begin(); it != eventsJson.end(); ++it) {
+                Event event(it.value()["nom"], it.value()["date"], it.value()["lieu"]);
+                events.push_back(event);
+            }
+
+            QFormLayout formLayout(&supprimerDialog);
+
+            // Ajoutez les champs nécessaires pour la suppression d'un événement
+            QComboBox *comboBox = new QComboBox(&supprimerDialog);
+            for (int i = 0; i < events.size(); i++) {
+                comboBox->addItem(QString::fromStdString(events[i].getEventNom()));
+            }
+
+            formLayout.addRow("Nom de l'événement:", comboBox);
+
+            QPushButton *supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
+            formLayout.addRow("", supprimerButton);
+
+            // Connectez le bouton "Supprimer" à une fonction de traitement
+            QObject::connect(supprimerButton, &QPushButton::clicked, [&]() {
+                // Récupérez les valeurs saisies dans les champs
+                int index = comboBox->currentIndex();
+
+                // Utilisez l'objet Event existant pour modifier le JSON
+                supprimerJson("e", &events[index], index);
+                QMessageBox::information(nullptr, "Succès !", "L'événement a bien été supprimé.");
+                // Fermez la boîte de dialogue de suppression
+                supprimerDialog.close();
+            });
+            supprimerDialog.exec();
+        }
+
+    }
 
 };
 
@@ -160,7 +366,7 @@ json preloadData(json data) {
 
 int main(int argc, char *argv[]) {
     QApplication eventX(argc, argv);
-    QWidget window;
+    QMainWindow window;
 
     window.setWindowTitle("EventX 1.0");
 
@@ -194,8 +400,9 @@ int main(int argc, char *argv[]) {
     QPushButton quit("Quitter", &window);
 
     // Création d'un layout vertical
-    QVBoxLayout *layout = new QVBoxLayout(&window);
-
+    QWidget *centralWidget = new QWidget(&window);
+    window.setCentralWidget(centralWidget);
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     // Ajout des boutons au layout
     layout->addWidget(titreApp);
     layout->addWidget(credits);
@@ -206,7 +413,6 @@ int main(int argc, char *argv[]) {
     layout->addWidget(&recharger);
     layout->addWidget(&quit);
     layout->addWidget(nombreEvenements);
-
     // Affichage de la fenêtre
     window.show();
 
