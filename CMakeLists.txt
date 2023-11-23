@@ -7,9 +7,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# Recherche des packages Qt
-find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
+set(CMAKE_PREFIX_PATH "/Users/aymenebelmeguenai/Qt/6.6.0/macos/lib/cmake/Qt6")
 set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
+
+find_package(Qt6 COMPONENTS
+        Core
+        Gui
+        Widgets
+        REQUIRED)
 
 # Liste des fichiers source
 set(SOURCES
@@ -46,17 +51,3 @@ target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN
 
 # Liaison des bibliothèques Qt
 target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)
-
-# Traitement spécifique à Windows
-if (WIN32)
-    # Remplacez le chemin avec le chemin vers votre installation de Qt sur Windows
-    set(CMAKE_PREFIX_PATH "C:/chemin/vers/Qt/6.6.0/msvc2019_64/lib/cmake/Qt6")
-    # Ajoutez ici d'autres configurations spécifiques à Windows si nécessaire
-endif()
-
-# Traitement spécifique à Mac
-if (APPLE)
-    # Remplacez le chemin avec le chemin vers votre installation de Qt sur Mac
-    set(CMAKE_PREFIX_PATH "/Users/aymenebelmeguenai/Qt/6.6.0/macos/lib/cmake/Qt6")
-    # Ajoutez ici d'autres configurations spécifiques à Mac si nécessaire
-endif()

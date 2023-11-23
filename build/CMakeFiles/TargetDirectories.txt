@@ -1,0 +1,4 @@
+/Users/aymenebelmeguenai/projet-poo/build/CMakeFiles/EventX.dir
+/Users/aymenebelmeguenai/projet-poo/build/CMakeFiles/edit_cache.dir
+/Users/aymenebelmeguenai/projet-poo/build/CMakeFiles/rebuild_cache.dir
+/Users/aymenebelmeguenai/projet-poo/build/CMakeFiles/EventX_autogen.dir
