@@ -18,6 +18,7 @@ find_package(Qt6 COMPONENTS
 
 # Liste des fichiers source
 set(SOURCES
+        src/MainWindow.cpp
         src/Event.cpp
         src/Participant.cpp
         src/Stand.cpp
@@ -31,6 +32,7 @@ set(SOURCES
 
 # Liste des fichiers d'en-tête
 set(HEADERS
+        include/MainWindow.hpp
         include/Event.hpp
         include/Participant.hpp
         include/Stand.hpp
@@ -48,8 +50,4 @@ add_executable(EventX ${SOURCES} ${HEADERS})
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
 # Liaison des bibliothèques Qt
-target_link_libraries(EventX
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
-)
+target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)

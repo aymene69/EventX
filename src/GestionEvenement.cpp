@@ -85,7 +85,9 @@ void GestionEvenementDialog::creerEvenement() {
 
                 // Utilisez l'événement créé pour modifier le JSON
                 ajouterEvent(event);
+
                 emit dataModified();
+
                 QMessageBox::information(nullptr, "Succès !", "L'événement a bien été créé.");
                 // Fermez la boîte de dialogue de création
                 creerDialog.close();
