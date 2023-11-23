@@ -102,9 +102,9 @@ void supprimerEvent(void* object, int index) {
     o.close();
 }
 
-void supprimerParticip(void* object, int indexEvent, int indexParticipant) {
-    std::ifstream i("data.json");
+void supprimerParticip(int indexEvent, int indexParticipant) {
     json j;
+    std::ifstream i("data.json");
     i >> j;
     i.close();
 

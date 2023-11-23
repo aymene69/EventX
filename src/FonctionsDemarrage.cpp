@@ -22,7 +22,18 @@ json preloadData() {
     }
 }
 
-int getNbEvents(json data) {
-    const json& events = data["events"];
-    return events.size();
+int getNbEvents() {
+    json j;
+    j = preloadData();
+    return j["events"].size();
+}
+
+int getNbParticipants() {
+    json j;
+    j = preloadData();
+    int nbParticipants = 0;
+    for (auto& event : j["events"]) {
+        nbParticipants += event["participants"].size();
+    }
+    return nbParticipants;
 }

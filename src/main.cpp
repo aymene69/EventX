@@ -11,6 +11,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QGroupBox>
 #include "include/FonctionsDemarrage.hpp"
 #include "include/FonctionsJson.hpp"
 #include "include/Event.hpp"
@@ -33,7 +34,7 @@ int main(int argc, char *argv[]) {
     json* data = new json();
     *data = preloadData();
     int* nbEvents = new int(0);
-    *nbEvents = getNbEvents(*data);
+    *nbEvents = getNbEvents();
     // Définir la taille de la fenêtre (1/3 de la largeur, 1/2 de la hauteur)
     int windowWidth = screenGeometry.width() / 6;
     int windowHeight = screenGeometry.height() / 4;
@@ -45,16 +46,35 @@ int main(int argc, char *argv[]) {
     auto *credits = new QLabel("par Aymene, Lucas B., Lucas J., Eren, Julien", &window);
     credits->setAlignment(Qt::AlignCenter);  // Centrer le texte
     credits->setStyleSheet("font-size: 10pt;");  // Mettre la police en petit
+    auto *buttonGroup = new QGroupBox("Gérer", &window);
+    auto *buttonGroupLayout = new QHBoxLayout(buttonGroup);
+    auto *visualiserGroup = new QGroupBox("Visualiser", &window);
+    auto *visualiserGroupLayout = new QHBoxLayout(visualiserGroup);
+    auto *statsGroup = new QGroupBox("Statistiques", &window);
+    auto *statsGroupLayout = new QHBoxLayout(statsGroup);
     auto *nombreEvenements = new QLabel("Nombre d'événements : " + QString::number(*nbEvents), &window);
-
+    auto *nombreParticipants = new QLabel("Nombre de participants : " + QString::number(getNbParticipants()), &window);
+    // Création des statistiques
+    statsGroupLayout->addWidget(nombreEvenements);
+    statsGroupLayout->addWidget(nombreParticipants);
+    statsGroup->setLayout(statsGroupLayout);
     // Création des boutons
     QPushButton gererEvent("Gérer les événement", &window);
     QPushButton gererParticipant("Gérer les participants", &window);
     QPushButton gererStand("Gérer les stands", &window);
     QPushButton gererManager("Gérer les gérants de stands", &window);
-    QPushButton recharger("Recharger", &window);
     QPushButton quit("Quitter", &window);
 
+    buttonGroupLayout->addWidget(&gererEvent);
+    buttonGroupLayout->addWidget(&gererParticipant);
+    buttonGroupLayout->addWidget(&gererStand);
+    buttonGroupLayout->addWidget(&gererManager);
+    buttonGroup->setLayout(buttonGroupLayout);
+
+    QPushButton visualiser("Visualiser les données", &window);
+
+    visualiserGroupLayout->addWidget(&visualiser);
+    visualiserGroup->setLayout(visualiserGroupLayout);
     // Création d'un layout vertical
     auto *centralWidget = new QWidget(&window);
     window.setCentralWidget(centralWidget);
@@ -62,14 +82,10 @@ int main(int argc, char *argv[]) {
     // Ajout des boutons au layout
     layout->addWidget(titreApp);
     layout->addWidget(credits);
-    layout->addWidget(&gererEvent);
-    layout->addWidget(&gererParticipant);
-    layout->addWidget(&gererStand);
-    layout->addWidget(&gererManager);
-    layout->addWidget(&recharger);
+    layout->addWidget(buttonGroup);  // Ajoutez le groupe de boutons ici
+    layout->addWidget(visualiserGroup);
+    layout->addWidget(statsGroup);
     layout->addWidget(&quit);
-    layout->addWidget(nombreEvenements);
-    // Affichage de la fenêtre
     window.show();
 
     // Connexion des boutons à leurs actions
@@ -85,11 +101,10 @@ int main(int argc, char *argv[]) {
         gestionParticipantDialog.exec();
     });
 
-    QObject::connect(&recharger, &QPushButton::clicked, [&]() {
-        qDebug() << "Bouton Recharger cliqué.";
-        *data = preloadData();
-        *nbEvents = (*data)["events"].size();
+    QObject::connect(&gestionEvenementDialog, &GestionEvenementDialog::dataModified, [&]() {
+        // Mettez à jour les statistiques ici
         nombreEvenements->setText("Nombre d'événements : " + QString::number(*nbEvents));
+        nombreParticipants->setText("Nombre de participants : " + QString::number(getNbParticipants()));
     });
     QObject::connect(&quit, &QPushButton::clicked, &eventX, &QApplication::quit);
 

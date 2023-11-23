@@ -10,6 +10,9 @@ Q_OBJECT
 public:
     GestionEvenementDialog(QWidget *parent = nullptr);
 
+signals:
+    void dataModified();
+
 public slots:
     void creerEvenement();
     void modifierEvenement();

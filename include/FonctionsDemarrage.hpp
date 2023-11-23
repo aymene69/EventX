@@ -6,6 +6,7 @@ using json = nlohmann::json;
 
 json preloadData();
 
-int getNbEvents(json data);
+int getNbEvents();
+int getNbParticipants();
 
 #endif
