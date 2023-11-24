@@ -20,6 +20,10 @@ int Stand::getStandNum() const { // avoir le numéro du stand
     return standNum;
 }
 
+double Stand::getStandSurface() const { // avoir la surface du stand
+    return standSurface;
+}
+
 std::vector<Manager*> Stand::getManagers() { // avoir la liste des managers du stand
     return managers;
 }

@@ -8,5 +8,7 @@ json preloadData();
 
 int getNbEvents();
 int getNbParticipants();
+int getNbStands();
+int getNbManagers();
 
 #endif

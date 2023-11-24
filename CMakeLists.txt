@@ -25,6 +25,8 @@ set(SOURCES
         src/Manager.cpp
         src/GestionEvenement.cpp
         src/GestionParticipant.cpp
+        src/GestionStand.cpp
+        src/GestionManager.cpp
         src/FonctionsJson.cpp
         src/FonctionsDemarrage.cpp
         src/main.cpp
@@ -39,6 +41,8 @@ set(HEADERS
         include/Manager.hpp
         include/GestionEvenement.hpp
         include/GestionParticipant.hpp
+        include/GestionStand.hpp
+        include/GestionManager.hpp
         include/FonctionsJson.hpp
         include/FonctionsDemarrage.hpp
 )

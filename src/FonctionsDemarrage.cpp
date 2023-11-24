@@ -37,3 +37,26 @@ int getNbParticipants() {
     }
     return nbParticipants;
 }
+
+int getNbStands() {
+    json j;
+    j = preloadData();
+    int nbStands = 0;
+    for (auto& event : j["events"]) {
+        nbStands += event["stands"].size();
+    }
+    return nbStands;
+}
+
+int getNbManagers() {
+    json j;
+    j = preloadData();
+    int nbManagers = 0;
+    // on regarde le nombre de managers de chaque stands de chaque event
+    for (auto& event : j["events"]) {
+        for (auto& stand : event["stands"]) {
+            nbManagers += stand["managers"].size();
+        }
+    }
+    return nbManagers;
+}

@@ -116,7 +116,7 @@ void GestionParticipantDialog::creerParticipant() {
                 Participant participant(id.toInt(), nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                 // Ajoutez le participant à la base de données
                 ajouterParticip(&participant, index);
-
+                emit dataModified();
                 QMessageBox::information(nullptr, "Succès !", "Le participant a bien été créé");
                 creerDialog.close();
             }
@@ -299,7 +299,7 @@ void GestionParticipantDialog::supprimerParticipant() {
                 if (participantIndex < participantsJson.size()) {
                     const json &participantJson = participantsJson[participantIndex];
                     supprimerParticip(eventIndex, participantIndex);
-
+                    emit dataModified();
                     QMessageBox::information(nullptr, "Succès !", "Le participant a bien été supprimé.");
                     supprimerDialog.close();
                     return;

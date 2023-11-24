@@ -7,11 +7,11 @@
 class GestionParticipantDialog : public QDialog {
 Q_OBJECT
 
-signals:
-    void dataModified();
-
 public:
     GestionParticipantDialog(QWidget *parent = nullptr);
+
+signals:
+    void dataModified();
 
 public slots:
     void creerParticipant();
