@@ -22,7 +22,7 @@ mkdir EventX.app
 mkdir EventX.app/Contents
 mkdir EventX.app/Contents/MacOS
 
-cp EventX EventX.app/Contents/MacOS/EventX
+mv EventX EventX.app/Contents/MacOS/EventX
 
 if [ $? -ne 0 ]; then
   echo "Erreur : La compilation a échoué."
