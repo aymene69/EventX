@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "include/MainWindow.hpp"
-#define
+
 #ifdef Q_OS_WIN
 int WinMain(int argc, char *argv[]) {
 #else
