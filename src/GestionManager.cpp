@@ -141,14 +141,14 @@ void GestionManagerDialog::creerManager() {
 
 void GestionManagerDialog::modifierManager() {
     QDialog modifierDialog(this);
-    modifierDialog.setWindowTitle("Modifier un stand");
+    modifierDialog.setWindowTitle("Modifier un manager");
 
     std::vector<Stand> stands;
     json j;
     j = preloadData();
     const json &eventsJson = j["events"];
     if (getNbStands() == 0) {
-        QMessageBox::warning(nullptr, "Attention !", "Aucun stand n'a été trouvé.");
+        QMessageBox::warning(nullptr, "Attention !", "Aucun manager n'a été trouvé.");
         return; // Ajout d'un return pour éviter l'exécution du reste de la fonction
     } else {
         // Ajout d'un QFormLayout pour les champs de modification
@@ -223,7 +223,7 @@ void GestionManagerDialog::modifierManager() {
                         return;
                     }
 
-                    QMessageBox::information(nullptr, "Succès !", "Le stand a bien été modifié.");
+                    QMessageBox::information(nullptr, "Succès !", "Le manager a bien été modifié.");
                     modifierDialog.close();
                     return;
                 }
@@ -236,14 +236,14 @@ void GestionManagerDialog::modifierManager() {
 
 void GestionManagerDialog::supprimerManager() {
     QDialog supprimerDialog(this);
-    supprimerDialog.setWindowTitle("Supprimer un stand");
+    supprimerDialog.setWindowTitle("Supprimer un manager");
 
     std::vector<Stand> stands;
     json j;
     j = preloadData();
     const json &eventsJson = j["events"];
     if (getNbStands() == 0) {
-        QMessageBox::warning(nullptr, "Attention !", "Aucun stand n'a été trouvé.");
+        QMessageBox::warning(nullptr, "Attention !", "Aucun manager n'a été trouvé.");
         return;
     } else {
         // Ajout d'un QFormLayout pour les champs de modification
