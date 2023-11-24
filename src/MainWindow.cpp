@@ -8,7 +8,7 @@
 #include <QStandardPaths>
 #include <QObject>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     gererEvent = new QPushButton("Gérer l'événement", this);
     gererParticipant = new QPushButton("Gérer les participants", this);
