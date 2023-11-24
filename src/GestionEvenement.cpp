@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QLabel>
+#include <QStandardPaths>
 #include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
 #include "include/Participant.hpp"
 #include "include/Stand.hpp"
@@ -104,7 +105,7 @@ void GestionEvenementDialog::modifierEvenement() {
 
     std::vector<Event> events;
     json j;
-    std::ifstream i("data.json");
+    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
     i >> j;
     i.close();
     const json &eventsJson = j["events"];
@@ -173,7 +174,7 @@ void GestionEvenementDialog::supprimerEvenement() {
 
     std::vector<Event> events;
     json j;
-    std::ifstream i("data.json");
+    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
     i >> j;
     i.close();
     const json& eventsJson = j["events"];

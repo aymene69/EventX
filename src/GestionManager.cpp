@@ -7,8 +7,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QCheckBox>
-#include <QStandardItem>
-#include <QStandardItemModel>
+#include <QStandardPaths>
 #include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
 #include "include/Stand.hpp"
 #include "include/Manager.hpp"
@@ -70,7 +69,7 @@ void GestionManagerDialog::creerManager() {
 
         std::vector<Event> events;
         json j;
-        std::ifstream i("data.json");
+        std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
         i >> j;
         i.close();
         const json &eventsJson = j["events"];
@@ -330,7 +329,6 @@ void GestionManagerDialog::onEventComboBoxChanged(int index) {
 }
 
 void GestionManagerDialog::onStandComboBoxChanged(int index) {
-    qDebug() << "onStandComboBoxChanged called with index:" << index;
 
     // Effacez la QComboBox des managers
     managComboBox->clear();

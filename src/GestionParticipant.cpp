@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QCheckBox>
+#include <QStandardPaths>
 #include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
 #include "include/Participant.hpp"
 #include "include/Stand.hpp"
@@ -65,7 +66,7 @@ void GestionParticipantDialog::creerParticipant() {
 
         std::vector<Event> events;
         json j;
-        std::ifstream i("data.json");
+        std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
         i >> j;
         i.close();
         const json &eventsJson = j["events"];

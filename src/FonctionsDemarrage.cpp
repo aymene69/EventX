@@ -1,16 +1,18 @@
 #include "nlohmann/json.hpp"
 #include "include/FonctionsDemarrage.hpp"
 #include <fstream>
+#include <iostream>
 #include <QMessageBox>
+#include <QStandardPaths>
 
 using json = nlohmann::json;
 
 json preloadData() {
-    std::ifstream i("data.json");
+    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
 
     if (!i.is_open()) {
         QMessageBox::critical(nullptr, "EventX - Erreur","Aucune donnée n'a été trouvée. Une base de donnée vide vous sera fournie.");
-        std::ofstream o("data.json");
+        std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
         json data;
         o << data;
         o.close();

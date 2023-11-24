@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QCheckBox>
+#include <QStandardPaths>
 #include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
 #include "include/Stand.hpp"
 #include "include/Manager.hpp"
@@ -61,7 +62,7 @@ void GestionStandDialog::creerStand() {
 
         std::vector<Event> events;
         json j;
-        std::ifstream i("data.json");
+        std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
         i >> j;
         i.close();
         const json &eventsJson = j["events"];

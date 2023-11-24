@@ -5,11 +5,10 @@
 #include "include/GestionManager.hpp"
 #include "include/FonctionsJson.hpp"
 #include "include/FonctionsDemarrage.hpp"
-#include <QDebug>
+#include <QStandardPaths>
 #include <QObject>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     gererEvent = new QPushButton("Gérer l'événement", this);
     gererParticipant = new QPushButton("Gérer les participants", this);
@@ -101,25 +100,22 @@ void MainWindow::connectSignalsAndSlots() {
 }
 
 void MainWindow::handleGestionEvenement() {
-    qDebug() << "Bouton Gérer l'événement cliqué.";
     // On affiche la fenêtre événement
+    std::cout << "repertoire actuel=" << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() << std::endl;
     gestionEvenementDialog.exec();
 }
 
 void MainWindow::handleGestionParticipant() {
-    qDebug() << "Bouton Gérer les participants cliqué.";
     // On affiche la fenêtre participant
     gestionParticipantDialog.exec();
 }
 
 void MainWindow::handleGestionStand() {
-    qDebug() << "Bouton Gérer les stands cliqué.";
     // On affiche la fenêtre participant
     gestionStandDialog.exec();
 }
 
 void MainWindow::handleGestionManager() {
-    qDebug() << "Bouton Gérer les managers cliqué.";
     // On affiche la fenêtre participant
     gestionManagerDialog.exec();
 }
