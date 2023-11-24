@@ -35,9 +35,9 @@ ou alors vous pouvez le compiler vous seul
 1. Assurez vous d'avoir Qt 6.6.0 d'installé d'avoir ajouté au PATH:
 - Le répertoire de librairies cmake:
     - macOS: /Users/VotreUtilisateur/Qt/6.6.0/macos/lib/cmake/Qt6
-    - Windows:
+    - Windows: C:\Qt\6.6.0\X\lib\cmake\Qt6
 - Le répertoire des binaries de Qt (pour Windows seulement):
-    - Windows:
+    - Windows: C:\Qt\6.6.0\X\bin
 2. Compilez:
 - Sous Windows:
     ```
