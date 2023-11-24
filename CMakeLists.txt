@@ -10,11 +10,19 @@ set(CMAKE_AUTOUIC ON)
 
 set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
 
+if(WIN32)
+find_package(Qt6 COMPONENTS
+        Core
+        Gui
+        Widgets
+        REQUIRED STATIC)
+else()
 find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
         REQUIRED)
+endif()
 
 # Liste des fichiers source
 set(SOURCES
