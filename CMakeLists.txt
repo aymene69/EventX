@@ -46,7 +46,12 @@ set(HEADERS
 )
 
 # Ajout de l'exécutable
-add_executable(EventX WIN32 ${SOURCES} ${HEADERS})
+if (WIN32)
+    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/../assets/icon.ico")
+    add_executable(EventX WIN32 ${SOURCES} ${HEADERS} src/EventX.rc)
+else ()
+    add_executable(EventX ${SOURCES} ${HEADERS})
+endif ()
 
 # Configurer les dossiers d'inclusion
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
