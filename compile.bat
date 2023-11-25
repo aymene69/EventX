@@ -24,8 +24,8 @@ if %errorlevel% neq 0 (
 )
 
 mkdir EventX
+move "EventX.exe" "EventX"
 cd EventX
-copy ../EventX.exe .
 
 windeployqt --no-translations .
 
