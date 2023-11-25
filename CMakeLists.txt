@@ -48,7 +48,7 @@ set(HEADERS
 # Ajout de l'exécutable
 if (WIN32)
     set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/../assets/icon.ico")
-    add_executable(EventX WIN32 ${SOURCES} ${HEADERS} src/EventX.rc)
+    add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
 else ()
     add_executable(EventX ${SOURCES} ${HEADERS})
 endif ()
