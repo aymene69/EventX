@@ -45,10 +45,11 @@ set(HEADERS
         include/FonctionsDemarrage.hpp
 )
 
-# Ajout de l'exécutable
+# Ajout de l'exécutable avec l'icône pour Windows
 if (WIN32)
-    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/../assets/icon.ico")
+    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/assets/windows/icon.ico")
     add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
+    set_target_properties(EventX PROPERTIES WIN32_EXECUTABLE TRUE)
 else ()
     add_executable(EventX ${SOURCES} ${HEADERS})
 endif ()
