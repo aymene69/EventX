@@ -14,7 +14,6 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-# Liste des fichiers source
 set(SOURCES
         src/MainWindow.cpp
         src/Event.cpp
@@ -30,7 +29,6 @@ set(SOURCES
         src/main.cpp
 )
 
-# Liste des fichiers d'en-tête
 set(HEADERS
         include/MainWindow.hpp
         include/Event.hpp
@@ -45,17 +43,8 @@ set(HEADERS
         include/FonctionsDemarrage.hpp
 )
 
-# Ajout de l'exécutable avec l'icône pour Windows
-if (WIN32)
-    set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/assets/windows/icon.ico")
-    add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
-    set_target_properties(EventX PROPERTIES WIN32_EXECUTABLE TRUE)
-else ()
-    add_executable(EventX ${SOURCES} ${HEADERS})
-endif ()
+add_executable(EventX WIN32 ${SOURCES} ${HEADERS})
 
-# Configurer les dossiers d'inclusion
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
-# Liaison des bibliothèques Qt
 target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)
