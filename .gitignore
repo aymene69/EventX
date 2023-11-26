@@ -2,3 +2,6 @@
 /.idea/
 /build/
 /.DS_Store/
+
+*.opendb
+/.vs/projet-poo/v17/Browse.VC.db
