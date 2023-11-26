@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QLabel>
+#include <QDateEdit>
 #include <QStandardPaths>
 #include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
 #include "include/Participant.hpp"
@@ -17,10 +18,9 @@
 using json = nlohmann::json;
 
 GestionEvenementDialog::GestionEvenementDialog(QWidget *parent): QDialog(parent) {
+    
     setWindowTitle("EventX - Gestion des événements");
-
-    auto *label = new QLabel("Gestion des événements", this);
-    label->setAlignment(Qt::AlignCenter);
+    setFixedSize(250, 175);
 
     auto *creer = new QPushButton("Créer un événement", this);
     auto *modifier = new QPushButton("Modifier un événement", this);
@@ -28,7 +28,6 @@ GestionEvenementDialog::GestionEvenementDialog(QWidget *parent): QDialog(parent)
     auto *retour = new QPushButton("Retour", this);
     auto *layout = new QVBoxLayout(this);
 
-    layout->addWidget(label);
     layout->addWidget(creer);
     layout->addWidget(modifier);
     layout->addWidget(supprimer);
@@ -47,54 +46,56 @@ void GestionEvenementDialog::creerEvenement() {
     QFormLayout formLayout(&creerDialog);
 
     // Ajoutez les champs nécessaires pour la création d'un événement
-    auto *nomLineEdit = new QLineEdit(&creerDialog);
-    auto *dateLineEdit = new QLineEdit(&creerDialog);
-    auto *lieuLineEdit = new QLineEdit(&creerDialog);
+    auto* nomLineEdit = new QLineEdit(&creerDialog);
+    auto* dateEdit = new QDateEdit(&creerDialog);
+    auto* lieuLineEdit = new QLineEdit(&creerDialog);
 
     formLayout.addRow("Nom de l'événement:", nomLineEdit);
-    formLayout.addRow("Date de l'événement:", dateLineEdit);
+    formLayout.addRow("Date de l'événement:", dateEdit);
     formLayout.addRow("Lieu de l'événement:", lieuLineEdit);
 
-    auto *creerButton = new QPushButton("Créer", &creerDialog);
+    auto* creerButton = new QPushButton("Créer", &creerDialog);
     formLayout.addRow("", creerButton);
 
     // Connectez le bouton "Créer" à une fonction de traitement
     QObject::connect(creerButton, &QPushButton::clicked, [&]() {
-        // Récupérez les valeurs saisies dans les champs
-        QString nom = nomLineEdit->text();
-        QString date = dateLineEdit->text();
-        QString lieu = lieuLineEdit->text();
+    // Récupérez les valeurs saisies dans les champs
+    QString nom = nomLineEdit->text();
+    QString date = dateEdit->date().toString("dd/MM/yyyy");
+    QString lieu = lieuLineEdit->text();
 
-        if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
-            if (nom.isEmpty()) {
-                QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
-            }
-            if (date.isEmpty()) {
-                QMessageBox::warning(nullptr, "Attention !", "La date est vide");
-            }
-            if (lieu.isEmpty()) {
-                QMessageBox::warning(nullptr, "Attention !", "Le lieu est vide");
-            }
-        } else {
-            if (!verifDate(date.toStdString())) {
-                QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
-                return;
-            }
-            else {
-                // Créez un nouvel événement avec les valeurs récupérées
-                auto *event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
-
-                // Utilisez l'événement créé pour modifier le JSON
-                ajouterEvent(event);
-
-                emit dataModified();
-
-                QMessageBox::information(nullptr, "Succès !", "L'événement a bien été créé.");
-                // Fermez la boîte de dialogue de création
-                creerDialog.close();
-            }
+    if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
+        if (nom.isEmpty()) {
+            QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
         }
-    });
+        if (date.isEmpty()) {
+            QMessageBox::warning(nullptr, "Attention !", "La date est vide");
+        }
+        if (lieu.isEmpty()) {
+            QMessageBox::warning(nullptr, "Attention !", "Le lieu est vide");
+        }
+    }
+    else {
+        if (!verifDate(date.toStdString())) {
+            QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
+            return;
+        }
+        else {
+            // Créez un nouvel événement avec les valeurs récupérées
+            auto* event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
+
+            // Utilisez l'événement créé pour modifier le JSON
+            ajouterEvent(event);
+
+            emit dataModified();
+
+            QMessageBox::information(nullptr, "Succès !", "L'événement a bien été créé.");
+            // Fermez la boîte de dialogue de création
+            creerDialog.close();
+        }
+    }
+        });
+
     creerDialog.exec();
 }
 

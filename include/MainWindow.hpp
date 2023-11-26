@@ -9,6 +9,7 @@
 #include "include/GestionParticipant.hpp"
 #include "include/GestionStand.hpp"
 #include "include/GestionManager.hpp"
+#include "include/ViewData.hpp"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -22,6 +23,7 @@ private slots:
     void handleGestionStand();
     void handleGestionManager();
     void handleDataModified();
+    void visualiser();
 
 private:
     void createWidgets();
@@ -32,6 +34,8 @@ private:
     GestionParticipantDialog gestionParticipantDialog;
     GestionStandDialog gestionStandDialog;
     GestionManagerDialog gestionManagerDialog;
+    ViewData viewDataDialog;
+
 
     QLabel *nombreEvenementsLabel;
     QLabel *nombreParticipantsLabel;
@@ -42,7 +46,8 @@ private:
     QPushButton *gererStand;
     QPushButton *gererManager;
 
-    QPushButton *visualiser;
+
+    QPushButton *viewData;
     QPushButton *quitter;
 };
 

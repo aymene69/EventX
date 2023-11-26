@@ -5,6 +5,7 @@
 #include "include/GestionManager.hpp"
 #include "include/FonctionsJson.hpp"
 #include "include/FonctionsDemarrage.hpp"
+#include "include/ViewData.hpp"
 #include <QStandardPaths>
 #include <QObject>
 #include <QVBoxLayout>
@@ -14,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     gererParticipant = new QPushButton("Gérer les participants", this);
     gererStand = new QPushButton("Gérer les stands", this);
     gererManager = new QPushButton("Gérer les managers", this);
-    visualiser = new QPushButton("Visualiser les données", this);
+    viewData = new QPushButton("Visualiser les données", this);
     quitter = new QPushButton("Quitter", this);
     createWidgets();
     createLayout();
@@ -50,7 +51,7 @@ void MainWindow::createLayout() {
     this->gererParticipant->setText("Gérer les participants");
     this->gererStand->setText("Gérer les stands");
     this->gererManager->setText("Gérer les managers");
-    this->visualiser->setText("Visualiser les données");
+    this->viewData->setText("Visualiser les données");
     this->quitter->setText("Quitter");
 
     buttonGroupLayout->addWidget(gererEvent);
@@ -63,8 +64,8 @@ void MainWindow::createLayout() {
     auto *visualiserGroupLayout = new QHBoxLayout(visualiserGroup);
 
 
-    this->visualiser->setText("Visualiser les données");
-    visualiserGroupLayout->addWidget(visualiser);
+    this->viewData->setText("Visualiser les données");
+    visualiserGroupLayout->addWidget(viewData);
     visualiserGroup->setLayout(visualiserGroupLayout);
 
     auto *statsGroup = new QGroupBox("Statistiques", this);
@@ -88,6 +89,7 @@ void MainWindow::createLayout() {
     QObject::connect(gererParticipant, &QPushButton::clicked, this, &MainWindow::handleGestionParticipant);
     QObject::connect(gererStand, &QPushButton::clicked, this, &MainWindow::handleGestionStand);
     QObject::connect(gererManager, &QPushButton::clicked, this, &MainWindow::handleGestionManager);
+    QObject::connect(viewData, &QPushButton::clicked, this, &MainWindow::visualiser);
     QObject::connect(quitter, &QPushButton::clicked, this, &MainWindow::close);
 }
 
@@ -118,6 +120,11 @@ void MainWindow::handleGestionStand() {
 void MainWindow::handleGestionManager() {
     // On affiche la fenêtre participant
     gestionManagerDialog.exec();
+}
+
+void MainWindow::visualiser() {
+    // On affiche la fenêtre de visualisation des données
+    viewDataDialog.exec();
 }
 
 void MainWindow::handleDataModified() {

@@ -10,5 +10,8 @@ int getNbEvents();
 int getNbParticipants();
 int getNbStands();
 int getNbManagers();
+int getNbManagersFromStand(const json& stand);
+int getNbParticipantsFromEvent(const json& event);
+int getNbStandsFromEvent(const json& event);
 
 #endif

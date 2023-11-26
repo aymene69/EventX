@@ -40,6 +40,14 @@ int getNbParticipants() {
     return nbParticipants;
 }
 
+int getNbParticipantsFromEvent(const json& event) {
+    if (event.contains("participants") && event["participants"].is_array()) {
+        return event["participants"].size();
+    }
+    // Si "participants" n'est pas un tableau ou n'existe pas, renvoyer 0
+    return 0;
+}
+
 int getNbStands() {
     json j;
     j = preloadData();
@@ -48,6 +56,14 @@ int getNbStands() {
         nbStands += event["stands"].size();
     }
     return nbStands;
+}
+
+int getNbStandsFromEvent(const json& event) {
+    if (event.contains("stands") && event["stands"].is_array()) {
+        return event["stands"].size();
+    }
+    // Si "participants" n'est pas un tableau ou n'existe pas, renvoyer 0
+    return 0;
 }
 
 int getNbManagers() {
@@ -61,4 +77,12 @@ int getNbManagers() {
         }
     }
     return nbManagers;
+}
+
+int getNbManagersFromStand(const json& stand) {
+        if (stand.contains("managers") && stand["managers"].is_array()) {
+            return stand["managers"].size();
+        }
+        // Si "managers" n'est pas un tableau ou n'existe pas, renvoyer 0
+        return 0;
 }
