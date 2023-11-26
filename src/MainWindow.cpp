@@ -103,7 +103,6 @@ void MainWindow::connectSignalsAndSlots() {
 
 void MainWindow::handleGestionEvenement() {
     // On affiche la fenêtre événement
-    std::cout << "repertoire actuel=" << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() << std::endl;
     gestionEvenementDialog.exec();
 }
 

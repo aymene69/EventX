@@ -23,6 +23,10 @@ if %errorlevel% neq 0 (
   exit /b 1
 )
 
+mkdir EventX
+move "EventX.exe" "EventX"
+cd EventX
+
 windeployqt --no-translations .
 
 echo =====================================

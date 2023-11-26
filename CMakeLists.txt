@@ -14,7 +14,6 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-# Liste des fichiers source
 set(SOURCES
         src/MainWindow.cpp
         src/Event.cpp
@@ -31,7 +30,6 @@ set(SOURCES
         src/ViewData.cpp
 )
 
-# Liste des fichiers d'en-tête
 set(HEADERS
         include/MainWindow.hpp
         include/Event.hpp
@@ -47,11 +45,8 @@ set(HEADERS
         include/ViewData.hpp
 )
 
-# Ajout de l'exécutable
 add_executable(EventX WIN32 ${SOURCES} ${HEADERS})
 
-# Configurer les dossiers d'inclusion
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
-# Liaison des bibliothèques Qt
 target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)
