@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.24)
 project(EventX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -28,6 +28,7 @@ set(SOURCES
         src/FonctionsJson.cpp
         src/FonctionsDemarrage.cpp
         src/main.cpp
+        src/ViewData.cpp
 )
 
 # Liste des fichiers d'en-tête
@@ -43,6 +44,7 @@ set(HEADERS
         include/GestionManager.hpp
         include/FonctionsJson.hpp
         include/FonctionsDemarrage.hpp
+        include/ViewData.hpp
 )
 
 # Ajout de l'exécutable
