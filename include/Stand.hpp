@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-20
+    file path:	include/Stand.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef STAND_HPP
 #define STAND_HPP
 

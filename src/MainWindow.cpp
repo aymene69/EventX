@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-23
+    file path:	src/MainWindow.cpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #include "include/MainWindow.hpp"
 #include "include/GestionEvenement.hpp"
 #include "include/GestionParticipant.hpp"
@@ -11,12 +20,12 @@
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    gererEvent = new QPushButton("Gérer l'événement", this);
-    gererParticipant = new QPushButton("Gérer les participants", this);
-    gererStand = new QPushButton("Gérer les stands", this);
-    gererManager = new QPushButton("Gérer les managers", this);
-    viewData = new QPushButton("Visualiser les données", this);
-    quitter = new QPushButton("Quitter", this);
+    pPushButtonManageEvent = new QPushButton("Gérer l'événement", this);
+    pPushButtonManageParticipant = new QPushButton("Gérer les participants", this);
+    pPushButtonManageStand = new QPushButton("Gérer les stands", this);
+    pPushButtonManageManager = new QPushButton("Gérer les managers", this);
+    pPushButtonViewData = new QPushButton("Visualiser les données", this);
+    pPushButtonExit = new QPushButton("Quitter", this);
     createWidgets();
     createLayout();
     connectSignalsAndSlots();
@@ -24,10 +33,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 void MainWindow::createWidgets() {
     // Créez les labels en tant que membres de la classe
-    nombreEvenementsLabel = new QLabel("Nombre d'événements : " + QString::number(getNbEvents()), this);
-    nombreParticipantsLabel = new QLabel("Nombre de participants : " + QString::number(getNbParticipants()), this);
-    nombreStandsLabel = new QLabel("Nombre de stands : " + QString::number(getNbStands()), this);
-    nombreManagersLabel = new QLabel("Nombre de managers : " + QString::number(getNbManagers()), this);
+    pLabelNumberEvents = new QLabel("Nombre d'événements : " + QString::number(getNbEvents()), this);
+    pLabelNumberParticipants = new QLabel("Nombre de participants : " + QString::number(getNbParticipants()), this);
+    pLabelNumberStands = new QLabel("Nombre de stands : " + QString::number(getNbStands()), this);
+    pLabelNumberManagers = new QLabel("Nombre de managers : " + QString::number(getNbManagers()), this);
 }
 
 void MainWindow::createLayout() {
@@ -47,34 +56,34 @@ void MainWindow::createLayout() {
     auto *buttonGroup = new QGroupBox("Gérer", this);
     auto *buttonGroupLayout = new QHBoxLayout(buttonGroup);
 
-    this->gererEvent->setText("Gérer l'événement");
-    this->gererParticipant->setText("Gérer les participants");
-    this->gererStand->setText("Gérer les stands");
-    this->gererManager->setText("Gérer les managers");
-    this->viewData->setText("Visualiser les données");
-    this->quitter->setText("Quitter");
+    this->pPushButtonManageEvent->setText("Gérer l'événement");
+    this->pPushButtonManageParticipant->setText("Gérer les participants");
+    this->pPushButtonManageStand->setText("Gérer les stands");
+    this->pPushButtonManageManager->setText("Gérer les managers");
+    this->pPushButtonViewData->setText("Visualiser les données");
+    this->pPushButtonExit->setText("Quitter");
 
-    buttonGroupLayout->addWidget(gererEvent);
-    buttonGroupLayout->addWidget(gererParticipant);
-    buttonGroupLayout->addWidget(gererStand);
-    buttonGroupLayout->addWidget(gererManager);
+    buttonGroupLayout->addWidget(pPushButtonManageEvent);
+    buttonGroupLayout->addWidget(pPushButtonManageParticipant);
+    buttonGroupLayout->addWidget(pPushButtonManageStand);
+    buttonGroupLayout->addWidget(pPushButtonManageManager);
     buttonGroup->setLayout(buttonGroupLayout);
 
     auto *visualiserGroup = new QGroupBox("Visualiser", this);
     auto *visualiserGroupLayout = new QHBoxLayout(visualiserGroup);
 
 
-    this->viewData->setText("Visualiser les données");
-    visualiserGroupLayout->addWidget(viewData);
+    this->pPushButtonViewData->setText("Visualiser les données");
+    visualiserGroupLayout->addWidget(pPushButtonViewData);
     visualiserGroup->setLayout(visualiserGroupLayout);
 
     auto *statsGroup = new QGroupBox("Statistiques", this);
     auto *statsGroupLayout = new QHBoxLayout(statsGroup);
 
-    statsGroupLayout->addWidget(nombreEvenementsLabel);
-    statsGroupLayout->addWidget(nombreParticipantsLabel);
-    statsGroupLayout->addWidget(nombreStandsLabel);
-    statsGroupLayout->addWidget(nombreManagersLabel);
+    statsGroupLayout->addWidget(pLabelNumberEvents);
+    statsGroupLayout->addWidget(pLabelNumberParticipants);
+    statsGroupLayout->addWidget(pLabelNumberStands);
+    statsGroupLayout->addWidget(pLabelNumberManagers);
     statsGroup->setLayout(statsGroupLayout);
 
     layout->addWidget(titreApp);
@@ -82,15 +91,15 @@ void MainWindow::createLayout() {
     layout->addWidget(buttonGroup);
     layout->addWidget(visualiserGroup);
     layout->addWidget(statsGroup);
-    layout->addWidget(quitter);
+    layout->addWidget(pPushButtonExit);
 
 
-    QObject::connect(gererEvent, &QPushButton::clicked, this, &MainWindow::handleGestionEvenement);
-    QObject::connect(gererParticipant, &QPushButton::clicked, this, &MainWindow::handleGestionParticipant);
-    QObject::connect(gererStand, &QPushButton::clicked, this, &MainWindow::handleGestionStand);
-    QObject::connect(gererManager, &QPushButton::clicked, this, &MainWindow::handleGestionManager);
-    QObject::connect(viewData, &QPushButton::clicked, this, &MainWindow::visualiser);
-    QObject::connect(quitter, &QPushButton::clicked, this, &MainWindow::close);
+    QObject::connect(pPushButtonManageEvent, &QPushButton::clicked, this, &MainWindow::handleGestionEvenement);
+    QObject::connect(pPushButtonManageParticipant, &QPushButton::clicked, this, &MainWindow::handleGestionParticipant);
+    QObject::connect(pPushButtonManageStand, &QPushButton::clicked, this, &MainWindow::handleGestionStand);
+    QObject::connect(pPushButtonManageManager, &QPushButton::clicked, this, &MainWindow::handleGestionManager);
+    QObject::connect(pPushButtonViewData, &QPushButton::clicked, this, &MainWindow::visualiser);
+    QObject::connect(pPushButtonExit, &QPushButton::clicked, this, &MainWindow::close);
 }
 
 void MainWindow::connectSignalsAndSlots() {
@@ -128,8 +137,8 @@ void MainWindow::visualiser() {
 
 void MainWindow::handleDataModified() {
     // Mettez à jour les statistiques ici
-    nombreEvenementsLabel->setText("Nombre d'événements : " + QString::number(getNbEvents()));
-    nombreParticipantsLabel->setText("Nombre de participants : " + QString::number(getNbParticipants()));
-    nombreStandsLabel->setText("Nombre de stands : " + QString::number(getNbStands()));
-    nombreManagersLabel->setText("Nombre de participants : " + QString::number(getNbManagers()));
+    pLabelNumberEvents->setText("Nombre d'événements : " + QString::number(getNbEvents()));
+    pLabelNumberParticipants->setText("Nombre de participants : " + QString::number(getNbParticipants()));
+    pLabelNumberStands->setText("Nombre de stands : " + QString::number(getNbStands()));
+    pLabelNumberManagers->setText("Nombre de participants : " + QString::number(getNbManagers()));
 }

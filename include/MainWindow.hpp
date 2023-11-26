@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-23
+    file path:	src/MainWindow.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
@@ -36,19 +45,16 @@ private:
     GestionManagerDialog gestionManagerDialog;
     ViewData viewDataDialog;
 
-
-    QLabel *nombreEvenementsLabel;
-    QLabel *nombreParticipantsLabel;
-    QLabel *nombreStandsLabel;
-    QLabel *nombreManagersLabel;
-    QPushButton *gererEvent;  // Déclaration des boutons ici
-    QPushButton *gererParticipant;
-    QPushButton *gererStand;
-    QPushButton *gererManager;
-
-
-    QPushButton *viewData;
-    QPushButton *quitter;
+    QLabel* pLabelNumberEvents;
+    QLabel* pLabelNumberParticipants;
+    QLabel* pLabelNumberStands;
+    QLabel* pLabelNumberManagers;
+    QPushButton* pPushButtonManageEvent;
+    QPushButton* pPushButtonManageParticipant;
+    QPushButton* pPushButtonManageStand;
+    QPushButton* pPushButtonManageManager;
+    QPushButton* pPushButtonViewData;
+    QPushButton* pPushButtonExit;
 };
 
 #endif // MAINWINDOW_HPP

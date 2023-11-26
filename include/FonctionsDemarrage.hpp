@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-22
+    file path:	include/FonctionsDemarrage.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef FONCTIONSDEMARRAGE_HPP
 #define FONCTIONSDEMARRAGE_HPP
 #include "nlohmann/json.hpp"

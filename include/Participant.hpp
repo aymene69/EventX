@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-20
+    file path:	include/Participant.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef PARTICIPANT_HPP
 #define PARTICIPANT_HPP
 

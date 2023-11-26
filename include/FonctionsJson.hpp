@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-22
+    file path:	include/FonctionsJson.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef FONCTIONSJSON_HPP
 #define FONCTIONSJSON_HPP
 #include <iostream>

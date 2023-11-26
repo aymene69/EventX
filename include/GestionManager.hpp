@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-24
+    file path:	src/GestionManager.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef GESTIONMANAGER_HPP
 #define GESTIONMANAGER_HPP
 

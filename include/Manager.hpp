@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-20
+    file path:	include/Manager.hpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #ifndef MANAGER_HPP
 #define MANAGER_HPP
 

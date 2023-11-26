@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-22
+    file path:	src/GestionEvenement.cpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #include "nlohmann/json.hpp"
 #include <fstream>
 #include <QFormLayout>
@@ -47,11 +56,11 @@ void GestionEvenementDialog::creerEvenement() {
 
     // Ajoutez les champs nécessaires pour la création d'un événement
     auto* nomLineEdit = new QLineEdit(&creerDialog);
-    auto* dateEdit = new QDateEdit(&creerDialog);
+    auto* pDateEditDateEvent = new QDateEdit(&creerDialog);
     auto* lieuLineEdit = new QLineEdit(&creerDialog);
 
     formLayout.addRow("Nom de l'événement:", nomLineEdit);
-    formLayout.addRow("Date de l'événement:", dateEdit);
+    formLayout.addRow("Date de l'événement:", pDateEditDateEvent);
     formLayout.addRow("Lieu de l'événement:", lieuLineEdit);
 
     auto* creerButton = new QPushButton("Créer", &creerDialog);
@@ -61,26 +70,18 @@ void GestionEvenementDialog::creerEvenement() {
     QObject::connect(creerButton, &QPushButton::clicked, [&]() {
     // Récupérez les valeurs saisies dans les champs
     QString nom = nomLineEdit->text();
-    QString date = dateEdit->date().toString("dd/MM/yyyy");
+    QString date = pDateEditDateEvent->date().toString("dd/MM/yyyy");
     QString lieu = lieuLineEdit->text();
 
-    if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
+    if (nom.isEmpty() || lieu.isEmpty()) {
         if (nom.isEmpty()) {
             QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
-        }
-        if (date.isEmpty()) {
-            QMessageBox::warning(nullptr, "Attention !", "La date est vide");
         }
         if (lieu.isEmpty()) {
             QMessageBox::warning(nullptr, "Attention !", "Le lieu est vide");
         }
     }
     else {
-        if (!verifDate(date.toStdString())) {
-            QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
-            return;
-        }
-        else {
             // Créez un nouvel événement avec les valeurs récupérées
             auto* event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
 
@@ -92,7 +93,6 @@ void GestionEvenementDialog::creerEvenement() {
             QMessageBox::information(nullptr, "Succès !", "L'événement a bien été créé.");
             // Fermez la boîte de dialogue de création
             creerDialog.close();
-        }
     }
         });
 
@@ -149,10 +149,6 @@ void GestionEvenementDialog::modifierEvenement() {
             if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
                 QMessageBox::warning(nullptr, "Attention !", "Veuillez remplir tous les champs.");
             } else {
-                if (!verifDate(date.toStdString())) {
-                    QMessageBox::warning(nullptr, "Attention !", "La date n'est pas au bon format (jj/mm/aaaa)");
-                    return;
-                } else {
                     // Créez un nouvel événement avec les valeurs récupérées
                     auto *event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
 
@@ -161,7 +157,6 @@ void GestionEvenementDialog::modifierEvenement() {
                     QMessageBox::information(nullptr, "Succès !", "L'événement a bien été modifié.");
                     // Fermez la boîte de dialogue de modification
                     modifierDialog.close();
-                }
             }
         });
         modifierDialog.exec();

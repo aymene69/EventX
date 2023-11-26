@@ -1,3 +1,12 @@
+/********************************************************************
+    created:	2023-11-20
+    file path:	src/Manager.cpp
+    author:		W.I.P.
+    copyright:	UNLICENSE
+
+    purpose: W.I.P.
+*********************************************************************/
+
 #include "include/Manager.hpp"
 
 Manager::Manager(std::string nom, int id, std::string num) : managerNom(nom), managerId(id), managerNum(num) {}
