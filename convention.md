@@ -30,6 +30,8 @@
 
         - Pointer -> p
 
+        - Vector -> vec
+
         - Object name (without the q for qt objects)
 
 - The first letter of the first word of a function is capitalized

@@ -12,33 +12,26 @@
 ViewData::ViewData(QWidget* parent) : QDialog(parent) {
     setWindowTitle("EventX - Visualisation des donnees");
     setMinimumSize(500, 300);
-
-
-    // Charger les données depuis le fichier JSON
+    // Load data from JSON file
     json jsonData = preloadData();
-
-    // Vérifiez s'il y a des événements avant d'essayer d'afficher les données
+    // Check for events before trying to display data
     if (getNbEvents() == 0) {
         QMessageBox::warning(this, "Avertissement", "Aucun événement à afficher.");
         return;
     }
-
-    // Créer le modèle et la vue pour afficher les données en arbre
+    // Create the model and view to display tree data
     QStandardItemModel* pStandardItemModelData = new QStandardItemModel(this);
     QTreeView* pTreeViewData = new QTreeView(this);
     pTreeViewData->setHeaderHidden(true);
     pTreeViewData->setModel(pStandardItemModelData);
-    // Parcourir les événements
+    // Browse events
     for (const auto& event : jsonData["events"]) {
-        
         QStandardItem* pStandardItemEventItem = new QStandardItem(QString("Evenement - Date: %1, Lieu: %2, Nom: %3")
             .arg(QString::fromStdString(event["date"].get<std::string>()))
             .arg(QString::fromStdString(event["lieu"].get<std::string>()))
             .arg(QString::fromStdString(event["nom"].get<std::string>())));
         pStandardItemModelData->appendRow(pStandardItemEventItem);
-
-        
-        // Vérifiez s'il y a des participants avant de parcourir les participants
+        // Check for participants before browsing participants
         if (getNbParticipantsFromEvent(event) == 0) {
             QStandardItem* pStandardItemNoParticipants = new QStandardItem("Aucun participant");
             pStandardItemEventItem->appendRow(pStandardItemNoParticipants);
@@ -55,9 +48,7 @@ ViewData::ViewData(QWidget* parent) : QDialog(parent) {
                 pStandardItemParticipants->appendRow(pStandardItemParticipant);
             }
         }
-        
-        
-        // Vérifiez s'il y a des stands avant de parcourir les stands
+        // Check if there are any pits before going through them
         if (getNbStandsFromEvent(event) == 0) {
             QStandardItem* pStandardItemNoStands = new QStandardItem("Aucun stand");
             pStandardItemEventItem->appendRow(pStandardItemNoStands);
@@ -65,7 +56,7 @@ ViewData::ViewData(QWidget* parent) : QDialog(parent) {
             pStandardItemNoStands->appendRow(pStandardItemNoManagers);
         }
         else {
-            // Parcourir les stands de l'événement
+            // Browse the event stands
             QStandardItem* pStandardItemStands = new QStandardItem("Stands");
             pStandardItemEventItem->appendRow(pStandardItemStands);
             for (const auto& stand : event["stands"]) {
@@ -79,7 +70,7 @@ ViewData::ViewData(QWidget* parent) : QDialog(parent) {
                         pStandardItemStand->appendRow(pStandardItemNoManagers);
                     }
                     else {
-                        // Parcourir les managers du stand
+                        // Browse stand managers
                         QStandardItem* pStandardItemManagers = new QStandardItem("Managers");
                         pStandardItemStand->appendRow(pStandardItemManagers);
                         for (const auto& manager : stand["managers"]) {
@@ -88,15 +79,13 @@ ViewData::ViewData(QWidget* parent) : QDialog(parent) {
                                 .arg(QString::fromStdString(manager["nom"].get<std::string>()))
                                 .arg(QString::fromStdString(manager["numero"].get<std::string>())));
                             pStandardItemManagers->appendRow(pStandardItemManager);
-                        
                     }
                 }
             }
         }
     }
-    // Afficher la vue
+    // Show view
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(pTreeViewData);
     setLayout(layout);
-    
 }

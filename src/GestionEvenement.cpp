@@ -57,6 +57,7 @@ void GestionEvenementDialog::creerEvenement() {
     // Ajoutez les champs nécessaires pour la création d'un événement
     auto* nomLineEdit = new QLineEdit(&creerDialog);
     auto* pDateEditDateEvent = new QDateEdit(&creerDialog);
+    pDateEditDateEvent->setDate(QDate::currentDate());
     auto* lieuLineEdit = new QLineEdit(&creerDialog);
 
     formLayout.addRow("Nom de l'événement:", nomLineEdit);
@@ -99,67 +100,76 @@ void GestionEvenementDialog::creerEvenement() {
     creerDialog.exec();
 }
 
-
 void GestionEvenementDialog::modifierEvenement() {
-    QDialog modifierDialog(this);
-    modifierDialog.setWindowTitle("Modifier un événement");
-
-    std::vector<Event> events;
-    json j;
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    i >> j;
-    i.close();
-    const json &eventsJson = j["events"];
+    QDialog* pDialogModify = new QDialog(this);
+    pDialogModify->setWindowTitle("Modifier un événement");
+    std::vector<Event*> vecEventAll;
+    json jsonData;
+    std::ifstream ifstreamJsonStream(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ifstreamJsonStream >> jsonData;
+    ifstreamJsonStream.close();
+    const json& eventsJson = jsonData["events"];
     if (eventsJson.size() == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun événement n'a été trouvé.");
-    } else {
+        delete pDialogModify;
+    }
+    else {
         for (json::const_iterator it = eventsJson.begin(); it != eventsJson.end(); ++it) {
-            Event event(it.value()["nom"], it.value()["date"], it.value()["lieu"]);
-            events.push_back(event);
+            Event* pEventSingle = new Event(it.value()["nom"], it.value()["date"], it.value()["lieu"]);
+            vecEventAll.push_back(pEventSingle);
         }
-
-        QFormLayout formLayout(&modifierDialog);
-
-        // Ajoutez les champs nécessaires pour la modification d'un événement
-        auto *comboBox = new QComboBox(&modifierDialog);
-        for (int i = 0; i < events.size(); i++) {
-            comboBox->addItem(QString::fromStdString(events[i].getEventNom()));
+        QFormLayout* pFormLayoutDialog = new QFormLayout(pDialogModify);
+        // Add the fields needed to modify an event
+        auto* pComboBoxEvent = new QComboBox(pDialogModify);
+        for (int i = 0; i < vecEventAll.size(); i++) {
+            pComboBoxEvent->addItem(QString::fromStdString(vecEventAll[i]->getEventNom()));
         }
+        auto* pLineEditName = new QLineEdit(pDialogModify);
+        auto* pLineEditDate = new QLineEdit(pDialogModify);
+        auto* pLineEditLocation = new QLineEdit(pDialogModify);
+        // Connect the combobox's currentTextChanged signal
+        QObject::connect(pComboBoxEvent, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentTextChanged), [&](const QString& _insSelectedText) {
+                // Find the corresponding event in the events vector
+                for (const Event* pEventWanted : vecEventAll) {
+                    if (QString::fromStdString(pEventWanted->getEventNom()) == _insSelectedText) {
+                        // Update input fields with the values of the selected event
+                        pLineEditName->setText(_insSelectedText);
+                        pLineEditDate->setText(QString::fromStdString(pEventWanted->getEventDate()));
+                        pLineEditLocation->setText(QString::fromStdString(pEventWanted->getEventLieu()));
+                        break;
+                    }
+                }
+            });
+        emit pComboBoxEvent->currentTextChanged(pComboBoxEvent->currentText());
+        pFormLayoutDialog->addRow("Nom de l'événement:", pComboBoxEvent);
+        pFormLayoutDialog->addRow("Nouveau nom de l'événement:", pLineEditName);
+        pFormLayoutDialog->addRow("Nouvelle date de l'événement:", pLineEditDate);
+        pFormLayoutDialog->addRow("Nouveau lieu de l'événement:", pLineEditLocation);
+        auto* pPushButtonModify = new QPushButton("Modifier", pDialogModify);
+        pFormLayoutDialog->addRow("", pPushButtonModify);
+        // Connect the "Modify" button to a processing function
+        QObject::connect(pPushButtonModify, &QPushButton::clicked, [&]() {
+        // Retrieve the values entered in the fields
+        int nIndex = pComboBoxEvent->currentIndex();
+        QString stringName = pLineEditName->text();
+        QString stringDate = pLineEditDate->text();
+        QString stringLocation = pLineEditLocation->text();
+        if (stringName.isEmpty() || stringLocation.isEmpty()) {
+            QMessageBox::warning(nullptr, "Attention !", "Veuillez remplir tous les champs.");
+        }
+        else {
+            // Create a new event with the retrieved values
+            Event* pEventNew = new Event(stringName.toStdString(), stringDate.toStdString(), stringLocation.toStdString());
 
-        auto *nomLineEdit = new QLineEdit(&modifierDialog);
-        auto *dateLineEdit = new QLineEdit(&modifierDialog);
-        auto *lieuLineEdit = new QLineEdit(&modifierDialog);
-
-        formLayout.addRow("Nom de l'événement:", comboBox);
-        formLayout.addRow("Nouveau nom de l'événement:", nomLineEdit);
-        formLayout.addRow("Nouvelle date de l'événement:", dateLineEdit);
-        formLayout.addRow("Nouveau lieu de l'événement:", lieuLineEdit);
-
-        auto *modifierButton = new QPushButton("Modifier", &modifierDialog);
-        formLayout.addRow("", modifierButton);
-
-        // Connectez le bouton "Modifier" à une fonction de traitement
-        QObject::connect(modifierButton, &QPushButton::clicked, [&]() {
-            // Récupérez les valeurs saisies dans les champs
-            int index = comboBox->currentIndex();
-            QString nom = nomLineEdit->text();
-            QString date = dateLineEdit->text();
-            QString lieu = lieuLineEdit->text();
-
-            if (nom.isEmpty() || date.isEmpty() || lieu.isEmpty()) {
-                QMessageBox::warning(nullptr, "Attention !", "Veuillez remplir tous les champs.");
-            } else {
-                    // Créez un nouvel événement avec les valeurs récupérées
-                    auto *event = new Event(nom.toStdString(), date.toStdString(), lieu.toStdString());
-
-                    // Utilisez l'événement créé pour modifier le JSON
-                    modifierEvent(event, index);
-                    QMessageBox::information(nullptr, "Succès !", "L'événement a bien été modifié.");
-                    // Fermez la boîte de dialogue de modification
-                    modifierDialog.close();
-            }
-        });
-        modifierDialog.exec();
+            // Use the created event to modify the JSON
+            modifierEvent(pEventNew, nIndex);
+            QMessageBox::information(nullptr, "Succès !", "L'événement a bien été modifié.");
+            // Close the edit dialog box
+            pDialogModify->close();
+            delete pDialogModify;
+        }
+            });
+        pDialogModify->exec();
     }
 }
 
