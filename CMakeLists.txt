@@ -27,7 +27,6 @@ set(SOURCES
         src/FonctionsJson.cpp
         src/FonctionsDemarrage.cpp
         src/main.cpp
-        src/ViewData.cpp
 )
 
 set(HEADERS
@@ -42,7 +41,6 @@ set(HEADERS
         include/GestionManager.hpp
         include/FonctionsJson.hpp
         include/FonctionsDemarrage.hpp
-        include/ViewData.hpp
 )
 
 add_executable(EventX WIN32 ${SOURCES} ${HEADERS})

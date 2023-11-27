@@ -41,6 +41,7 @@ void ajouterParticip(void* object, int index) {
     Participant* participant = (Participant*) object;
     json participantJson;
     //on ajoute les participants dans l'index de l'event
+    participantJson["id"] = getNbParticipants() +1;
     participantJson["nom"] = participant->getNomParticipant();
     participantJson["vip"] = participant->getVIPParticipant();
     participantJson["numero"] = participant->getNumParticipant();

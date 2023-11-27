@@ -5,11 +5,11 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QGroupBox>
+#include <QVBoxLayout>
 #include "include/GestionEvenement.hpp"
 #include "include/GestionParticipant.hpp"
 #include "include/GestionStand.hpp"
 #include "include/GestionManager.hpp"
-#include "include/ViewData.hpp"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -17,13 +17,15 @@ Q_OBJECT
 public:
     MainWindow(QWidget *parent = nullptr);
 
+signals:
+    void dataModified();
+
 private slots:
     void handleGestionEvenement();
     void handleGestionParticipant();
     void handleGestionStand();
     void handleGestionManager();
     void handleDataModified();
-    void visualiser();
 
 private:
     void createWidgets();
@@ -34,7 +36,6 @@ private:
     GestionParticipantDialog gestionParticipantDialog;
     GestionStandDialog gestionStandDialog;
     GestionManagerDialog gestionManagerDialog;
-    ViewData viewDataDialog;
 
     QLabel* pLabelNumberEvents;
     QLabel* pLabelNumberParticipants;
@@ -46,6 +47,10 @@ private:
     QPushButton* pPushButtonManageManager;
     QPushButton* pPushButtonViewData;
     QPushButton* pPushButtonExit;
+    QVBoxLayout* pViewDataLayout;
+
+public slots:
+    void viewData();
 };
 
 #endif // MAINWINDOW_HPP

@@ -1,6 +1,6 @@
 #include "include/Participant.hpp"
 
-Participant::Participant(int participantID, std::string name, bool vip, std::string numero, std::string email) : participantID(participantID), participantNom(name), participantEstVIP(vip), participantNum(numero), participantEmail(email) {} // constructeur
+Participant::Participant(std::string name, bool vip, std::string numero, std::string email) : participantNom(name), participantEstVIP(vip), participantNum(numero), participantEmail(email) {} // constructeur
 
 Participant::~Participant() {} // destructeur
 

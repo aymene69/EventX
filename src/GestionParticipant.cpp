@@ -58,7 +58,6 @@ void GestionParticipantDialog::creerParticipant() {
 
         // Ajoutez les champs nécessaires pour la création d'un participant
         auto *eventComboBox = new QComboBox(&creerDialog);
-        auto *idLineEdit = new QLineEdit(&creerDialog);
         auto *nomLineEdit = new QLineEdit(&creerDialog);
         auto *estVIPCheckBox = new QCheckBox(&creerDialog);
         auto *numLineEdit = new QLineEdit(&creerDialog);
@@ -79,7 +78,6 @@ void GestionParticipantDialog::creerParticipant() {
         }
 
         formLayout.addRow("Événement:", eventComboBox);
-        formLayout.addRow("ID du participant:", idLineEdit);
         formLayout.addRow("Nom du participant:", nomLineEdit);
         formLayout.addRow("Est VIP:", estVIPCheckBox);
         formLayout.addRow("Numéro de téléphone:", numLineEdit);
@@ -93,16 +91,12 @@ void GestionParticipantDialog::creerParticipant() {
             // Récupérez les valeurs saisies dans les champs
 
             int index = eventComboBox->currentIndex();
-            QString id = idLineEdit->text();
             QString nom = nomLineEdit->text();
             bool estVIP = estVIPCheckBox->isChecked();
             QString num = numLineEdit->text();
             QString email = emailLineEdit->text();
 
-            if (id.isEmpty() || nom.isEmpty() || num.isEmpty() || email.isEmpty()) {
-                if (id.isEmpty()) {
-                    QMessageBox::warning(nullptr, "Attention !", "L'ID est vide");
-                }
+            if (nom.isEmpty() || num.isEmpty() || email.isEmpty()) {
                 if (nom.isEmpty()) {
                     QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
                 }
@@ -114,7 +108,7 @@ void GestionParticipantDialog::creerParticipant() {
                 }
             } else {
                 // Créez un objet Participant avec les valeurs récupérées
-                Participant participant(id.toInt(), nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
+                Participant participant(nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                 // Ajoutez le participant à la base de données
                 ajouterParticip(&participant, index);
                 emit dataModified();
@@ -166,7 +160,6 @@ void GestionParticipantDialog::modifierParticipant() {
         QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionParticipantDialog::onEventComboBoxChanged);
 
-        auto *idLineEdit = new QLineEdit(&modifierDialog);
         auto *nomLineEdit = new QLineEdit(&modifierDialog);
         auto *estVIPCheckBox = new QCheckBox(&modifierDialog);
         auto *numLineEdit = new QLineEdit(&modifierDialog);
@@ -175,7 +168,6 @@ void GestionParticipantDialog::modifierParticipant() {
 
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Participant:", participantComboBox);
-        formLayout.addRow("ID du participant:", idLineEdit);
         formLayout.addRow("Nom du participant:", nomLineEdit);
         formLayout.addRow("Est VIP:", estVIPCheckBox);
         formLayout.addRow("Numéro de téléphone:", numLineEdit);
@@ -198,16 +190,12 @@ void GestionParticipantDialog::modifierParticipant() {
                 const auto &participantsJson = selectedEvent["participants"];
                 if (participantIndex < participantsJson.size()) {
                     const json &participantJson = participantsJson[participantIndex];
-                    QString id = idLineEdit->text();
                     QString nom = nomLineEdit->text();
                     bool estVIP = estVIPCheckBox->isChecked();
                     QString num = numLineEdit->text();
                     QString email = emailLineEdit->text();
 
-                    if (id.isEmpty() || nom.isEmpty() || num.isEmpty() || email.isEmpty()) {
-                        if (id.isEmpty()) {
-                            QMessageBox::warning(nullptr, "Attention !", "L'ID est vide");
-                        }
+                    if (nom.isEmpty() || num.isEmpty() || email.isEmpty()) {
                         if (nom.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
                         }
@@ -219,7 +207,7 @@ void GestionParticipantDialog::modifierParticipant() {
                         }
                     } else {
                         // Créez un objet Participant avec les valeurs récupérées
-                        Participant participant(id.toInt(), nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
+                        Participant participant(nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                         // Modifiez le participant dans la base de données
                         modifierParticip(&participant, eventIndex, participantIndex);
 

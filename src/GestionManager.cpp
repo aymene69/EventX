@@ -22,7 +22,6 @@ GestionManagerDialog::GestionManagerDialog(QWidget *parent) : QDialog(parent) {
 
     auto *label = new QLabel("Gestion des managers", this);
     label->setAlignment(Qt::AlignCenter);
-
     auto *creer = new QPushButton("Créer un manager", this);
     auto *modifier = new QPushButton("Modifier un manager", this);
     auto *supprimer = new QPushButton("Supprimer un manager", this);
@@ -64,7 +63,6 @@ void GestionManagerDialog::creerManager() {
         eventComboBox = new QComboBox(&creerDialog);
         standComboBox = new QComboBox(&creerDialog);
         auto *nomLineEdit = new QLineEdit(&creerDialog);
-        auto *idLineEdit = new QLineEdit(&creerDialog);
         auto *numLineEdit = new QLineEdit(&creerDialog);
 
         std::vector<Event> events;
@@ -88,7 +86,6 @@ void GestionManagerDialog::creerManager() {
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Stand:", standComboBox);
         formLayout.addRow("Nom du manager:", nomLineEdit);
-        formLayout.addRow("ID du manager:", idLineEdit);
         formLayout.addRow("Numéro de téléphone du manager:", numLineEdit);
 
         // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement

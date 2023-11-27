@@ -13,7 +13,7 @@ private:
 
 
 public:
-    Participant(int participantID, std::string name, bool vip, std::string numero, std::string email); // constructeur
+    Participant(std::string name, bool vip, std::string numero, std::string email); // constructeur
     virtual ~Participant(); // destructeur
 
 // Getters and setters
