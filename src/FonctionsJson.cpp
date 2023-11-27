@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-22
-    file path:	src/FonctionsJson.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/FonctionsJson.hpp"
 #include <fstream>
 #include <regex>

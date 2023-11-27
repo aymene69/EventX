@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-20
-    file path:	src/Participant.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/Participant.hpp"
 
 Participant::Participant(int participantID, std::string name, bool vip, std::string numero, std::string email) : participantID(participantID), participantNom(name), participantEstVIP(vip), participantNum(numero), participantEmail(email) {} // constructeur

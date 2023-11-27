@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-26
-    file path:	src/ViewData.hpp
-    author:		JOURNOUD Lucas
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #ifndef VIEWDATA_HPP
 #define VIEWDATA_HPP
 

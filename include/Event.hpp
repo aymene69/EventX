@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-20
-    file path:	include/Event.hpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose W.I.P.
-*********************************************************************/
-
 #ifndef EVENT_HPP
 #define EVENT_HPP
 

@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-20
-    file path:	src/Event.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/Event.hpp"
 
 Event::Event(std::string name, std::string date, std::string lieu) : eventNom(name), eventDate(date), eventLieu(lieu) {} // constructeur

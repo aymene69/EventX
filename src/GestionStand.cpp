@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-24
-    file path:	src/GestionStand.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "nlohmann/json.hpp"
 #include <fstream>
 #include <QFormLayout>

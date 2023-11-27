@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-22
-    file path:	include/GestionParticipant.hpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #ifndef GESTIONPARTICIPANT_HPP
 #define GESTIONPARTICIPANT_HPP
 

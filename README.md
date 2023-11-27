@@ -48,17 +48,3 @@ ou alors vous pouvez le compiler vous seul
     chmod +x compile.sh
     bash compile.sh
     ```
-# 🔢 Versioning
-This project is following [semantic versioning schema](https://semver.org/).
-The version number you are using is written in the title of the application window on the home page.
-
-# 🤝 Credit
-This project was created by:
-- W.I.P.
-- W.I.P.
-- W.I.P.
-- COSTA Julien
-- JOURNOUD Lucas
-
-# 📄 License
-This software is licensed under the [Unlicense](https://web.archive.org/web/20230703162904/https://unlicense.org/), terms of which are available in [UNLICENSE.txt](https://github.com/belmeg/projet-poo/releases/UNLICENSE.txt)

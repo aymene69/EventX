@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-W.I.P.
-    file path:	src/main.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: Call the main window
-*********************************************************************/
-
 #include <QApplication>
 #include "include/MainWindow.hpp"
 

@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-26
-    file path:	src/ViewData.cpp
-    author:		JOURNOUD Lucas
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/ViewData.hpp"
 
 ViewData::ViewData(QWidget* parent) : QDialog(parent) {
@@ -16,7 +7,7 @@ ViewData::ViewData(QWidget* parent) : QDialog(parent) {
     json jsonData = preloadData();
     // Check for events before trying to display data
     if (getNbEvents() == 0) {
-        QMessageBox::warning(this, "Avertissement", "Aucun événement à afficher.");
+        QMessageBox::warning(this, "Avertissement", "Aucun ï¿½vï¿½nement ï¿½ afficher.");
         return;
     }
     // Create the model and view to display tree data

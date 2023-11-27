@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-22
-    file path:	include/GestionEvenement.hpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #ifndef GESTIONEVENEMENT_HPP
 #define GESTIONEVENEMENT_HPP
 

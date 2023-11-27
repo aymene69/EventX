@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-23
-    file path:	src/MainWindow.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/MainWindow.hpp"
 #include "include/GestionEvenement.hpp"
 #include "include/GestionParticipant.hpp"

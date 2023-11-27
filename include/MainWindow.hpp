@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-23
-    file path:	src/MainWindow.hpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 

@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-22
-    file path:	src/GestionEvenement.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "nlohmann/json.hpp"
 #include <fstream>
 #include <QFormLayout>

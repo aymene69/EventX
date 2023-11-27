@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-W.I.P.
-    file path:	src/Stand.cpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #include "include/Stand.hpp"
 
 Stand::Stand(std::string nom, int num) : standNom(nom), standNum(num) {} // constructeur

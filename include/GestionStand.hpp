@@ -1,12 +1,3 @@
-/********************************************************************
-    created:	2023-11-24
-    file path:	src/GestionStand.hpp
-    author:		W.I.P.
-    copyright:	UNLICENSE
-
-    purpose: W.I.P.
-*********************************************************************/
-
 #ifndef GESTIONSTAND_HPP
 #define GESTIONSTAND_HPP
 
