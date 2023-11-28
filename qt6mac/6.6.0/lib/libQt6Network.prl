@@ -1,0 +1,5 @@
+QMAKE_PRL_TARGET = libQt6Network.a
+QMAKE_PRL_CONFIG = static
+QMAKE_PRL_VERSION = 6.6.0
+QMAKE_PRL_LIBS = $$[QT_INSTALL_LIBS]/libQt6Core.a $$[QT_INSTALL_LIBS]/libQt6Core.a -framework IOKit -framework Foundation -framework DiskArbitration -framework AppKit -framework ApplicationServices $$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a -framework CoreFoundation -framework Security -lz -framework CoreServices -framework CFNetwork -L"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib" -lresolv -framework SystemConfiguration -framework GSS
+QMAKE_PRL_LIBS_FOR_CMAKE = $$[QT_INSTALL_LIBS]/libQt6Core.a;$$[QT_INSTALL_LIBS]/libQt6Core.a;-framework IOKit;-framework Foundation;-framework DiskArbitration;-framework AppKit;-framework ApplicationServices;$$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a;-framework CoreFoundation;-framework Security;-lz;-framework CoreServices;-framework CFNetwork;-L"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib";-lresolv;-framework SystemConfiguration;-framework GSS

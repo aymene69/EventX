@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "qt6win\\6.6.0\\msvc2019_64\\lib\\cmake\\Qt6")
+else ()
+    set(CMAKE_PREFIX_PATH "qt6mac/6.6.0/lib/cmake/Qt6")
+endif()
 
 set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
 
