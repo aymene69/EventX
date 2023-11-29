@@ -63,7 +63,7 @@ void ajouterStand(void* object, int index) {
     json standJson;
     //on ajoute les stands dans l'index de l'event
     standJson["nom"] = stand->getStandNom();
-    standJson["numero"] = stand->getStandNum();
+    standJson["id"] = stand->getStandId();
     standJson["surface"] = stand->getStandSurface();
     j["events"][index]["stands"].push_back(standJson);
 
@@ -141,7 +141,7 @@ void modifierStandd(void* object, int indexEvent, int indexStand) {
     Stand* stand = static_cast<Stand*>(object);
     json standJson;
     standJson["nom"] = stand->getStandNom();
-    standJson["numero"] = stand->getStandNum();
+    standJson["id"] = stand->getStandId();
     standJson["surface"] = stand->getStandSurface();
     j["events"][indexEvent]["stands"][indexStand] = standJson;
 

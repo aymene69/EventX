@@ -150,12 +150,35 @@ void GestionStandDialog::modifierStand() {
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Stand:", standComboBox);
         formLayout.addRow("Nom du stand:", nomLineEdit);
+        formLayout.addRow("Surface du stand:", surfaceLineEdit);
+        auto* labelNoStand = new QLabel("L'évènement séléctionné n'as pas de stand. \r\nVeuillez lui créer un stand ou bien séléctionnez un autre évènement.", &modifierDialog);
+        formLayout.addRow("", labelNoStand);
+        auto* modifierButton = new QPushButton("Modifier", &modifierDialog);
+        formLayout.addRow("", modifierButton);
+
+
+
+        QObject::connect(standComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] {
+            int eventIndex = eventComboBox->currentIndex();
+        int standIndex = standComboBox->currentIndex();
+        const json& selectedEvent = eventsJson[eventIndex]; //Get the actual event
+        if (getNbStandsFromEvent(selectedEvent) != 0) {
+            const auto& standsJson = selectedEvent["stands"]; //Get all participants of the event
+            const json& standJson = standsJson[standIndex]; //Get the actual participant
+            nomLineEdit->setText(QString::fromStdString(standJson["nom"]));
+            double surface = standJson["surface"];
+            surfaceLineEdit->setText(QString::number(surface));
+
+        }
+        else {
+            nomLineEdit->setText("");
+            surfaceLineEdit->setText("");
+        }
+            });
 
         // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
         onEventComboBoxChanged(0);
 
-        auto *modifierButton = new QPushButton("Modifier", &modifierDialog);
-        formLayout.addRow("", modifierButton);
 
         // Connectez le bouton "Modifier" à une fonction de traitement
         QObject::connect(modifierButton, &QPushButton::clicked, [&]() {
@@ -180,7 +203,7 @@ void GestionStandDialog::modifierStand() {
                         }
                     } else {
                         // Créez un objet Stand avec les valeurs récupérées
-                        Stand stand(nom.toStdString(), surface.toInt());
+                        Stand stand(nom.toStdString(), surface.toDouble());
                         // Modifiez le stand dans la base de données
                         modifierStandd(&stand, eventIndex, standIndex);
 
@@ -235,12 +258,13 @@ void GestionStandDialog::supprimerStand() {
 
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Stand:", standComboBox);
-
+        auto* labelNoStand = new QLabel("L'évènement séléctionné n'as pas de stand. \r\nVeuillez séléctionnez un autre évènement.", &supprimerDialog);
+        formLayout.addRow("", labelNoStand);
+        auto* supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
+        formLayout.addRow("", supprimerButton);
         // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
         onEventComboBoxChanged(0);
 
-        auto *supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
-        formLayout.addRow("", supprimerButton);
 
         // Connectez le bouton "Supprimer" à une fonction de traitement
         QObject::connect(supprimerButton, &QPushButton::clicked, [&]() {
@@ -274,11 +298,45 @@ void GestionStandDialog::onEventComboBoxChanged(int index) {
     // Chargez les participants liés à l'événement sélectionné
     json data = preloadData(); // Assurez-vous de récupérer vos données de manière appropriée
     const auto &selectedEvent = data["events"][index];
+    QFormLayout* formLayout = qobject_cast<QFormLayout*>(standComboBox->parentWidget()->layout());
+    QDialog* dialog = qobject_cast<QDialog*>(formLayout->parent());
 
     if (selectedEvent.find("stands") != selectedEvent.end()) {
+        if (formLayout->rowCount() == 6) {
+            formLayout->setRowVisible(1, true);
+            formLayout->setRowVisible(2, true);
+            formLayout->setRowVisible(3, true);
+            formLayout->setRowVisible(4, false);
+            formLayout->setRowVisible(5, true);
+            dialog->setFixedSize(252, 158);
+        }
+        else if (formLayout->rowCount() == 4) { //Delete stand
+            formLayout->setRowVisible(1, true);
+            formLayout->setRowVisible(2, false);
+            formLayout->setRowVisible(3, true);
+            dialog->setFixedSize(180, 102);
+        }
+
         const auto &stands = selectedEvent["stands"];
         for (const auto &stand : stands) {
             standComboBox->addItem(QString::fromStdString(stand["nom"])); // Ajoutez le participant à la QComboBox
+        }
+    }
+    else {
+        if (formLayout->rowCount() == 6) { //Modify stand
+            formLayout->setRowVisible(1, false);
+            formLayout->setRowVisible(2, false);
+            formLayout->setRowVisible(3, false);
+            formLayout->setRowVisible(4, true);
+            formLayout->setRowVisible(5, false);
+            dialog->setFixedSize(452, 158);
+        }
+        else if (formLayout->rowCount() == 4) { //Delete stand
+            dialog->size();
+            formLayout->setRowVisible(1, false);
+            formLayout->setRowVisible(2, true);
+            formLayout->setRowVisible(3, false);
+            dialog->setFixedSize(265, 102);
         }
     }
 

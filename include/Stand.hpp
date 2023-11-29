@@ -7,18 +7,18 @@
 class Stand {
 private:
     std::string standNom;
-    int standNum;
+    int standId;
     double standSurface;
     std::vector<Manager*> managers;
 
 public:
-    Stand(std::string nom, int num);
+    Stand(std::string nom, double surface);
     virtual ~Stand();
 
 
     virtual std::string getType() const;
     std::string getStandNom() const;
-    int getStandNum() const;
+    int getStandId() const;
     double getStandSurface() const;
     std::vector<Manager*> getManagers();
 

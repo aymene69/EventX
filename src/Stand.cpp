@@ -1,6 +1,6 @@
 #include "include/Stand.hpp"
 
-Stand::Stand(std::string nom, int num) : standNom(nom), standNum(num) {} // constructeur
+Stand::Stand(std::string nom, double surface) : standNom(nom), standSurface(surface), standId(0) {} // constructeur
 
 Stand::~Stand() { // destructeur
     for (auto& m : managers) {
@@ -16,8 +16,8 @@ std::string Stand::getStandNom() const { // avoir le nom du stand
     return standNom;
 }
 
-int Stand::getStandNum() const { // avoir le numéro du stand
-    return standNum;
+int Stand::getStandId() const { // avoir le numéro du stand
+    return standId;
 }
 
 double Stand::getStandSurface() const { // avoir la surface du stand
@@ -34,5 +34,5 @@ void Stand::addManager(Manager* manager) { // ajouter un manager au stand
 
 
 bool Stand::operator==(const Stand& s) const { // comparer deux stands
-    return standNum == s.standNum;
+    return standId == s.standId;
 }

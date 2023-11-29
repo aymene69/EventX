@@ -183,7 +183,7 @@ void MainWindow::viewData() {
                     QStandardItem *pStandardItemStand = new QStandardItem(QString("Nom: %1, Numero: %2, Surface: %3")
                                                                                   .arg(QString::fromStdString(
                                                                                           stand["nom"].get<std::string>()))
-                                                                                  .arg(stand["numero"].get<int>())
+                                                                                  .arg(stand["id"].get<int>())
                                                                                   .arg(QString::number(
                                                                                           stand["surface"].get<double>())));
                     pStandardItemStands->appendRow(pStandardItemStand);

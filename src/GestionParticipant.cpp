@@ -141,11 +141,9 @@ void GestionParticipantDialog::modifierParticipant() {
     } else {
         // Ajout d'un QFormLayout pour les champs de modification
         QFormLayout formLayout(&modifierDialog);
-
         // Ajoutez les champs nécessaires pour la modification d'un participant
         auto *eventComboBox = new QComboBox(&modifierDialog);
         participantComboBox = new QComboBox(&modifierDialog); // Créez la QComboBox ici
-
         std::vector<Event> events;
         const json &eventsJson = j["events"];
         for (const auto &eventJson: eventsJson) {
@@ -155,36 +153,48 @@ void GestionParticipantDialog::modifierParticipant() {
         for (const auto &event: events) {
             eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
         }
-
         // Connectez le changement de l'événement à la mise à jour des participants
-        QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-                         this, &GestionParticipantDialog::onEventComboBoxChanged);
-
+        QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &GestionParticipantDialog::onEventComboBoxChanged);
         auto *nomLineEdit = new QLineEdit(&modifierDialog);
         auto *estVIPCheckBox = new QCheckBox(&modifierDialog);
         auto *numLineEdit = new QLineEdit(&modifierDialog);
         auto *emailLineEdit = new QLineEdit(&modifierDialog);
-
-
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Participant:", participantComboBox);
         formLayout.addRow("Nom du participant:", nomLineEdit);
         formLayout.addRow("Est VIP:", estVIPCheckBox);
         formLayout.addRow("Numéro de téléphone:", numLineEdit);
         formLayout.addRow("Adresse e-mail:", emailLineEdit);
-
+        auto* labelNoParticipant = new QLabel("L'évènement séléctionné n'as pas de participant. \r\nVeuillez lui créer un participant ou bien séléctionnez un autre évènement.", &modifierDialog);
+        formLayout.addRow("", labelNoParticipant);
+        auto* modifierButton = new QPushButton("Modifier", &modifierDialog);
+        formLayout.addRow("", modifierButton);
+        QObject::connect(participantComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&]{
+            int eventIndex = eventComboBox->currentIndex();
+            int participantIndex = participantComboBox->currentIndex();
+            const json& selectedEvent = eventsJson[eventIndex]; //Get the actual event
+            if(getNbParticipantsFromEvent(selectedEvent)!=0) {
+                const auto& participantsJson = selectedEvent["participants"]; //Get all participants of the event
+                const json& participantJson = participantsJson[participantIndex]; //Get the actual participant
+                nomLineEdit->setText(QString::fromStdString(participantJson["nom"]));
+                numLineEdit->setText(QString::fromStdString(participantJson["numero"]));
+                emailLineEdit->setText(QString::fromStdString(participantJson["email"]));
+                estVIPCheckBox->setChecked(participantJson["vip"]);
+            }
+            else {
+                nomLineEdit->setText("");
+                numLineEdit->setText("");
+                emailLineEdit->setText("");
+                estVIPCheckBox->setChecked(false);
+            }
+        });
         // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
         onEventComboBoxChanged(0);
-
-        auto *modifierButton = new QPushButton("Modifier", &modifierDialog);
-        formLayout.addRow("", modifierButton);
-
         // Connectez le bouton "Modifier" à une fonction de traitement
         QObject::connect(modifierButton, &QPushButton::clicked, [&]() {
             // Récupérez les valeurs sélectionnées
             int eventIndex = eventComboBox->currentIndex();
             int participantIndex = participantComboBox->currentIndex();
-
             const json &selectedEvent = eventsJson[eventIndex];
             if (selectedEvent.find("participants") != selectedEvent.end()) {
                 const auto &participantsJson = selectedEvent["participants"];
@@ -194,7 +204,6 @@ void GestionParticipantDialog::modifierParticipant() {
                     bool estVIP = estVIPCheckBox->isChecked();
                     QString num = numLineEdit->text();
                     QString email = emailLineEdit->text();
-
                     if (nom.isEmpty() || num.isEmpty() || email.isEmpty()) {
                         if (nom.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
@@ -210,19 +219,16 @@ void GestionParticipantDialog::modifierParticipant() {
                         Participant participant(nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                         // Modifiez le participant dans la base de données
                         modifierParticip(&participant, eventIndex, participantIndex);
-
                         QMessageBox::information(nullptr, "Succès !", "Le participant a bien été modifié.");
                         modifierDialog.close();
                         return;
                     }
-
                     QMessageBox::information(nullptr, "Succès !", "Le participant a bien été modifié.");
                     modifierDialog.close();
                     return;
                 }
             }
         });
-
         modifierDialog.exec();
     }
 }
@@ -269,12 +275,14 @@ void GestionParticipantDialog::supprimerParticipant() {
 
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Participant:", participantComboBox);
-
+        auto* labelNoParticipant = new QLabel("L'évènement séléctionné n'as pas de participant. \r\nVeuillez séléctionnez un autre évènement.", &supprimerDialog);
+        formLayout.addRow("", labelNoParticipant);
+        auto* supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
+        formLayout.addRow("", supprimerButton);
         // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
         onEventComboBoxChanged(0);
 
-        auto *supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
-        formLayout.addRow("", supprimerButton);
+
 
         // Connectez le bouton "Supprimer" à une fonction de traitement
         QObject::connect(supprimerButton, &QPushButton::clicked, [&]() {
@@ -304,18 +312,59 @@ void GestionParticipantDialog::supprimerParticipant() {
 
 
 void GestionParticipantDialog::onEventComboBoxChanged(int index) {
+
+
     // Effacez la QComboBox des participants
     participantComboBox->clear();
 
     // Chargez les participants liés à l'événement sélectionné
     json data = preloadData(); // Assurez-vous de récupérer vos données de manière appropriée
     const auto &selectedEvent = data["events"][index];
+    QFormLayout* formLayout = qobject_cast<QFormLayout*>(participantComboBox->parentWidget()->layout());
+    QDialog* dialog = qobject_cast<QDialog*>(formLayout->parent());
 
     if (selectedEvent.find("participants") != selectedEvent.end()) {
+        if(formLayout->rowCount()==8) { //Modify participant
+            formLayout->setRowVisible(1, true);
+            formLayout->setRowVisible(2, true);
+            formLayout->setRowVisible(3, true);
+            formLayout->setRowVisible(4, true);
+            formLayout->setRowVisible(5, true);
+            formLayout->setRowVisible(6, false);
+            formLayout->setRowVisible(7, true);
+            dialog->setFixedSize(280, 208);
+        }
+         else if (formLayout->rowCount() == 4) { //Delete participant
+            formLayout->setRowVisible(1, true);
+            formLayout->setRowVisible(2, false);
+            formLayout->setRowVisible(3, true);
+            dialog->setFixedSize(200, 102);
+        }
+        
         const auto &participants = selectedEvent["participants"];
         for (const auto &participant : participants) {
             participantComboBox->addItem(QString::fromStdString(participant["nom"])); // Ajoutez le participant à la QComboBox
         }
+    }
+    else {
+        if (formLayout->rowCount() == 8) {//Modify participant
+
+            formLayout->setRowVisible(1, false);
+            formLayout->setRowVisible(2, false);
+            formLayout->setRowVisible(3, false);
+            formLayout->setRowVisible(4, false);
+            formLayout->setRowVisible(5, false);
+            formLayout->setRowVisible(6, true);
+            formLayout->setRowVisible(7, false);
+            dialog->setFixedSize(480, 208);
+        }
+        else if (formLayout->rowCount() == 4) { //Delete participant
+            formLayout->setRowVisible(1, false);
+            formLayout->setRowVisible(2, true);
+            formLayout->setRowVisible(3, false);
+            dialog->setFixedSize(281, 102);
+        }
+
     }
 
 }
