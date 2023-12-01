@@ -1,5 +1,0 @@
-#!/bin/sh
-script_dir_path=`dirname $0`
-script_dir_path=`(cd "$script_dir_path"; /bin/pwd)`
-
-"$script_dir_path/../bin/qt-cmake" -DQT_BUILD_STANDALONE_TESTS=ON "$@"
