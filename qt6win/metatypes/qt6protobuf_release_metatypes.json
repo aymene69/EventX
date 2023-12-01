@@ -1,0 +1,40 @@
+[
+    {
+        "classes": [
+            {
+                "className": "QtProtobuf",
+                "enums": [
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "WireTypes",
+                        "values": [
+                            "Unknown",
+                            "Varint",
+                            "Fixed64",
+                            "LengthDelimited",
+                            "StartGroup",
+                            "EndGroup",
+                            "Fixed32"
+                        ]
+                    }
+                ],
+                "namespace": true,
+                "qualifiedClassName": "QtProtobuf"
+            }
+        ],
+        "inputFile": "qtprotobuftypes.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QProtobufMessage",
+                "gadget": true,
+                "qualifiedClassName": "QProtobufMessage"
+            }
+        ],
+        "inputFile": "qprotobufmessage.h",
+        "outputRevision": 68
+    }
+]
