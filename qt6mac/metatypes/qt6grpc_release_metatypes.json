@@ -1,0 +1,174 @@
+[
+    {
+        "classes": [
+            {
+                "className": "QAbstractGrpcClient",
+                "object": true,
+                "qualifiedClassName": "QAbstractGrpcClient",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "status",
+                                "type": "QGrpcStatus"
+                            }
+                        ],
+                        "name": "errorOccurred",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qabstractgrpcclient.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QGrpcCallReply",
+                "object": true,
+                "qualifiedClassName": "QGrpcCallReply",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QGrpcOperation"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qgrpccallreply.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QGrpcOperation",
+                "object": true,
+                "qualifiedClassName": "QGrpcOperation",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "finished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "status",
+                                "type": "QGrpcStatus"
+                            }
+                        ],
+                        "name": "errorOccurred",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qgrpcoperation.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QGrpcStatus",
+                "enums": [
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "StatusCode",
+                        "type": "uint8_t",
+                        "values": [
+                            "Ok",
+                            "Cancelled",
+                            "Unknown",
+                            "InvalidArgument",
+                            "DeadlineExceeded",
+                            "NotFound",
+                            "AlreadyExists",
+                            "PermissionDenied",
+                            "Unauthenticated",
+                            "ResourceExhausted",
+                            "FailedPrecondition",
+                            "Aborted",
+                            "OutOfRange",
+                            "Unimplemented",
+                            "Internal",
+                            "Unavailable",
+                            "DataLoss"
+                        ]
+                    }
+                ],
+                "gadget": true,
+                "properties": [
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "code",
+                        "read": "code",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "StatusCode",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "message",
+                        "read": "message",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "QGrpcStatus"
+            }
+        ],
+        "inputFile": "qgrpcstatus.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QGrpcStream",
+                "object": true,
+                "qualifiedClassName": "QGrpcStream",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "messageReceived",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QGrpcOperation"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qgrpcstream.h",
+        "outputRevision": 68
+    }
+]

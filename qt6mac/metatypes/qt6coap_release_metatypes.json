@@ -1,0 +1,729 @@
+[
+    {
+        "classes": [
+            {
+                "className": "QCoapClient",
+                "object": true,
+                "qualifiedClassName": "QCoapClient",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            }
+                        ],
+                        "name": "finished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "message",
+                                "type": "QCoapMessage"
+                            },
+                            {
+                                "name": "sender",
+                                "type": "QHostAddress"
+                            }
+                        ],
+                        "name": "responseToMulticastReceived",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "error",
+                                "type": "QtCoap::Error"
+                            }
+                        ],
+                        "name": "error",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapclient.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapConnection",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "configuration",
+                                "type": "QCoapSecurityConfiguration"
+                            }
+                        ],
+                        "name": "setSecurityConfiguration",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "disconnect",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "QCoapConnection",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "error",
+                                "type": "QAbstractSocket::SocketError"
+                            }
+                        ],
+                        "name": "error",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "data",
+                                "type": "QByteArray"
+                            },
+                            {
+                                "name": "sender",
+                                "type": "QHostAddress"
+                            }
+                        ],
+                        "name": "readyRead",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "bound",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "securityConfigurationChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapconnection_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapInternalMessage",
+                "object": true,
+                "qualifiedClassName": "QCoapInternalMessage",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapinternalmessage_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapInternalReply",
+                "object": true,
+                "qualifiedClassName": "QCoapInternalReply",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QCoapInternalMessage"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapinternalreply_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapInternalRequest",
+                "object": true,
+                "qualifiedClassName": "QCoapInternalRequest",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "QCoapInternalRequest*"
+                            }
+                        ],
+                        "name": "timeout",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "QCoapInternalRequest*"
+                            }
+                        ],
+                        "name": "maxTransmissionSpanReached",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "QCoapInternalRequest*"
+                            }
+                        ],
+                        "name": "multicastRequestExpired",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QCoapInternalMessage"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapinternalrequest_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "RegisterEnumClassesUnscoped",
+                        "value": "false"
+                    }
+                ],
+                "className": "QtCoap",
+                "enums": [
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "ResponseCode",
+                        "type": "quint8",
+                        "values": [
+                            "EmptyMessage",
+                            "Created",
+                            "Deleted",
+                            "Valid",
+                            "Changed",
+                            "Content",
+                            "Continue",
+                            "BadRequest",
+                            "Unauthorized",
+                            "BadOption",
+                            "Forbidden",
+                            "NotFound",
+                            "MethodNotAllowed",
+                            "NotAcceptable",
+                            "RequestEntityIncomplete",
+                            "PreconditionFailed",
+                            "RequestEntityTooLarge",
+                            "UnsupportedContentFormat",
+                            "InternalServerFault",
+                            "NotImplemented",
+                            "BadGateway",
+                            "ServiceUnavailable",
+                            "GatewayTimeout",
+                            "ProxyingNotSupported",
+                            "InvalidCode"
+                        ]
+                    },
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "Error",
+                        "type": "quint8",
+                        "values": [
+                            "Ok",
+                            "HostNotFound",
+                            "AddressInUse",
+                            "TimeOut",
+                            "BadRequest",
+                            "Unauthorized",
+                            "BadOption",
+                            "Forbidden",
+                            "NotFound",
+                            "MethodNotAllowed",
+                            "NotAcceptable",
+                            "RequestEntityIncomplete",
+                            "PreconditionFailed",
+                            "RequestEntityTooLarge",
+                            "UnsupportedContentFormat",
+                            "InternalServerFault",
+                            "NotImplemented",
+                            "BadGateway",
+                            "ServiceUnavailable",
+                            "GatewayTimeout",
+                            "ProxyingNotSupported",
+                            "Unknown"
+                        ]
+                    },
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "Method",
+                        "type": "quint8",
+                        "values": [
+                            "Invalid",
+                            "Get",
+                            "Post",
+                            "Put",
+                            "Delete",
+                            "Other"
+                        ]
+                    },
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "Port",
+                        "values": [
+                            "DefaultPort",
+                            "DefaultSecurePort"
+                        ]
+                    },
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "SecurityMode",
+                        "type": "quint8",
+                        "values": [
+                            "NoSecurity",
+                            "PreSharedKey",
+                            "RawPublicKey",
+                            "Certificate"
+                        ]
+                    },
+                    {
+                        "isClass": true,
+                        "isFlag": false,
+                        "name": "MulticastGroup",
+                        "type": "quint8",
+                        "values": [
+                            "AllCoapNodesIPv4",
+                            "AllCoapNodesIPv6LinkLocal",
+                            "AllCoapNodesIPv6SiteLocal"
+                        ]
+                    }
+                ],
+                "namespace": true,
+                "qualifiedClassName": "QtCoap"
+            }
+        ],
+        "inputFile": "qcoapnamespace.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapProtocol",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "ackTimeout",
+                                "type": "uint"
+                            }
+                        ],
+                        "name": "setAckTimeout",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "ackRandomFactor",
+                                "type": "double"
+                            }
+                        ],
+                        "name": "setAckRandomFactor",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "maximumRetransmitCount",
+                                "type": "uint"
+                            }
+                        ],
+                        "name": "setMaximumRetransmitCount",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "blockSize",
+                                "type": "quint16"
+                            }
+                        ],
+                        "name": "setBlockSize",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "responseDelay",
+                                "type": "uint"
+                            }
+                        ],
+                        "name": "setMaximumServerResponseDelay",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "tokenSize",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "setMinimumTokenSize",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QPointer<QCoapReply>"
+                            },
+                            {
+                                "name": "connection",
+                                "type": "QCoapConnection*"
+                            }
+                        ],
+                        "name": "sendRequest",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QPointer<QCoapReply>"
+                            }
+                        ],
+                        "name": "cancelObserve",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "cancelObserve",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "QCoapProtocol",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            }
+                        ],
+                        "name": "finished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "message",
+                                "type": "QCoapMessage"
+                            },
+                            {
+                                "name": "sender",
+                                "type": "QHostAddress"
+                            }
+                        ],
+                        "name": "responseToMulticastReceived",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "error",
+                                "type": "QtCoap::Error"
+                            }
+                        ],
+                        "name": "error",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapprotocol_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapQUdpConnection",
+                "object": true,
+                "qualifiedClassName": "QCoapQUdpConnection",
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "type": "QAbstractSocket::SocketOption"
+                            },
+                            {
+                                "name": "value",
+                                "type": "QVariant"
+                            }
+                        ],
+                        "name": "setSocketOption",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QCoapConnection"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapqudpconnection_p.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapResourceDiscoveryReply",
+                "object": true,
+                "qualifiedClassName": "QCoapResourceDiscoveryReply",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapResourceDiscoveryReply*"
+                            },
+                            {
+                                "name": "resources",
+                                "type": "QList<QCoapResource>"
+                            }
+                        ],
+                        "name": "discovered",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QCoapReply"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapresourcediscoveryreply.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "QCoapReply",
+                "object": true,
+                "qualifiedClassName": "QCoapReply",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            }
+                        ],
+                        "name": "finished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "message",
+                                "type": "QCoapMessage"
+                            }
+                        ],
+                        "name": "notified",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reply",
+                                "type": "QCoapReply*"
+                            },
+                            {
+                                "name": "error",
+                                "type": "QtCoap::Error"
+                            }
+                        ],
+                        "name": "error",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "token",
+                                "type": "QCoapToken"
+                            }
+                        ],
+                        "name": "aborted",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "protected",
+                        "arguments": [
+                            {
+                                "type": "QCoapToken"
+                            },
+                            {
+                                "type": "QCoapMessageId"
+                            }
+                        ],
+                        "name": "_q_setRunning",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "arguments": [
+                            {
+                                "name": "host",
+                                "type": "QHostAddress"
+                            },
+                            {
+                                "type": "QCoapMessage"
+                            },
+                            {
+                                "type": "QtCoap::ResponseCode"
+                            }
+                        ],
+                        "name": "_q_setContent",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "name": "_q_setNotified",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "name": "_q_setObserveCancelled",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "arguments": [
+                            {
+                                "type": "QtCoap::Error"
+                            }
+                        ],
+                        "name": "_q_setFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "arguments": [
+                            {
+                                "type": "QtCoap::ResponseCode"
+                            }
+                        ],
+                        "name": "_q_setError",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "protected",
+                        "arguments": [
+                            {
+                                "type": "QtCoap::Error"
+                            }
+                        ],
+                        "name": "_q_setError",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QIODevice"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qcoapreply.h",
+        "outputRevision": 68
+    }
+]

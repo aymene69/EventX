@@ -1,0 +1,12 @@
+QT.printsupport_private.VERSION = 6.6.1
+QT.printsupport_private.name = QtPrintSupport
+QT.printsupport_private.module =
+QT.printsupport_private.libs = $$QT_MODULE_LIB_BASE
+QT.printsupport_private.includes = $$QT_MODULE_INCLUDE_BASE/QtPrintSupport/6.6.1 $$QT_MODULE_INCLUDE_BASE/QtPrintSupport/6.6.1/QtPrintSupport
+QT.printsupport_private.frameworks = 
+QT.printsupport_private.depends = core_private gui_private widgets_private printsupport
+QT.printsupport_private.uses = 
+QT.printsupport_private.module_config = v2 staticlib internal_module
+QT.printsupport_private.enabled_features = cups cupsjobwidget cupspassworddialog
+QT.printsupport_private.disabled_features = 
+QMAKE_LIBS_CUPS = -L"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/lib" -lcups

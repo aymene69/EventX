@@ -1,0 +1,16 @@
+#ifndef QT_QTGRPC_MODULE_H
+#define QT_QTGRPC_MODULE_H
+#include <QtGrpc/QtGrpcDepends>
+#include "qtgrpcglobal.h"
+#include "qabstractgrpcchannel.h"
+#include "qabstractgrpcclient.h"
+#include "qgrpccalloptions.h"
+#include "qgrpccallreply.h"
+#include "qgrpcchanneloptions.h"
+#include "qgrpchttp2channel.h"
+#include "qgrpcmetadata.h"
+#include "qgrpcoperation.h"
+#include "qgrpcstatus.h"
+#include "qgrpcstream.h"
+#include "qtgrpcversion.h"
+#endif

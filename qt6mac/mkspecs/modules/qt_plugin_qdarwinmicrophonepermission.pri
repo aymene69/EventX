@@ -1,0 +1,8 @@
+QT_PLUGIN.qdarwinmicrophonepermission.TYPE = permissions
+QT_PLUGIN.qdarwinmicrophonepermission.EXTENDS = -
+QT_PLUGIN.qdarwinmicrophonepermission.DEPENDS = core
+QT_PLUGIN.qdarwinmicrophonepermission.CLASS_NAME = QDarwinMicrophonePermissionPlugin
+QT_PLUGIN.qdarwinmicrophonepermission.module_config = v2 staticlib
+QT_PLUGINS += qdarwinmicrophonepermission
+QT_PLUGIN.qdarwinmicrophonepermission.usage_descriptions = NSMicrophoneUsageDescription
+QT_PLUGIN.qdarwinmicrophonepermission.request_flag = -Wl,-u,_QDarwinMicrophonePermissionRequest
