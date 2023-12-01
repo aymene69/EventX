@@ -62,7 +62,8 @@ void GestionParticipantDialog::creerParticipant() {
         auto *estVIPCheckBox = new QCheckBox(&creerDialog);
         auto *numLineEdit = new QLineEdit(&creerDialog);
         auto *emailLineEdit = new QLineEdit(&creerDialog);
-
+        auto* pRegularExpressionValidatorPhoneNumber= new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        numLineEdit->setValidator(pRegularExpressionValidatorPhoneNumber);
         std::vector<Event> events;
         json j;
         std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
@@ -159,6 +160,8 @@ void GestionParticipantDialog::modifierParticipant() {
         auto *estVIPCheckBox = new QCheckBox(&modifierDialog);
         auto *numLineEdit = new QLineEdit(&modifierDialog);
         auto *emailLineEdit = new QLineEdit(&modifierDialog);
+        auto* pRegularExpressionValidatorPhoneNumber = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        numLineEdit->setValidator(pRegularExpressionValidatorPhoneNumber);
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Participant:", participantComboBox);
         formLayout.addRow("Nom du participant:", nomLineEdit);

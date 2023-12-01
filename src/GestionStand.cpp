@@ -58,8 +58,10 @@ void GestionStandDialog::creerStand() {
         // Ajoutez les champs nécessaires pour la création d'un participant
         auto *eventComboBox = new QComboBox(&creerDialog);
         auto *nomLineEdit = new QLineEdit(&creerDialog);
-        auto *surfaceLineEdit = new QLineEdit(&creerDialog);
-
+        auto* surfaceLineEdit = new QLineEdit(&creerDialog);
+        auto* validator = new QRegularExpressionValidator(QRegularExpression("(([1-9][0-9]*)|0)([.][0-9]*)?"));
+        surfaceLineEdit->setValidator(validator);
+        // Ajoutez un suffixe au QLineEdit
         std::vector<Event> events;
         json j;
         std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
@@ -98,7 +100,7 @@ void GestionStandDialog::creerStand() {
                 }
             } else {
                 // Créez un objet Stand avec les valeurs récupérées
-                Stand stand(nom.toStdString(), surface.toInt());
+                Stand stand(nom.toStdString(), surface.toDouble());
                 // Ajoutez le stand à la base de données
                 ajouterStand(&stand, index);
                 emit dataModified();
@@ -142,15 +144,18 @@ void GestionStandDialog::modifierStand() {
         // Connectez le changement de l'événement à la mise à jour des participants
         QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionStandDialog::onEventComboBoxChanged);
+#include <QLineEdit>
 
         auto *nomLineEdit = new QLineEdit(&modifierDialog);
-        auto *surfaceLineEdit = new QLineEdit(&modifierDialog);
-
+        auto* surfaceLineEdit = new QLineEdit(&modifierDialog);
+        auto* validator = new QRegularExpressionValidator(QRegularExpression("(([1-9][0-9]*)|0)([.][0-9]*)?"));
+        surfaceLineEdit->setValidator(validator);
 
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Stand:", standComboBox);
         formLayout.addRow("Nom du stand:", nomLineEdit);
         formLayout.addRow("Surface du stand:", surfaceLineEdit);
+
         auto* labelNoStand = new QLabel("L'évènement séléctionné n'as pas de stand. \r\nVeuillez lui créer un stand ou bien séléctionnez un autre évènement.", &modifierDialog);
         formLayout.addRow("", labelNoStand);
         auto* modifierButton = new QPushButton("Modifier", &modifierDialog);
@@ -168,7 +173,6 @@ void GestionStandDialog::modifierStand() {
             nomLineEdit->setText(QString::fromStdString(standJson["nom"]));
             double surface = standJson["surface"];
             surfaceLineEdit->setText(QString::number(surface));
-
         }
         else {
             nomLineEdit->setText("");

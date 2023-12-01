@@ -64,6 +64,8 @@ void GestionManagerDialog::creerManager() {
         standComboBox = new QComboBox(&creerDialog);
         auto *nomLineEdit = new QLineEdit(&creerDialog);
         auto *numLineEdit = new QLineEdit(&creerDialog);
+        auto* validator = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        numLineEdit->setValidator(validator);
 
         std::vector<Event> events;
         json j;
@@ -173,6 +175,8 @@ void GestionManagerDialog::modifierManager() {
 
         QLineEdit *nomLineEdit = new QLineEdit(&modifierDialog);
         QLineEdit *numLineEdit = new QLineEdit(&modifierDialog);
+        auto* validator = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        numLineEdit->setValidator(validator);
 
         formLayout.addRow("Événement:", eventComboBox);
         formLayout.addRow("Stand:", standComboBox);
