@@ -28,16 +28,11 @@ Windows: [télécharger](https://github.com/belmeg/projet-poo/releases/)
 
 macOS: [télécharger](https://github.com/belmeg/projet-poo/releases/)
 
-ou alors vous pouvez le compiler vous seul
+ou alors vous pouvez le compiler:
 
 ## 🔨 Compilation
 
-1. Assurez vous d'avoir Qt 6.6.0 d'installé d'avoir ajouté au PATH:
-- Le répertoire de librairies cmake:
-    - macOS: /Users/VotreUtilisateur/Qt/6.6.0/macos/lib/cmake/Qt6
-    - Windows: C:\Qt\6.6.0\X\lib\cmake\Qt6
-- Le répertoire des binaries de Qt (pour Windows seulement):
-    - Windows: C:\Qt\6.6.0\X\bin
+1. Assurez-vous d'avoir CMake d'installé et d'ajouté au PATH
 2. Compilez:
 - Sous Windows:
     ```
