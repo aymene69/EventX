@@ -2,6 +2,9 @@ English | [Français](README_fr.md)
 
 # 📅 **{ EventX }**
 
+![License](https://img.shields.io/badge/License-UNLICENSE-red?link=UNLICENSE.txt)![Latest Version](https://img.shields.io/badge/Version-1.0.0-blue) ![OS](https://img.shields.io/badge/OS-Windows%2FmacOS%2FLinux-green)
+
+
 EventX is an event management application. It provides a platform for creating, modifying and deleting events, stands, managers and participants, demonstrating my skills in software development and user interface design. EventX facilitates efficient coordination of the various elements of an event. Developed in C++ using the Qt framework, the aim of this project was to apply the principles of Object-Oriented Programming and classes.
 
 ![EventX](https://i.imgur.com/gjX7Pxb.png)

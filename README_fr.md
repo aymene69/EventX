@@ -1,6 +1,7 @@
 [English](README.md) | Français
 
 # 📅 **{ EventX }**
+![License](https://img.shields.io/badge/License-UNLICENSE-red?link=UNLICENSE.txt)![Latest Version](https://img.shields.io/badge/Version-1.0.0-blue) ![OS](https://img.shields.io/badge/OS-Windows%2FmacOS%2FLinux-green)
 
 EventX est une application de gestion d'événements. Il offre une plateforme permettant la création, la modification et la suppression d'événements, stands, managers et aussi de participants, démontrant mes compétences en développement logiciel et en conception d'interfaces utilisateur. EventX facilite la coordination efficace des divers éléments d'un événement. Réalisé en C++ à l'aide du framework Qt, ce projet avait pour but de mettre en application les principes de la Programmation Orientée Objet ainsi que des classes.
 
