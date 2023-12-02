@@ -52,7 +52,7 @@ The version number you are using is indicated in the title of the application wi
 
 ## 🤝 Credits
 This project was created by:
-- BELMEGUENAI Aymene
+- B. Aymene
 - BOLARIN Luca
 - COSTA Julien
 - JOURNOUD Lucas

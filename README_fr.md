@@ -51,7 +51,7 @@ Le numéro de version que vous utilisez est indiqué dans le titre de la fenêtr
 
 ## 🤝 Crédits
 Ce projet a été créé par:
-- BELMEGUENAI Aymene
+- B. Aymene
 - BOLARIN Luca
 - COSTA Julien
 - JOURNOUD Lucas
