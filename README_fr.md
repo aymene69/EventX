@@ -45,7 +45,7 @@ ou alors vous pouvez le compiler:
     bash compile.sh
     ```
 
-## 🔢 Versioning
+## 🔢 Versionnage
 Ce projet suit un schéma de [versionnement sémantique](https://semver.org/).
 Le numéro de version que vous utilisez est indiqué dans le titre de la fenêtre de l'application sur la page d'accueil.
 
