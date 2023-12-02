@@ -1,222 +1,203 @@
 #include "include/FonctionsJson.hpp"
-#include <fstream>
-#include <regex>
-#include <QStandardPaths>
-#include "nlohmann/json.hpp"
-#include "include/Event.hpp"
-#include "include/Participant.hpp"
-#include "include/Stand.hpp"
-#include "include/Manager.hpp"
-#include "include/FonctionsDemarrage.hpp"
 
-using json = nlohmann::json;
-
-bool verifDate(std::string date) {
-    std::regex dateRegex("([0-9]{2})/([0-9]{2})/([0-9]{4})");
-    return std::regex_match(date, dateRegex);
-}
-
-void ajouterEvent(void* object) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
-    Event* event = (Event*) object;
+void AddEvent(void* pObject_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
+    Event* eventToAdd = (Event*) pObject_in;
     json eventJson;
-    eventJson["nom"] = event->getEventNom();
-    eventJson["date"] = event->getEventDate();
-    eventJson["lieu"] = event->getEventLieu();
-    j["events"].push_back(eventJson);
+    eventJson["nom"] = eventToAdd->GetEventName();
+    eventJson["date"] = eventToAdd->GetEventDate();
+    eventJson["lieu"] = eventToAdd->GetEventLocation();
+    jsonData["events"].push_back(eventJson);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void ajouterParticip(void* object, int index) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
-    Participant* participant = (Participant*) object;
+void AddParticipant(void* pObject_in, unsigned int nIndexEvent_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
+    Participant* participantToAdd = (Participant*) pObject_in;
     json participantJson;
-    //on ajoute les participants dans l'index de l'event
-    participantJson["id"] = getNbParticipants() +1;
-    participantJson["nom"] = participant->getNomParticipant();
-    participantJson["vip"] = participant->getVIPParticipant();
-    participantJson["numero"] = participant->getNumParticipant();
-    participantJson["email"] = participant->getEmailParticipant();
-    j["events"][index]["participants"].push_back(participantJson);
+    // Add participants to the event index
+    participantJson["id"] = GetNumberOfParticipants() +1;
+    participantJson["nom"] = participantToAdd->GetParticipantName();
+    participantJson["vip"] = participantToAdd->ParticipantIsVip();
+    participantJson["numero"] = participantToAdd->GetParticipantPhoneNumber();
+    participantJson["email"] = participantToAdd->GetParticipantMail();
+    jsonData["events"][nIndexEvent_in]["participants"].push_back(participantJson);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
+void AddStand(void* pObject_in, unsigned int nIndexEvent_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
+    Stand* stand = (Stand*)pObject_in;
+    json jsonStand;
+    // Add stands to event index
+    jsonStand["nom"] = stand->GetStandName();
+    jsonStand["id"] = stand->GetStandId();
+    jsonStand["surface"] = stand->GetStandSurface();
+    jsonData["events"][nIndexEvent_in]["stands"].push_back(jsonStand);
 
-void ajouterStand(void* object, int index) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
-    Stand* stand = (Stand*) object;
-    json standJson;
-    //on ajoute les stands dans l'index de l'event
-    standJson["nom"] = stand->getStandNom();
-    standJson["id"] = stand->getStandId();
-    standJson["surface"] = stand->getStandSurface();
-    j["events"][index]["stands"].push_back(standJson);
-
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void ajouterManager(void* object, int index, int indexStand) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
-    Manager* manager = (Manager*) object;
+void AddManager(void* pObject_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
+    Manager* manager = (Manager*)pObject_in;
     json managerJson;
-    int* id = new int(0);
-    *id = getNbManagers() +1;
+    int* pnId = new int(0);
+    *pnId = GetNumberOfManagers() +1;
     //on ajoute les managers dans l'index de l'event
-    managerJson["nom"] = manager->getManagerNom();
-    managerJson["numero"] = manager->getManagerNum();
-    managerJson["id"] = *id;
-    j["events"][index]["stands"][indexStand]["managers"].push_back(managerJson);
+    managerJson["nom"] = manager->GetManagerName();
+    managerJson["numero"] = manager->GetManagerPhoneNumber();
+    managerJson["id"] = *pnId;
+    jsonData["events"][nIndexEvent_in]["stands"][nIndexStand_in]["managers"].push_back(managerJson);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
-    delete id;
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
+    delete pnId;
 }
 
+void ModifyEvent(void* pObject_in, unsigned int nIndexEvent_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-void modifierEvent(void* object, int index) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
-
-    Event* event = static_cast<Event*>(object);
+    Event* event = static_cast<Event*>(pObject_in);
     json eventJson;
-    eventJson["nom"] = event->getEventNom();
-    eventJson["date"] = event->getEventDate();
-    eventJson["lieu"] = event->getEventLieu();
-    j["events"][index] = eventJson;
+    eventJson["nom"] = event->GetEventName();
+    eventJson["date"] = event->GetEventDate();
+    eventJson["lieu"] = event->GetEventLocation();
+    jsonData["events"][nIndexEvent_in] = eventJson;
 
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void modifierParticip(void* object, int indexEvent, int indexParticipant) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
+void ModifyParticipant(void* pObject_in, unsigned int nIndexEvent_in, unsigned int nIndexParticipant_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    Participant* participant = static_cast<Participant*>(object);
+    Participant* participant = static_cast<Participant*>(pObject_in);
     json participantJson;
-    participantJson["nom"] = participant->getNomParticipant();
-    participantJson["vip"] = participant->getVIPParticipant();
-    participantJson["numero"] = participant->getNumParticipant();
-    participantJson["email"] = participant->getEmailParticipant();
-    j["events"][indexEvent]["participants"][indexParticipant] = participantJson;
+    participantJson["nom"] = participant->GetParticipantName();
+    participantJson["vip"] = participant->ParticipantIsVip();
+    participantJson["numero"] = participant->GetParticipantPhoneNumber();
+    participantJson["email"] = participant->GetParticipantMail();
+    jsonData["events"][nIndexEvent_in]["participants"][nIndexParticipant_in] = participantJson;
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void modifierStandd(void* object, int indexEvent, int indexStand) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
+void ModifyStand(void* pObject_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    Stand* stand = static_cast<Stand*>(object);
+    Stand* stand = static_cast<Stand*>(pObject_in);
     json standJson;
-    standJson["nom"] = stand->getStandNom();
-    standJson["id"] = stand->getStandId();
-    standJson["surface"] = stand->getStandSurface();
-    j["events"][indexEvent]["stands"][indexStand] = standJson;
+    standJson["nom"] = stand->GetStandName();
+    standJson["id"] = stand->GetStandId();
+    standJson["surface"] = stand->GetStandSurface();
+    jsonData["events"][nIndexEvent_in]["stands"][nIndexStand_in] = standJson;
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void modifierManag(void* object, int indexEvent, int indexStand, int indexManager) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
+void ModifyManager(void* pObject_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in, unsigned int nIndexManager_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    Manager* manager = static_cast<Manager*>(object);
-    json managerJson;
-    managerJson["nom"] = manager->getManagerNom();
-    managerJson["numero"] = manager->getManagerNum();
-    managerJson["id"] = manager->getManagerId();
-    j["events"][indexEvent]["stands"][indexStand]["managers"][indexManager] = managerJson;
+    Manager* managerWithNewValues = static_cast<Manager*>(pObject_in);
+    json jsonManagerToModify;
+    jsonManagerToModify["nom"] = managerWithNewValues->GetManagerName();
+    jsonManagerToModify["numero"] = managerWithNewValues->GetManagerPhoneNumber();
+    jsonManagerToModify["id"] = managerWithNewValues->GetManagerId();
+    jsonData["events"][nIndexEvent_in]["stands"][nIndexStand_in]["managers"][nIndexManager_in] = jsonManagerToModify;
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void supprimerEvent(void* object, int index) {
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    json j;
-    i >> j;
-    i.close();
+void DeleteEvent(void* pObject_in, unsigned int nIndexEvent_in) {
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    json jsonData;
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    j["events"].erase(index);
+    jsonData["events"].erase(nIndexEvent_in);
 
-
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void supprimerParticip(int indexEvent, int indexParticipant) {
-    json j;
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    i >> j;
-    i.close();
+void DeleteParticipant(unsigned int nIndexEvent_in, unsigned int nIndexParticipant_in) {
+    json jsonData;
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    j["events"][indexEvent]["participants"].erase(indexParticipant);
+    jsonData["events"][nIndexEvent_in]["participants"].erase(nIndexParticipant_in);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void supprimerStandd(int indexEvent, int indexStand) {
-    json j;
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    i >> j;
-    i.close();
+void DeleteStand(unsigned int nIndexEvent_in, unsigned int nIndexStand_in) {
+    json jsonData;
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    j["events"][indexEvent]["stands"].erase(indexStand);
+    jsonData["events"][nIndexEvent_in]["stands"].erase(nIndexStand_in);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }
 
-void supprimerManag(int indexEvent, int indexStand, int indexManager) {
-    json j;
-    std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    i >> j;
-    i.close();
+void DeleteManager(unsigned int nIndexEvent_in, unsigned int nIndexStand_in, unsigned int nIndexManager_in) {
+    json jsonData;
+    std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ifstreamData >> jsonData;
+    ifstreamData.close();
 
-    j["events"][indexEvent]["stands"][indexStand]["managers"].erase(indexManager);
+    jsonData["events"][nIndexEvent_in]["stands"][nIndexStand_in]["managers"].erase(nIndexManager_in);
 
-    std::ofstream o(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-    o << std::setw(4) << j << std::endl;
-    o.close();
+    std::ofstream ofstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+    ofstreamData << std::setw(4) << jsonData << std::endl;
+    ofstreamData.close();
 }

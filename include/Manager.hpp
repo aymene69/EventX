@@ -5,27 +5,26 @@
 
 class Manager {
 private:
-    std::string managerNom;
-    int managerId;
-    std::string managerNum;
+    std::string m_sName;
+    std::string m_sPhoneNumber;
+    unsigned int m_nId;
 
 public:
-    Manager(std::string nom, int id, std::string num);
+    Manager(std::string m_sName, std::string m_sPhoneNumber, unsigned int m_nId);
     virtual ~Manager();
 
-    virtual std::string getType() const;
+    virtual std::string GetType() const;
 
     // Getters
-    std::string getManagerNom() const;
-    int getManagerId() const;
-    std::string getManagerNum() const;
+    std::string GetManagerName() const;
+    std::string GetManagerPhoneNumber() const;
+    unsigned int GetManagerId() const;
 
     // Setter for contact (assuming id doesn't change)
-    void setManagerNum(const std::string& num);
+    void SetManagerPhoneNumber(const std::string& sPhoneNumber);
 
     // Operator overloads
-    bool operator==(const Manager& m) const;
-
+    bool operator==(const Manager& managerToCompare) const;
 };
 
 #endif // MANAGER_HPP

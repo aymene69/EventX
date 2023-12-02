@@ -1,60 +1,60 @@
 #include "include/Event.hpp"
 
-Event::Event(std::string name, std::string date, std::string lieu) : eventNom(name), eventDate(date), eventLieu(lieu) {} // constructeur
+Event::Event(std::string sName_in, std::string sDate_in, std::string sLocation_in) : m_sEventName(sName_in), m_sEventDate(sDate_in), m_sEventLocation(sLocation_in) {} // constructor
 
-Event::~Event() {} // destructeur
+Event::~Event() {} // Destructor
 
-std::string Event::getType() const { // avoir le type de l'event
+std::string Event::GetType() const { // Get event type
     return "event";
 }
 
-std::string Event::getEventNom() const { // avoir le nom de l'event
-    return eventNom;
+std::string Event::GetEventName() const { // Get event name
+    return this->m_sEventName;
 }
 
-std::string Event::getEventDate() const { // avoir la date de l'event
-    return eventDate;
+std::string Event::GetEventDate() const { // Get event date
+    return this->m_sEventDate;
 }
 
-std::string Event::getEventLieu() const { // avoir le lieu de l'event
-    return eventLieu;
+std::string Event::GetEventLocation() const { // Get event location
+    return this->m_sEventLocation;
 }
 
-std::vector<Participant*> Event::getParticipants() const { // avoir la liste des participants à l'event
-    return participants;
+std::vector<Participant*> Event::GetAllParticipants() const { // Get all participant of the event
+    return this->m_pVecParticipantsAll;
 }
 
-std::vector<Stand*> Event::getStands() const { // avoir la liste des stands à l'event
-    return stands;
+std::vector<Stand*> Event::GetAllStands() const { // Get all stands of the event
+    return this->m_pVecStandAll;
 }
 
-void Event::setEventNom(const std::string& nom) { // changer le nom de l'event
-    eventNom = nom;
+void Event::SetEventName(const std::string& sName_in) { // Change name of the event
+    this->m_sEventName = sName_in;
 }
 
-void Event::setEventDate(const std::string& date) { // changer la date de l'event
-    eventDate = date;
+void Event::SetEventDate(const std::string& sDate_in) { // Change date of the event
+    this->m_sEventDate = sDate_in;
 }
 
-void Event::setEventLieu(const std::string& lieu) { // changer le lieu de l'event
-    eventLieu = lieu;
+void Event::SetEventLocation(const std::string& sLocation_in) { // Change location of the event
+    this->m_sEventLocation = sLocation_in;
 }
 
-void Event::ajouterParticipant(Participant* participant) { // ajouter un participant à l'event
-    participants.push_back(participant);
+void Event::AddParticipant(Participant* pParticipantToAdd_in) { // Add a participant to the event
+    this->m_pVecParticipantsAll.push_back(pParticipantToAdd_in);
 }
 
-void Event::listeParticipants() const { // afficher la liste des participants à l'event
-    std::cout << "Participants pour l'événement " << eventNom << ":\n";
-    for (const auto& participant : participants) {
-        std::cout << participant->getNomParticipant() << "\n";
+void Event::AddStand(Stand* pStandToAdd_in) { // Add a stand to the event
+    this->m_pVecStandAll.push_back(pStandToAdd_in);
+}
+
+void Event::DisplayAllParticipants() const { // Display list of event participants
+    std::cout << "Participants pour l'événement " << this->m_sEventName << ":\n";
+    for (const auto& participant : this->m_pVecParticipantsAll) {
+        std::cout << participant->GetParticipantName() << "\n";
     }
 }
 
-void Event::ajouterStand(Stand* stand) { // ajouter un stand à l'event
-    stands.push_back(stand);
-}
-
-bool Event::operator==(const Event& other) const { // comparer deux events
-    return eventNom == other.eventNom && eventDate == other.eventDate && eventLieu == other.eventLieu;
+bool Event::operator==(const Event& eventToCompare_in) const { // Compare two events
+    return this->m_sEventName == eventToCompare_in.m_sEventName && this->m_sEventDate == eventToCompare_in.m_sEventDate && this->m_sEventLocation == eventToCompare_in.m_sEventLocation;
 }

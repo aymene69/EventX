@@ -45,8 +45,8 @@ GestionParticipantDialog::GestionParticipantDialog(QWidget *parent) : QDialog(pa
 void GestionParticipantDialog::creerParticipant() {
     int* nbEvents = new int(0);
     json* data = new json();
-    *data = preloadData();
-    *nbEvents = getNbEvents();
+    *data = PreloadData();
+    *nbEvents = GetNumberOfEvents();
     if (*nbEvents == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun événement n'a été créé, aucun participant ne peut être créé");
         return;
@@ -75,7 +75,7 @@ void GestionParticipantDialog::creerParticipant() {
             events.push_back(event);
         }
         for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+            eventComboBox->addItem(QString::fromStdString(event.GetEventName()));
         }
 
         formLayout.addRow("Événement:", eventComboBox);
@@ -111,7 +111,7 @@ void GestionParticipantDialog::creerParticipant() {
                 // Créez un objet Participant avec les valeurs récupérées
                 Participant participant(nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                 // Ajoutez le participant à la base de données
-                ajouterParticip(&participant, index);
+                AddParticipant(&participant, index);
                 emit dataModified();
                 QMessageBox::information(nullptr, "Succès !", "Le participant a bien été créé");
                 creerDialog.close();
@@ -127,7 +127,7 @@ void GestionParticipantDialog::modifierParticipant() {
 
     std::vector<Participant> participants;
     json j;
-    j = preloadData();
+    j = PreloadData();
     int* nbParticipants = new int(0);
     for (const auto &eventJson : j["events"]) {
         if (eventJson.find("participants") != eventJson.end()) {
@@ -152,7 +152,7 @@ void GestionParticipantDialog::modifierParticipant() {
             events.push_back(event);
         }
         for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+            eventComboBox->addItem(QString::fromStdString(event.GetEventName()));
         }
         // Connectez le changement de l'événement à la mise à jour des participants
         QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &GestionParticipantDialog::onEventComboBoxChanged);
@@ -176,7 +176,7 @@ void GestionParticipantDialog::modifierParticipant() {
             int eventIndex = eventComboBox->currentIndex();
             int participantIndex = participantComboBox->currentIndex();
             const json& selectedEvent = eventsJson[eventIndex]; //Get the actual event
-            if(getNbParticipantsFromEvent(selectedEvent)!=0) {
+            if(GetNumberOfParticipantsFromAEvent(selectedEvent)!=0) {
                 const auto& participantsJson = selectedEvent["participants"]; //Get all participants of the event
                 const json& participantJson = participantsJson[participantIndex]; //Get the actual participant
                 nomLineEdit->setText(QString::fromStdString(participantJson["nom"]));
@@ -221,7 +221,7 @@ void GestionParticipantDialog::modifierParticipant() {
                         // Créez un objet Participant avec les valeurs récupérées
                         Participant participant(nom.toStdString(), estVIP, num.toStdString(), email.toStdString());
                         // Modifiez le participant dans la base de données
-                        modifierParticip(&participant, eventIndex, participantIndex);
+                        ModifyParticipant(&participant, eventIndex, participantIndex);
                         QMessageBox::information(nullptr, "Succès !", "Le participant a bien été modifié.");
                         modifierDialog.close();
                         return;
@@ -242,7 +242,7 @@ void GestionParticipantDialog::supprimerParticipant() {
 
     std::vector<Participant> participants;
     json j;
-    j = preloadData();
+    j = PreloadData();
     int* nbParticipants = new int(0);
     for (const auto &eventJson : j["events"]) {
         if (eventJson.find("participants") != eventJson.end()) {
@@ -269,7 +269,7 @@ void GestionParticipantDialog::supprimerParticipant() {
             events.push_back(event);
         }
         for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+            eventComboBox->addItem(QString::fromStdString(event.GetEventName()));
         }
 
         // Connectez le changement de l'événement à la mise à jour des participants
@@ -298,7 +298,7 @@ void GestionParticipantDialog::supprimerParticipant() {
                 const auto &participantsJson = selectedEvent["participants"];
                 if (participantIndex < participantsJson.size()) {
                     const json &participantJson = participantsJson[participantIndex];
-                    supprimerParticip(eventIndex, participantIndex);
+                    DeleteParticipant(eventIndex, participantIndex);
                     emit dataModified();
                     QMessageBox::information(nullptr, "Succès !", "Le participant a bien été supprimé.");
                     supprimerDialog.close();
@@ -321,7 +321,7 @@ void GestionParticipantDialog::onEventComboBoxChanged(int index) {
     participantComboBox->clear();
 
     // Chargez les participants liés à l'événement sélectionné
-    json data = preloadData(); // Assurez-vous de récupérer vos données de manière appropriée
+    json data = PreloadData(); // Assurez-vous de récupérer vos données de manière appropriée
     const auto &selectedEvent = data["events"][index];
     QFormLayout* formLayout = qobject_cast<QFormLayout*>(participantComboBox->parentWidget()->layout());
     QDialog* dialog = qobject_cast<QDialog*>(formLayout->parent());

@@ -5,26 +5,25 @@
 
 class Participant {
 private:
-    int participantID;
-    std::string participantNom;
-    bool participantEstVIP;
-    std::string participantNum;
-    std::string participantEmail;
-
+    std::string m_sName;
+    bool m_bIsVip;
+    std::string m_sPhoneNumber;
+    std::string m_sMail;
+    unsigned int m_nId;
 
 public:
-    Participant(std::string name, bool vip, std::string numero, std::string email); // constructeur
-    virtual ~Participant(); // destructeur
+    Participant(std::string sName, bool bIsVip, std::string sPhoneNumber, std::string sMail); // constructor
+    virtual ~Participant(); // destructor
 
-// Getters and setters
-    virtual std::string getType() const; // avoir le type de participant
-    int getIDParticipantID() const; // avoir l'id du participant
-    std::string getNomParticipant() const; // avoir le nom du participant
-    bool getVIPParticipant(); // savoir si le participant est VIP
-    std::string getNumParticipant() const; // avoir le numéro du participant
-    std::string getEmailParticipant() const; // avoir l'email du participant
+    // Getters and setters
+    virtual std::string GetType() const; // Get the type of participant
+    std::string GetParticipantName() const; // Get participant's name
+    bool ParticipantIsVip(); // Know if the participant is VIP
+    std::string GetParticipantPhoneNumber() const; // Get the participant's number
+    std::string GetParticipantMail() const; // Get the participant's email
+    unsigned int GetParticipantId() const; // Get participant id
 
-    bool operator==(const Participant& p) const; // p=celui avec qui on va comparer
+    bool operator==(const Participant& participantToCompare) const;
 };
 
 #endif

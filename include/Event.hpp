@@ -9,36 +9,35 @@
 
 class Event {
 private:
-    std::string eventNom;
-    std::string eventDate;
-    std::string eventLieu;
-    std::vector<Participant*> participants;
-    std::vector<Stand*> stands;
+    std::string m_sEventName;
+    std::string m_sEventDate;
+    std::string m_sEventLocation;
+    std::vector<Participant*> m_pVecParticipantsAll;
+    std::vector<Stand*> m_pVecStandAll;
 
 public:
     // Constructor and destructor
-    Event(std::string name, std::string date, std::string lieu);
+    Event(std::string sName_in, std::string sDate_in, std::string sLocation_in);
     virtual ~Event();
 
-    virtual std::string getType() const;
-
     // Getters and setters
-    std::string getEventNom() const;
-    std::string getEventDate() const;
-    std::string getEventLieu() const;
-    std::vector<Participant*> getParticipants() const;
-    std::vector<Stand*> getStands() const;
+    virtual std::string GetType() const;
+    std::string GetEventName() const;
+    std::string GetEventDate() const;
+    std::string GetEventLocation() const;
+    std::vector<Participant*> GetAllParticipants() const;
+    std::vector<Stand*> GetAllStands() const;
 
-    void setEventNom(const std::string& nom);
-    void setEventDate(const std::string& date);
-    void setEventLieu(const std::string& lieu);
+    void SetEventName(const std::string& sName_in);
+    void SetEventDate(const std::string& sDate_in);
+    void SetEventLocation(const std::string& sLocation_in);
 
     // Methods
-    void ajouterParticipant(Participant* participant);
-    void listeParticipants() const;
-    void ajouterStand(Stand* stand);
+    void AddParticipant(Participant* pParticipantToAdd_in);
+    void AddStand(Stand* pStandToAdd_in);
+    void DisplayAllParticipants() const;
     // Operator overloads
-    bool operator==(const Event& e) const;
+    bool operator==(const Event& eventToCompare_in) const;
 };
 
 #endif // EVENT_HPP

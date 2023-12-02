@@ -4,29 +4,28 @@
 #include <string>
 #include <vector>
 #include "include/Manager.hpp"
+
 class Stand {
 private:
-    std::string standNom;
-    int standId;
-    double standSurface;
-    std::vector<Manager*> managers;
+    std::string m_sName;
+    double m_dSurface;
+    unsigned int m_nId;
+    std::vector<Manager*> m_pVecManagers;
 
 public:
-    Stand(std::string nom, double surface);
+    Stand(std::string sName, double dSurface);
     virtual ~Stand();
 
+    virtual std::string GetType() const;
+    std::string GetStandName() const;
+    unsigned int GetStandId() const;
+    double GetStandSurface() const;
+    std::vector<Manager*> GetManagers();
 
-    virtual std::string getType() const;
-    std::string getStandNom() const;
-    int getStandId() const;
-    double getStandSurface() const;
-    std::vector<Manager*> getManagers();
-
-
-    void addManager(Manager* m);
+    void AddManager(Manager* pManagerToAdd);
 
     // Operator overloads
-    bool operator==(const Stand& other) const;
+    bool operator==(const Stand& standToCompare) const;
 };
 
 #endif // STAND_HPP

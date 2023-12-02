@@ -1,34 +1,33 @@
 #include "include/Participant.hpp"
 
-Participant::Participant(std::string name, bool vip, std::string numero, std::string email) : participantNom(name), participantEstVIP(vip), participantNum(numero), participantEmail(email) {} // constructeur
+Participant::Participant(std::string sName, bool bIsVip, std::string sPhoneNumber, std::string sMail) : m_sName(sName), m_bIsVip(bIsVip), m_sPhoneNumber(sPhoneNumber), m_sMail(sMail) {} // constructeur
 
-Participant::~Participant() {} // destructeur
+Participant::~Participant() {} // Destructor
 
-std::string Participant::getType() const { // avoir le type de participant
+std::string Participant::GetType() const { // Get the type of participant
     return "Participant";
 }
 
-int Participant::getIDParticipantID() const { // avoir l'id du participant
-    return participantID;
+std::string Participant::GetParticipantName() const { // Get the participant name
+    return m_sName;
 }
 
-std::string Participant::getNomParticipant() const { // avoir le nom du participant
-    return participantNom;
+bool Participant::ParticipantIsVip() { // Know if the participant is VIP
+    return m_bIsVip;
 }
 
-bool Participant::getVIPParticipant() { // savoir si le participant est VIP
-    return participantEstVIP;
+std::string Participant::GetParticipantPhoneNumber() const { // avoir le numéro du participant
+    return m_sPhoneNumber;
 }
 
-std::string Participant::getNumParticipant() const { // avoir le numéro du participant
-    return participantNum;
+std::string Participant::GetParticipantMail() const { // avoir l'email du participant
+    return m_sMail;
 }
 
-std::string Participant::getEmailParticipant() const { // avoir l'email du participant
-    return participantEmail;
+unsigned int Participant::GetParticipantId() const { // Get the participant Id
+    return m_bIsVip;
 }
 
-
-bool Participant::operator==(const Participant& p) const { // p=celui avec qui on va comparer
-    return participantID == p.participantID;
+bool Participant::operator==(const Participant& participantToCompare) const {
+    return this->m_bIsVip == participantToCompare.m_bIsVip;
 }

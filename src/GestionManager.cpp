@@ -1,357 +1,322 @@
-#include "nlohmann/json.hpp"
-#include <fstream>
-#include <QFormLayout>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QLabel>
-#include <QCheckBox>
-#include <QStandardPaths>
-#include "include/Event.hpp" // Inclure les fichiers d'en-tête nécessaires
-#include "include/Stand.hpp"
-#include "include/Manager.hpp"
-#include "include/FonctionsJson.hpp"
 #include "include/GestionManager.hpp"
-#include "include/FonctionsDemarrage.hpp"
 
 using json = nlohmann::json;
 
-GestionManagerDialog::GestionManagerDialog(QWidget *parent) : QDialog(parent) {
+GestionManagerDialog::GestionManagerDialog(QWidget *pWidgetParent_in) : QDialog(pWidgetParent_in) {
     setWindowTitle("EventX - Gestion des managers");
 
-    auto *label = new QLabel("Gestion des managers", this);
-    label->setAlignment(Qt::AlignCenter);
-    auto *creer = new QPushButton("Créer un manager", this);
-    auto *modifier = new QPushButton("Modifier un manager", this);
-    auto *supprimer = new QPushButton("Supprimer un manager", this);
-    auto *retour = new QPushButton("Retour", this);
-    auto *layout = new QVBoxLayout(this);
+    auto *pLabelManage = new QLabel("Gestion des managers", this);
+    pLabelManage->setAlignment(Qt::AlignCenter);
+    auto *pPushButtonCreate = new QPushButton("Créer un manager", this);
+    auto *pPushButtonModify = new QPushButton("Modifier un manager", this);
+    auto *pPushButtonDelete = new QPushButton("Supprimer un manager", this);
+    auto * pPushButtonBack = new QPushButton("Retour", this);
+    auto *pVBoxLayoutMain = new QVBoxLayout(this);
 
-    layout->addWidget(label);
-    layout->addWidget(creer);
-    layout->addWidget(modifier);
-    layout->addWidget(supprimer);
-    layout->addWidget(retour);
+    pVBoxLayoutMain->addWidget(pLabelManage);
+    pVBoxLayoutMain->addWidget(pPushButtonCreate);
+    pVBoxLayoutMain->addWidget(pPushButtonModify);
+    pVBoxLayoutMain->addWidget(pPushButtonDelete);
+    pVBoxLayoutMain->addWidget(pPushButtonBack);
 
-    QObject::connect(creer, &QPushButton::clicked, this, &GestionManagerDialog::creerManager);
-    QObject::connect(modifier, &QPushButton::clicked, this, &GestionManagerDialog::modifierManager);
-    QObject::connect(supprimer, &QPushButton::clicked, this, &GestionManagerDialog::supprimerManager);
-    QObject::connect(retour, &QPushButton::clicked, this, &GestionManagerDialog::close);
+    QObject::connect(pPushButtonCreate, &QPushButton::clicked, this, &GestionManagerDialog::CreateManagerDialog);
+    QObject::connect(pPushButtonModify, &QPushButton::clicked, this, &GestionManagerDialog::ModifyManagerDialog);
+    QObject::connect(pPushButtonDelete, &QPushButton::clicked, this, &GestionManagerDialog::DeleteManagerDialog);
+    QObject::connect(pPushButtonBack, &QPushButton::clicked, this, &GestionManagerDialog::close);
 }
 
-void GestionManagerDialog::creerManager() {
-    int* nbEvents = new int(0);
-    int* nbStands = new int(0);
-    json* data = new json();
-    *data = preloadData();
-    *nbEvents = getNbEvents();
-    *nbStands = getNbStands();
-    if (*nbEvents == 0) {
+void GestionManagerDialog::CreateManagerDialog() {
+    json* jsonData = new json();
+    *jsonData = PreloadData();
+    unsigned int nNumberOfEvents = GetNumberOfEvents();
+    unsigned int nNumberOfStands = GetNumberOfStands();
+    if (nNumberOfEvents == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun événement n'a été créé, aucun manager ne peut être créé");
         return;
-    } else if (*nbStands == 0) {
+    } else if (nNumberOfStands == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun stand n'a été créé, aucun manager ne peut être créé");
         return;
     } else {
-        QDialog creerDialog(this);
-        creerDialog.setWindowTitle("Créer un Manager");
+        QDialog dialogCreate(this);
+        dialogCreate.setWindowTitle("Créer un Manager");
 
-        QFormLayout formLayout(&creerDialog);
+        QFormLayout formLayoutDialog(&dialogCreate);
 
-        // Ajoutez les champs nécessaires pour la création d'un participant
-        eventComboBox = new QComboBox(&creerDialog);
-        standComboBox = new QComboBox(&creerDialog);
-        auto *nomLineEdit = new QLineEdit(&creerDialog);
-        auto *numLineEdit = new QLineEdit(&creerDialog);
-        auto* validator = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
-        numLineEdit->setValidator(validator);
+        // Add the fields required to create a participant
+        this->m_pComboBoxEvent = new QComboBox(&dialogCreate);
+        this->m_pComboBoxStand = new QComboBox(&dialogCreate);
+        auto *pLineEditName = new QLineEdit(&dialogCreate);
+        auto *pLinetEditPhoneNumber = new QLineEdit(&dialogCreate);
+        auto* pRegularExpressionValidatorPhoneNumber = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        pLinetEditPhoneNumber->setValidator(pRegularExpressionValidatorPhoneNumber);
 
-        std::vector<Event> events;
-        json j;
-        std::ifstream i(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
-        i >> j;
-        i.close();
-        const json &eventsJson = j["events"];
-        for (const auto &eventJson: eventsJson) {
-            Event event(eventJson["nom"], eventJson["date"], eventJson["lieu"]);
-            events.push_back(event);
+        std::vector<Event> vecEventsAll;
+        json jsonData;
+        std::ifstream ifstreamData(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation).toStdString() + "/data.json");
+        ifstreamData >> jsonData;
+        ifstreamData.close();
+        const json &jsonEventsAll = jsonData["events"];
+        for (const auto &eventJsonActual: jsonEventsAll) {
+            Event eventActual(eventJsonActual["nom"], eventJsonActual["date"], eventJsonActual["lieu"]);
+            vecEventsAll.push_back(eventActual);
         }
-        for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+        for (const auto &eventActual: vecEventsAll) {
+            this->m_pComboBoxEvent->addItem(QString::fromStdString(eventActual.GetEventName()));
         }
 
-        // on fais la combobox des stands selon l'événement choisi
-        QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        // Make a combobox of stands according to the chosen event
+        QObject::connect(this->m_pComboBoxEvent, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionManagerDialog::onEventComboBoxChanged);
 
-        formLayout.addRow("Événement:", eventComboBox);
-        formLayout.addRow("Stand:", standComboBox);
-        formLayout.addRow("Nom du manager:", nomLineEdit);
-        formLayout.addRow("Numéro de téléphone du manager:", numLineEdit);
+        formLayoutDialog.addRow("Événement:", this->m_pComboBoxEvent);
+        formLayoutDialog.addRow("Stand:", this->m_pComboBoxStand);
+        formLayoutDialog.addRow("Nom du manager:", pLineEditName);
+        formLayoutDialog.addRow("Numéro de téléphone du manager:", pLinetEditPhoneNumber);
 
-        // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
+        // explicitly call onEventComboBoxChanged to load participants initially
         onEventComboBoxChanged(0);
 
-        auto *creerButton = new QPushButton("Créer", &creerDialog);
-        formLayout.addRow("", creerButton);
+        auto *pPushButtonCreate = new QPushButton("Créer", &dialogCreate);
+        formLayoutDialog.addRow("", pPushButtonCreate);
 
-        // Connectez le bouton "Créer" à une fonction de traitement
-        QObject::connect(creerButton, &QPushButton::clicked, [&]() {
-            // Récupérez les valeurs sélectionnées
-            int eventIndex = eventComboBox->currentIndex();
-            int standIndex = standComboBox->currentIndex();
-            const json &selectedEvent = eventsJson[eventIndex];
-            if (selectedEvent.find("stands") != selectedEvent.end()) {
-                const auto &standsJson = selectedEvent["stands"];
-                if (standIndex < standsJson.size()) {
-                    const json &standJson = standsJson[standIndex];
-                    QString nom = nomLineEdit->text();
-                    QString num = numLineEdit->text();
-                    if (nom.isEmpty() || num.isEmpty()) {
-                        if (nom.isEmpty()) {
+        // Connect the "Create" button to a processing function
+        QObject::connect(pPushButtonCreate, &QPushButton::clicked, [&]() {
+            // Retrieve selected values
+            unsigned int nEventIndex = this->m_pComboBoxEvent->currentIndex();
+            unsigned int nStandIndex = this->m_pComboBoxStand->currentIndex();
+            const json &jsonSelectedEvent = jsonEventsAll[nEventIndex];
+            if (jsonSelectedEvent.find("stands") != jsonSelectedEvent.end()) {
+                const auto &standsJson = jsonSelectedEvent["stands"];
+                if (nStandIndex < standsJson.size()) {
+                    const json &standJson = standsJson[nStandIndex];
+                    QString sName = pLineEditName->text();
+                    QString sPhoneNumber = pLinetEditPhoneNumber->text();
+                    if (sName.isEmpty() || sPhoneNumber.isEmpty()) {
+                        if (sName.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
                         }
-                        if (num.isEmpty()) {
+                        if (sPhoneNumber.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le numéro est vide");
                         }
                     } else {
-                        // Créez un objet Manager avec les valeurs récupérées
-                        Manager manager(nom.toStdString(), 0, num.toStdString());
-                        // Ajoutez le manager dans la base de données
-                        ajouterManager(&manager, eventIndex, standIndex);
+                        // Create a Manager object with the retrieved values
+                        Manager manager(sName.toStdString(), sPhoneNumber.toStdString(), 0);
+                        // Add the manager to the database
+                        AddManager(&manager, nEventIndex, nStandIndex);
 
-                        emit dataModified();
+                        emit DataModified();
 
                         QMessageBox::information(nullptr, "Succès !", "Le manager a bien été créé.");
-                        creerDialog.close();
+                        dialogCreate.close();
                         return;
                     }
                 }
             }
         });
-
-
-
-        creerDialog.exec();
+        dialogCreate.exec();
     }
 }
 
-void GestionManagerDialog::modifierManager() {
-    QDialog modifierDialog(this);
-    modifierDialog.setWindowTitle("Modifier un manager");
+void GestionManagerDialog::ModifyManagerDialog() {
+    QDialog dialogModify(this);
+    dialogModify.setWindowTitle("Modifier un manager");
 
-    std::vector<Stand> stands;
-    json j;
-    j = preloadData();
-    const json &eventsJson = j["events"];
-    if (getNbStands() == 0) {
+    json jsonData;
+    jsonData = PreloadData();
+    const json &jsonEventsAll = jsonData["events"];
+    if (GetNumberOfStands() == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun manager n'a été trouvé.");
-        return; // Ajout d'un return pour éviter l'exécution du reste de la fonction
     } else {
-        // Ajout d'un QFormLayout pour les champs de modification
-        QFormLayout formLayout(&modifierDialog);
+        // Add a QFormLayout for edit fields
+        QFormLayout formLayoutDialog(&dialogModify);
 
-        // Ajoutez les champs nécessaires pour la modification d'un participant
-        eventComboBox = new QComboBox(&modifierDialog);
-        standComboBox = new QComboBox(&modifierDialog); // Créez la QComboBox ici
-        managComboBox = new QComboBox(&modifierDialog);
+        // Add the fields required to modify a participant
+        this->m_pComboBoxEvent = new QComboBox(&dialogModify);
+        this->m_pComboBoxStand = new QComboBox(&dialogModify); // Créez la QComboBox ici
+        this->m_pComboBoxManager = new QComboBox(&dialogModify);
 
-        std::vector<Event> events;
-        for (const auto &eventJson: eventsJson) {
-            Event event(eventJson["nom"], eventJson["date"], eventJson["lieu"]);
-            events.push_back(event);
+        std::vector<Event> vecEventsAll;
+        for (const auto &eventJson: jsonEventsAll) {
+            Event eventActual(eventJson["nom"], eventJson["date"], eventJson["lieu"]);
+            vecEventsAll.push_back(eventActual);
         }
-        for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+        for (const auto &eventActual: vecEventsAll) {
+            this->m_pComboBoxEvent->addItem(QString::fromStdString(eventActual.GetEventName()));
         }
 
-        // Connectez le changement de l'événement à la mise à jour des participants
-        QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        // Connect the event change to the participant update
+        QObject::connect(this->m_pComboBoxEvent, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionManagerDialog::onEventComboBoxChanged);
 
-        QObject::connect(standComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        QObject::connect(this->m_pComboBoxStand, QOverload<int>::of(&QComboBox::currentIndexChanged),
                             this, &GestionManagerDialog::onStandComboBoxChanged);
 
-        QLineEdit *nomLineEdit = new QLineEdit(&modifierDialog);
-        QLineEdit *numLineEdit = new QLineEdit(&modifierDialog);
-        auto* validator = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
-        numLineEdit->setValidator(validator);
+        QLineEdit *pLineEditName = new QLineEdit(&dialogModify);
+        QLineEdit *pLineEditPhoneNumber = new QLineEdit(&dialogModify);
+        auto* pRegularExpressionValidatorPhoneNumber = new QRegularExpressionValidator(QRegularExpression("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"));
+        pLineEditPhoneNumber->setValidator(pRegularExpressionValidatorPhoneNumber);
 
-        formLayout.addRow("Événement:", eventComboBox);
-        formLayout.addRow("Stand:", standComboBox);
-        formLayout.addRow("Manager:", managComboBox);
-        formLayout.addRow("Nouveau nom du manager:", nomLineEdit);
-        formLayout.addRow("Nouveau numéro de téléphone du manager:", numLineEdit);
+        formLayoutDialog.addRow("Événement:", this->m_pComboBoxEvent);
+        formLayoutDialog.addRow("Stand:", this->m_pComboBoxStand);
+        formLayoutDialog.addRow("Manager:", this->m_pComboBoxManager);
+        formLayoutDialog.addRow("Nouveau nom du manager:", pLineEditName);
+        formLayoutDialog.addRow("Nouveau numéro de téléphone du manager:", pLineEditPhoneNumber);
 
-        // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
+        // Explicitly call onEventComboBoxChanged to load participants initially
         onEventComboBoxChanged(0);
         onStandComboBoxChanged(0);
 
-        auto *modifierButton = new QPushButton("Modifier", &modifierDialog);
-        formLayout.addRow("", modifierButton);
+        auto *pPushButtonModify = new QPushButton("Modifier", &dialogModify);
+        formLayoutDialog.addRow("", pPushButtonModify);
 
-        // Connectez le bouton "Modifier" à une fonction de traitement
-        QObject::connect(modifierButton, &QPushButton::clicked, [&]() {
-            // Récupérez les valeurs sélectionnées
-            int eventIndex = eventComboBox->currentIndex();
-            int standIndex = standComboBox->currentIndex();
-            int managerIndex = managComboBox->currentIndex();
+        // Connect the "Modify" button to a processing function
+        QObject::connect(pPushButtonModify, &QPushButton::clicked, [&]() {
+            // Retrieve selected values
+            unsigned int nIndexEvent = this->m_pComboBoxEvent->currentIndex();
+            unsigned int nIndexStand = this->m_pComboBoxStand->currentIndex();
+            unsigned int nIndexManager = this->m_pComboBoxManager->currentIndex();
 
-            const json &selectedEvent = eventsJson[eventIndex];
+            const json &selectedEvent = jsonEventsAll[nIndexEvent];
             if (selectedEvent.find("stands") != selectedEvent.end()) {
                 const auto &standsJson = selectedEvent["stands"];
-                if (standIndex < standsJson.size()) {
-                    const json &standJson = standsJson[standIndex];
-                    QString nom = nomLineEdit->text();
-                    QString num = numLineEdit->text();
-                    if (nom.isEmpty() || num.isEmpty()) {
-                        if (nom.isEmpty()) {
+                if (nIndexStand < standsJson.size()) {
+                    QString sName = pLineEditName->text();
+                    QString sPhoneNumber = pLineEditPhoneNumber->text();
+                    if (sName.isEmpty() || sPhoneNumber.isEmpty()) {
+                        if (sName.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le nom est vide");
                         }
-                        if (num.isEmpty()) {
+                        if (sPhoneNumber.isEmpty()) {
                             QMessageBox::warning(nullptr, "Attention !", "Le numéro est vide");
                         }
                     } else {
-                        // Créez un objet Manager avec les valeurs récupérées
-                        Manager manager(nom.toStdString(), 0, num.toStdString());
-                        // Modifiez le stand dans la base de données
-                        modifierManag(&manager, eventIndex, managerIndex, standIndex);
+                        // Create a Manager object with the retrieved values
+                        Manager manager(sName.toStdString(), sPhoneNumber.toStdString(), 0);
+                        // Modify the stand in the database
+                        ModifyManager(&manager, nIndexEvent, nIndexStand, nIndexManager);
 
                         QMessageBox::information(nullptr, "Succès !", "Le manager a bien été modifié.");
-                        modifierDialog.close();
+                        dialogModify.close();
                         return;
                     }
-
                     QMessageBox::information(nullptr, "Succès !", "Le manager a bien été modifié.");
-                    modifierDialog.close();
+                    dialogModify.close();
                     return;
                 }
             }
         });
-
-        modifierDialog.exec();
+        dialogModify.exec();
     }
 }
 
-void GestionManagerDialog::supprimerManager() {
-    QDialog supprimerDialog(this);
-    supprimerDialog.setWindowTitle("Supprimer un manager");
+void GestionManagerDialog::DeleteManagerDialog() {
+    QDialog dialogDelete(this);
+    dialogDelete.setWindowTitle("Supprimer un manager");
 
-    std::vector<Stand> stands;
-    json j;
-    j = preloadData();
-    const json &eventsJson = j["events"];
-    if (getNbStands() == 0) {
+    std::vector<Stand> vecStandsAll;
+    json jsonData;
+    jsonData = PreloadData();
+    const json &eventsJson = jsonData["events"];
+    if (GetNumberOfStands() == 0) {
         QMessageBox::warning(nullptr, "Attention !", "Aucun manager n'a été trouvé.");
         return;
     } else {
-        // Ajout d'un QFormLayout pour les champs de modification
-        QFormLayout formLayout(&supprimerDialog);
+        // Add a QFormLayout for edit fields
+        QFormLayout formLayoutDialog(&dialogDelete);
 
-        // Ajoutez les champs nécessaires pour la modification d'un participant
-        eventComboBox = new QComboBox(&supprimerDialog);
-        standComboBox = new QComboBox(&supprimerDialog); // Créez la QComboBox ici
-        managComboBox = new QComboBox(&supprimerDialog);
+        // Add the fields required to modify a participant
+        this->m_pComboBoxEvent = new QComboBox(&dialogDelete);
+        this->m_pComboBoxStand = new QComboBox(&dialogDelete);
+        this->m_pComboBoxManager = new QComboBox(&dialogDelete);
 
-        std::vector<Event> events;
+        std::vector<Event> vecEventsAll;
         for (const auto &eventJson: eventsJson) {
-            Event event(eventJson["nom"], eventJson["date"], eventJson["lieu"]);
-            events.push_back(event);
+            Event eventActual(eventJson["nom"], eventJson["date"], eventJson["lieu"]);
+            vecEventsAll.push_back(eventActual);
         }
-        for (const auto &event: events) {
-            eventComboBox->addItem(QString::fromStdString(event.getEventNom()));
+        for (const auto &eventActual: vecEventsAll) {
+            this->m_pComboBoxEvent->addItem(QString::fromStdString(eventActual.GetEventName()));
         }
 
-        // Connectez le changement de l'événement à la mise à jour des participants
-        QObject::connect(eventComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        // Connect the event change to the participant update
+        QObject::connect(this->m_pComboBoxEvent, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionManagerDialog::onEventComboBoxChanged);
 
-        QObject::connect(standComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        QObject::connect(this->m_pComboBoxEvent, QOverload<int>::of(&QComboBox::currentIndexChanged),
                          this, &GestionManagerDialog::onStandComboBoxChanged);
 
-        formLayout.addRow("Événement:", eventComboBox);
-        formLayout.addRow("Stand:", standComboBox);
-        formLayout.addRow("Manager:", managComboBox);
+        formLayoutDialog.addRow("Événement:", this->m_pComboBoxEvent);
+        formLayoutDialog.addRow("Stand:", this->m_pComboBoxStand);
+        formLayoutDialog.addRow("Manager:", this->m_pComboBoxManager);
 
-        // Appeler explicitement onEventComboBoxChanged pour charger les participants initialement
+        // Explicitly call onEventComboBoxChanged to load participants initially
         onEventComboBoxChanged(0);
         onStandComboBoxChanged(0);
 
-        auto *supprimerButton = new QPushButton("Supprimer", &supprimerDialog);
-        formLayout.addRow("", supprimerButton);
+        auto *pPushButtonDelete = new QPushButton("Supprimer", &dialogDelete);
+        formLayoutDialog.addRow("", pPushButtonDelete);
 
-        // Connectez le bouton "Supprimer" à une fonction de traitement
-        QObject::connect(supprimerButton, &QPushButton::clicked, [&]() {
-            // Récupérez les valeurs sélectionnées
-            int eventIndex = eventComboBox->currentIndex();
-            int standIndex = standComboBox->currentIndex();
-            int managerIndex = managComboBox->currentIndex();
+        // Connect the "Delete" button to a processing function
+        QObject::connect(pPushButtonDelete, &QPushButton::clicked, [&]() {
+            // Retrieve selected values
+            unsigned int nIndexEvent = this->m_pComboBoxEvent->currentIndex();
+            unsigned int nIndexStand = this->m_pComboBoxStand->currentIndex();
+            unsigned int nIndexManager = this->m_pComboBoxManager->currentIndex();
 
-            const json &selectedEvent = eventsJson[eventIndex];
-            if (selectedEvent.find("stands") != selectedEvent.end()) {
-                const auto &standsJson = selectedEvent["stands"];
-                if (standIndex < standsJson.size()) {
-                    const json &standJson = standsJson[standIndex];
-                    if (standJson.find("managers") != standJson.end()) {
-                        const auto &managersJson = standJson["managers"];
-                        if (managerIndex < managersJson.size()) {
+            const json &jsonSelectedEvent = eventsJson[nIndexEvent];
+            if (jsonSelectedEvent.find("stands") != jsonSelectedEvent.end()) {
+                const auto &standsJson = jsonSelectedEvent["stands"];
+                if (nIndexStand < standsJson.size()) {
+                    const json &jsonStandOfManagerToDelete = standsJson[nIndexStand];
+                    if (jsonStandOfManagerToDelete.find("managers") != jsonStandOfManagerToDelete.end()) {
+                        const auto &managersJson = jsonStandOfManagerToDelete["managers"];
+                        if (nIndexManager < managersJson.size()) {
                             // Supprimer le manager du stand
-                            supprimerManag(managerIndex, standIndex, eventIndex);
-                            emit dataModified();
+                            DeleteManager(nIndexEvent, nIndexStand, nIndexManager);
+                            emit DataModified();
                             QMessageBox::information(nullptr, "Succès !", "Le manager a bien été supprimé du stand.");
-                            supprimerDialog.close();
+                            dialogDelete.close();
                             return;
                         }
                     }
                 }
             }
         });
-
-        supprimerDialog.exec();
+        dialogDelete.exec();
     }
 }
 
-
-
-void GestionManagerDialog::onEventComboBoxChanged(int index) {
-    // Effacez la QComboBox des participants
-    standComboBox->clear();
-    // Chargez les participants liés à l'événement sélectionné
-    json data = preloadData(); // Assurez-vous de récupérer vos données de manière appropriée
-    const auto &selectedEvent = data["events"][index];
+void GestionManagerDialog::onEventComboBoxChanged(int nIndex_in) {
+    // Clear the QComboBox of participants    
+    this->m_pComboBoxStand->clear();
+    // Load participants linked to the selected event
+    json jsonData = PreloadData(); // Make sure you recover your data properly
+    const auto &selectedEvent = jsonData["events"][nIndex_in];
 
     if (selectedEvent.find("stands") != selectedEvent.end()) {
         const auto &stands = selectedEvent["stands"];
         for (const auto &stand : stands) {
-            standComboBox->addItem(QString::fromStdString(stand["nom"])); // Ajoutez le participant à la QComboBox
+            this->m_pComboBoxStand->addItem(QString::fromStdString(stand["nom"])); // Ajoutez le participant à la QComboBox
         }
     }
 }
 
 void GestionManagerDialog::onStandComboBoxChanged(int index) {
 
-    // Effacez la QComboBox des managers
-    managComboBox->clear();
+    // Clear the QComboBox of managers   
+    this->m_pComboBoxManager->clear();
 
-    // Chargez les managers liés au stand sélectionné
-    json data = preloadData(); // Assurez-vous de récupérer vos données de manière appropriée
-    const auto &selectedEvent = data["events"][eventComboBox->currentIndex()];
+    // Load managers linked to the selected stand
+    json jsonData = PreloadData(); // Make sure you recover your data properly
+    const auto &selectedEvent = jsonData["events"][this->m_pComboBoxEvent->currentIndex()];
     const auto &selectedStand = selectedEvent["stands"][index];
 
     if (selectedStand.find("managers") != selectedStand.end()) {
         const auto &managers = selectedStand["managers"];
-
-        // Videz la QComboBox des managers avant d'ajouter les nouveaux managers
-        // Ajoutez une option vide pour indiquer l'absence de manager (facultatif)
-
+        // Empty the managers' QComboBox before adding new managers
+        // Add an empty option to indicate the absence of a manager (optional)
         for (const auto &manager : managers) {
-            managComboBox->addItem(QString::fromStdString(manager["nom"])); // Ajoutez le manager à la QComboBox
+            this->m_pComboBoxManager->addItem(QString::fromStdString(manager["nom"])); // Ajoutez le manager à la QComboBox
         }
     }
 }
-
-
-
-
-

@@ -1,22 +1,32 @@
 #ifndef FONCTIONSJSON_HPP
 #define FONCTIONSJSON_HPP
+
 #include <iostream>
+#include <fstream>
+#include <regex>
+#include <QStandardPaths>
+#include "nlohmann/json.hpp"
+#include "include/Event.hpp"
+#include "include/Participant.hpp"
+#include "include/Stand.hpp"
+#include "include/Manager.hpp"
+#include "include/FonctionsDemarrage.hpp"
 
-bool verifDate(std::string date);
+using json = nlohmann::json;
 
-void ajouterEvent(void* object);
-void ajouterParticip(void* object, int index);
-void ajouterStand(void* object, int index);
-void ajouterManager(void* object, int index, int indexs);
+void AddEvent(void* pObject_in);
+void AddParticipant(void* pObject_in, unsigned int nIndexEvent_in);
+void AddStand(void* pObject_in, unsigned int nIndexEvent_in);
+void AddManager(void* pObject_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in);
 
-void modifierEvent(void* object, int index);
-void modifierParticip(void* object, int index, int indexp);
-void modifierStandd(void* object, int index, int indexs);
-void modifierManag(void* object, int index, int indexs, int indexm);
+void ModifyEvent(void* object_in, unsigned int nIndex_in);
+void ModifyParticipant(void* object_in, unsigned int nIndexEvent_in, unsigned int nIndexParticipant_in);
+void ModifyStand(void* object_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in);
+void ModifyManager(void* object_in, unsigned int nIndexEvent_in, unsigned int nIndexStand_in, unsigned int nIndexManager_in);
 
-void supprimerEvent(void* object, int index);
-void supprimerParticip(int index, int indexp);
-void supprimerStandd(int index, int indexs);
-void supprimerManag(int index, int indexs, int indexm);
+void DeleteEvent(void* object_in, unsigned int nIndexEvent_in);
+void DeleteParticipant(unsigned int nIndexEvent_in, unsigned int nIndexParticipant_in);
+void DeleteStand(unsigned int nIndexEvent_in, unsigned int nIndexStand_in);
+void DeleteManager(unsigned int nIndexEvent_in, unsigned int nIndexStand_in, unsigned int nIndexManager_in);
 
 #endif

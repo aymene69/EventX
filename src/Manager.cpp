@@ -1,29 +1,29 @@
 #include "include/Manager.hpp"
 
-Manager::Manager(std::string nom, int id, std::string num) : managerNom(nom), managerId(id), managerNum(num) {}
+Manager::Manager(std::string sName, std::string sPhoneNumber, unsigned int nId) : m_sName(sName), m_sPhoneNumber(sPhoneNumber), m_nId(nId) {}
 
 Manager::~Manager() {}
 
-std::string Manager::getType() const {
+std::string Manager::GetType() const {
     return "Manager";
 }
 
-std::string Manager::getManagerNom() const {
-    return managerNom;
+std::string Manager::GetManagerName() const {
+    return m_sName;
 }
 
-int Manager::getManagerId() const {
-    return managerId;
+std::string Manager::GetManagerPhoneNumber() const {
+    return m_sPhoneNumber;
 }
 
-std::string Manager::getManagerNum() const {
-    return managerNum;
+unsigned int Manager::GetManagerId() const {
+    return m_nId;
 }
 
-void Manager::setManagerNum(const std::string& num) {
-    managerNum = num;
+void Manager::SetManagerPhoneNumber(const std::string& sPhoneNumber) {
+    m_sPhoneNumber = sPhoneNumber;
 }
 
-bool Manager::operator==(const Manager& m) const {
-    return managerId == m.managerId;
+bool Manager::operator==(const Manager& managerToCompare) const {
+    return this->m_nId == managerToCompare.m_nId;
 }

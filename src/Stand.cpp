@@ -1,38 +1,37 @@
 #include "include/Stand.hpp"
 
-Stand::Stand(std::string nom, double surface) : standNom(nom), standSurface(surface), standId(0) {} // constructeur
+Stand::Stand(std::string sName, double dSurface) : m_sName(sName), m_dSurface(dSurface), m_nId(0) {} // constructeur
 
-Stand::~Stand() { // destructeur
-    for (auto& m : managers) {
-        delete m;
+Stand::~Stand() { // Destructor
+    for (auto& managerActual : this->m_pVecManagers) {
+        delete managerActual;
     }
 }
 
-std::string Stand::getType() const { // avoir le type de stand
+std::string Stand::GetType() const { // Get the type of stand
     return "Stand";
 }
 
-std::string Stand::getStandNom() const { // avoir le nom du stand
-    return standNom;
+std::string Stand::GetStandName() const {  // Get the stand name
+    return this->m_sName;
 }
 
-int Stand::getStandId() const { // avoir le numéro du stand
-    return standId;
+unsigned int Stand::GetStandId() const { // Get the stand Id
+    return this->m_nId;
 }
 
-double Stand::getStandSurface() const { // avoir la surface du stand
-    return standSurface;
+double Stand::GetStandSurface() const { // Get the stand surface
+    return this->m_dSurface;
 }
 
-std::vector<Manager*> Stand::getManagers() { // avoir la liste des managers du stand
-    return managers;
+std::vector<Manager*> Stand::GetManagers() { // Get the list of managers
+    return this->m_pVecManagers;
 }
 
-void Stand::addManager(Manager* manager) { // ajouter un manager au stand
-    managers.push_back(manager);
+void Stand::AddManager(Manager* pManagerToAdd) { // Add a manager to the booth
+    this->m_pVecManagers.push_back(pManagerToAdd);
 }
 
-
-bool Stand::operator==(const Stand& s) const { // comparer deux stands
-    return standId == s.standId;
+bool Stand::operator==(const Stand& standToCompare) const { // Compare two stands
+    return this->m_nId == standToCompare.m_nId;
 }

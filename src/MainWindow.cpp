@@ -1,148 +1,131 @@
 #include "include/MainWindow.hpp"
-#include "include/GestionEvenement.hpp"
-#include "include/GestionParticipant.hpp"
-#include "include/GestionStand.hpp"
-#include "include/GestionManager.hpp"
-#include "include/FonctionsJson.hpp"
-#include "include/FonctionsDemarrage.hpp"
-#include <QStandardPaths>
-#include <QObject>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QStandardItemModel>
-#include <QTreeView>
-#include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    pPushButtonManageEvent = new QPushButton("Gérer l'événement", this);
-    pPushButtonManageParticipant = new QPushButton("Gérer les participants", this);
-    pPushButtonManageStand = new QPushButton("Gérer les stands", this);
-    pPushButtonManageManager = new QPushButton("Gérer les managers", this);
-    pPushButtonViewData = new QPushButton("Visualiser les données", this);
-    pPushButtonExit = new QPushButton("Quitter", this);
-    createWidgets();
-    createLayout();
-    connectSignalsAndSlots();
+MainWindow::MainWindow(QWidget *pWidgetParent_in) : QMainWindow(pWidgetParent_in) {
+    this->m_pPushButtonManageEvent = new QPushButton("Gérer l'événement", this);
+    this->m_pPushButtonManageParticipant = new QPushButton("Gérer les participants", this);
+    this->m_pPushButtonManageStand = new QPushButton("Gérer les stands", this);
+    this->m_pPushButtonManageManager = new QPushButton("Gérer les managers", this);
+    this->m_pPushButtonViewData = new QPushButton("Visualiser les données", this);
+    this->m_pPushButtonExit = new QPushButton("Quitter", this);
+    CreateWidgets();
+    CreateLayout();
+    ConnectSignalsAndSlots();
+
+    this->setWindowTitle("EventX 0.7.0");
+    this->show();
 }
 
-void MainWindow::createWidgets() {
-    // Créez les labels en tant que membres de la classe
-    pLabelNumberEvents = new QLabel("Nombre d'événements : " + QString::number(getNbEvents()), this);
-    pLabelNumberParticipants = new QLabel("Nombre de participants : " + QString::number(getNbParticipants()), this);
-    pLabelNumberStands = new QLabel("Nombre de stands : " + QString::number(getNbStands()), this);
-    pLabelNumberManagers = new QLabel("Nombre de managers : " + QString::number(getNbManagers()), this);
+void MainWindow::CreateWidgets() {
+    // Create labels as members of class
+    this->m_pLabelNumberEvents = new QLabel("Nombre d'événements : " + QString::number(GetNumberOfEvents()), this);
+    this->m_pLabelNumberParticipants = new QLabel("Nombre de participants : " + QString::number(GetNumberOfParticipants()), this);
+    this->m_pLabelNumberStands = new QLabel("Nombre de stands : " + QString::number(GetNumberOfStands()), this);
+    this->m_pLabelNumberManagers = new QLabel("Nombre de managers : " + QString::number(GetNumberOfManagers()), this);
 }
 
-void MainWindow::createLayout() {
-    auto *centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
+void MainWindow::CreateLayout() {
+    auto *pWidgetCentral= new QWidget(this);
+    setCentralWidget(pWidgetCentral);
 
-    auto *layout = new QVBoxLayout(centralWidget);
+    auto *pVBoxLayoutVertical = new QVBoxLayout(pWidgetCentral);
 
-    auto *titreApp = new QLabel("{ EventX }", this);
-    titreApp->setAlignment(Qt::AlignCenter);
-    titreApp->setStyleSheet("font-size: 50pt;");
+    auto *pLabelApplicationTitle = new QLabel("{ EventX }", this);
+    pLabelApplicationTitle->setAlignment(Qt::AlignCenter);
+    pLabelApplicationTitle->setStyleSheet("font-size: 50pt;");
 
-    auto *credits = new QLabel("par Aymene, Lucas B., Lucas J., Eren, Julien", this);
-    credits->setAlignment(Qt::AlignCenter);
-    credits->setStyleSheet("font-size: 10pt;");
+    auto *pLabelCredits = new QLabel("par Aymene, Lucas B., Lucas J., Eren, Julien", this);
+    pLabelCredits->setAlignment(Qt::AlignCenter);
+    pLabelCredits->setStyleSheet("font-size: 10pt;");
 
-    auto *buttonGroup = new QGroupBox("Gérer", this);
-    auto *buttonGroupLayout = new QHBoxLayout(buttonGroup);
+    auto *pGroupBoxManage = new QGroupBox("Gérer", this);
+    auto *pBoxLayoutManage = new QHBoxLayout(pGroupBoxManage);
 
-    this->pPushButtonManageEvent->setText("Gérer l'événement");
-    this->pPushButtonManageParticipant->setText("Gérer les participants");
-    this->pPushButtonManageStand->setText("Gérer les stands");
-    this->pPushButtonManageManager->setText("Gérer les managers");
-    this->pPushButtonViewData->setText("Visualiser les données");
-    this->pPushButtonExit->setText("Quitter");
+    this->m_pPushButtonManageEvent->setText("Gérer l'événement");
+    this->m_pPushButtonManageParticipant->setText("Gérer les participants");
+    this->m_pPushButtonManageStand->setText("Gérer les stands");
+    this->m_pPushButtonManageManager->setText("Gérer les managers");
+    this->m_pPushButtonViewData->setText("Visualiser les données");
+    this->m_pPushButtonExit->setText("Quitter");
 
-    buttonGroupLayout->addWidget(pPushButtonManageEvent);
-    buttonGroupLayout->addWidget(pPushButtonManageParticipant);
-    buttonGroupLayout->addWidget(pPushButtonManageStand);
-    buttonGroupLayout->addWidget(pPushButtonManageManager);
-    buttonGroup->setLayout(buttonGroupLayout);
+    pBoxLayoutManage->addWidget(this->m_pPushButtonManageEvent);
+    pBoxLayoutManage->addWidget(this->m_pPushButtonManageParticipant);
+    pBoxLayoutManage->addWidget(this->m_pPushButtonManageStand);
+    pBoxLayoutManage->addWidget(this->m_pPushButtonManageManager);
+    pGroupBoxManage->setLayout(pBoxLayoutManage);
 
-    auto *visualiserGroup = new QGroupBox("Visualiser", this);
-    auto *visualiserGroupLayout = new QHBoxLayout(visualiserGroup);
+    auto *pGroupBoxView = new QGroupBox("Visualiser", this);
+    auto *pBoxLayoutView = new QHBoxLayout(pGroupBoxView);
 
+    this->m_pPushButtonViewData->setText("Visualiser les données");
+    pBoxLayoutView->addWidget(this->m_pPushButtonViewData);
+    pGroupBoxView->setLayout(pBoxLayoutView);
 
-    this->pPushButtonViewData->setText("Visualiser les données");
-    visualiserGroupLayout->addWidget(pPushButtonViewData);
-    visualiserGroup->setLayout(visualiserGroupLayout);
+    auto *pGroupBoxStats = new QGroupBox("Statistiques", this);
+    auto *pHBoxLayoutStats = new QHBoxLayout(pGroupBoxStats);
 
-    auto *statsGroup = new QGroupBox("Statistiques", this);
-    auto *statsGroupLayout = new QHBoxLayout(statsGroup);
+    pHBoxLayoutStats->addWidget(this->m_pLabelNumberEvents);
+    pHBoxLayoutStats->addWidget(this->m_pLabelNumberParticipants);
+    pHBoxLayoutStats->addWidget(this->m_pLabelNumberStands);
+    pHBoxLayoutStats->addWidget(this->m_pLabelNumberManagers);
+    pGroupBoxStats->setLayout(pHBoxLayoutStats);
 
-    statsGroupLayout->addWidget(pLabelNumberEvents);
-    statsGroupLayout->addWidget(pLabelNumberParticipants);
-    statsGroupLayout->addWidget(pLabelNumberStands);
-    statsGroupLayout->addWidget(pLabelNumberManagers);
-    statsGroup->setLayout(statsGroupLayout);
+    pVBoxLayoutVertical->addWidget(pLabelApplicationTitle);
+    pVBoxLayoutVertical->addWidget(pLabelCredits);
+    pVBoxLayoutVertical->addWidget(pGroupBoxManage);
+    pVBoxLayoutVertical->addWidget(pGroupBoxView);
+    pVBoxLayoutVertical->addWidget(pGroupBoxStats);
+    pVBoxLayoutVertical->addWidget(this->m_pPushButtonExit);
 
-    layout->addWidget(titreApp);
-    layout->addWidget(credits);
-    layout->addWidget(buttonGroup);
-    layout->addWidget(visualiserGroup);
-    layout->addWidget(statsGroup);
-    layout->addWidget(pPushButtonExit);
-
-
-    QObject::connect(pPushButtonManageEvent, &QPushButton::clicked, this, &MainWindow::handleGestionEvenement);
-    QObject::connect(pPushButtonManageParticipant, &QPushButton::clicked, this, &MainWindow::handleGestionParticipant);
-    QObject::connect(pPushButtonManageStand, &QPushButton::clicked, this, &MainWindow::handleGestionStand);
-    QObject::connect(pPushButtonManageManager, &QPushButton::clicked, this, &MainWindow::handleGestionManager);
-    QObject::connect(pPushButtonViewData, &QPushButton::clicked, this, &MainWindow::viewData);
-    QObject::connect(pPushButtonExit, &QPushButton::clicked, this, &MainWindow::close);
+    QObject::connect(this->m_pPushButtonManageEvent, &QPushButton::clicked, this, &MainWindow::HandleGestionEvenement);
+    QObject::connect(this->m_pPushButtonManageParticipant, &QPushButton::clicked, this, &MainWindow::HandleGestionParticipant);
+    QObject::connect(this->m_pPushButtonManageStand, &QPushButton::clicked, this, &MainWindow::HandleGestionStand);
+    QObject::connect(this->m_pPushButtonManageManager, &QPushButton::clicked, this, &MainWindow::HandleGestionManager);
+    QObject::connect(this->m_pPushButtonViewData, &QPushButton::clicked, this, &MainWindow::ViewData);
+    QObject::connect(this->m_pPushButtonExit, &QPushButton::clicked, this, &MainWindow::close);
 }
 
-void MainWindow::connectSignalsAndSlots() {
-
-    QObject::connect(&gestionEvenementDialog, &GestionEvenementDialog::dataModified, this, &MainWindow::handleDataModified);
-    QObject::connect(&gestionParticipantDialog, &GestionParticipantDialog::dataModified, this, &MainWindow::handleDataModified);
-    QObject::connect(&gestionStandDialog, &GestionStandDialog::dataModified, this, &MainWindow::handleDataModified);
-    QObject::connect(&gestionManagerDialog, &GestionManagerDialog::dataModified, this, &MainWindow::handleDataModified);
+void MainWindow::ConnectSignalsAndSlots() {
+    QObject::connect(&this->m_gestionEvenementDialog, &GestionEvenementDialog::DataModified, this, &MainWindow::HandleDataModified);
+    QObject::connect(&this->m_gestionParticipantDialog, &GestionParticipantDialog::dataModified, this, &MainWindow::HandleDataModified);
+    QObject::connect(&this->m_gestionStandDialog, &GestionStandDialog::DataModified, this, &MainWindow::HandleDataModified);
+    QObject::connect(&this->m_gestionManagerDialog, &GestionManagerDialog::DataModified, this, &MainWindow::HandleDataModified);
 }
 
-void MainWindow::handleGestionEvenement() {
-    // On affiche la fenêtre événement
-    gestionEvenementDialog.exec();
+void MainWindow::HandleGestionEvenement() {
+    // The event window is displayed
+    this->m_gestionEvenementDialog.exec();
 }
 
-void MainWindow::handleGestionParticipant() {
-    // On affiche la fenêtre participant
-    gestionParticipantDialog.exec();
+void MainWindow::HandleGestionParticipant() {
+    // The participant window is displayed
+    this->m_gestionParticipantDialog.exec();
 }
 
-void MainWindow::handleGestionStand() {
-    // On affiche la fenêtre participant
-    gestionStandDialog.exec();
+void MainWindow::HandleGestionStand() {
+    // The participant window is displayed
+    this->m_gestionStandDialog.exec();
 }
 
-void MainWindow::handleGestionManager() {
-    // On affiche la fenêtre participant
-    gestionManagerDialog.exec();
+void MainWindow::HandleGestionManager() {
+    // The participant window is displayed
+    this->m_gestionManagerDialog.exec();
 }
 
-void MainWindow::viewData() {
-    // Créer la fenêtre de visualisation des données
-    QDialog viewDataDialog(this);
-    viewDataDialog.setWindowTitle("EventX - Visualisation des donnees");
-    viewDataDialog.setMinimumSize(500, 300);
-
-    // Créer le modèle et la vue pour afficher les données en arbre
-    QStandardItemModel* pStandardItemModelData = new QStandardItemModel(&viewDataDialog);
-    QTreeView* pTreeViewData = new QTreeView(&viewDataDialog);
+void MainWindow::ViewData() {
+    // Create the data display window
+    QDialog dialogViewData(this);
+    dialogViewData.setWindowTitle("EventX - Visualisation des donnees");
+    dialogViewData.setMinimumSize(500, 300);
+    // Create the model and view to display tree data
+    QStandardItemModel* pStandardItemModelData = new QStandardItemModel(&dialogViewData);
+    QTreeView* pTreeViewData = new QTreeView(&dialogViewData);
     pTreeViewData->setHeaderHidden(true);
     pTreeViewData->setModel(pStandardItemModelData);
-
-    // Charger les données depuis le fichier JSON
-    json jsonData = preloadData();
-
+    // Load data from JSON file
+    json jsonData = PreloadData();
     // Check for events before trying to display data
-    if (getNbEvents() == 0) {
+    if (GetNumberOfEvents() == 0) {     
         QMessageBox::warning(this, "Avertissement", "Aucun événement à afficher.");
-        return;
     } else {
         // Browse events
         for (const auto &event : jsonData["events"]) {
@@ -153,7 +136,7 @@ void MainWindow::viewData() {
                             .arg(QString::fromStdString(event["nom"].get<std::string>())));
             pStandardItemModelData->appendRow(pStandardItemEventItem);
             // Check for participants before browsing participants
-            if (getNbParticipantsFromEvent(event) == 0) {
+            if (GetNumberOfParticipantsFromAEvent(event) == 0) {
                 QStandardItem *pStandardItemNoParticipants = new QStandardItem("Aucun participant");
                 pStandardItemEventItem->appendRow(pStandardItemNoParticipants);
             } else {
@@ -170,7 +153,7 @@ void MainWindow::viewData() {
                 }
             }
             // Check if there are any pits before going through them
-            if (getNbStandsFromEvent(event) == 0) {
+            if (GetNumberOfStandsFromAEvent(event) == 0) {
                 QStandardItem *pStandardItemNoStands = new QStandardItem("Aucun stand");
                 pStandardItemEventItem->appendRow(pStandardItemNoStands);
                 QStandardItem *pStandardItemNoManagers = new QStandardItem("Aucun manager");
@@ -181,13 +164,11 @@ void MainWindow::viewData() {
                 pStandardItemEventItem->appendRow(pStandardItemStands);
                 for (const auto &stand: event["stands"]) {
                     QStandardItem *pStandardItemStand = new QStandardItem(QString("Nom: %1, Numero: %2, Surface: %3")
-                                                                                  .arg(QString::fromStdString(
-                                                                                          stand["nom"].get<std::string>()))
+                                                                                  .arg(QString::fromStdString(stand["nom"].get<std::string>()))
                                                                                   .arg(stand["id"].get<int>())
-                                                                                  .arg(QString::number(
-                                                                                          stand["surface"].get<double>())));
+                                                                                  .arg(QString::number(stand["surface"].get<double>())));
                     pStandardItemStands->appendRow(pStandardItemStand);
-                    if (getNbManagersFromStand(stand) == 0) {
+                    if (GetNumberOfManagersFromAStand(stand) == 0) {
                         QStandardItem *pStandardItemNoManagers = new QStandardItem("Aucun manager");
                         pStandardItemStand->appendRow(pStandardItemNoManagers);
                     } else {
@@ -206,19 +187,18 @@ void MainWindow::viewData() {
                 }
             }
         }
-        QVBoxLayout *pViewDataLayout = new QVBoxLayout(&viewDataDialog);
+        QVBoxLayout *pViewDataLayout = new QVBoxLayout(&dialogViewData);
         pViewDataLayout->addWidget(pTreeViewData);
-        viewDataDialog.setLayout(pViewDataLayout);
-
-        // Afficher la fenêtre de visualisation des données (non bloquante)
-        viewDataDialog.exec();
+        dialogViewData.setLayout(pViewDataLayout);
+        // Display data viewer
+        dialogViewData.exec();
     }
 }
 
-void MainWindow::handleDataModified() {
-    // Mettez à jour les statistiques ici
-    pLabelNumberEvents->setText("Nombre d'événements : " + QString::number(getNbEvents()));
-    pLabelNumberParticipants->setText("Nombre de participants : " + QString::number(getNbParticipants()));
-    pLabelNumberStands->setText("Nombre de stands : " + QString::number(getNbStands()));
-    pLabelNumberManagers->setText("Nombre de participants : " + QString::number(getNbManagers()));
+void MainWindow::HandleDataModified() {
+    // Update statistics here
+    this->m_pLabelNumberEvents->setText("Nombre d'événements : " + QString::number(GetNumberOfEvents()));
+    this->m_pLabelNumberParticipants->setText("Nombre de participants : " + QString::number(GetNumberOfParticipants()));
+    this->m_pLabelNumberStands->setText("Nombre de stands : " + QString::number(GetNumberOfStands()));
+    this->m_pLabelNumberManagers->setText("Nombre de participants : " + QString::number(GetNumberOfManagers()));
 }
