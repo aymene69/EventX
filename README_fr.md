@@ -58,4 +58,4 @@ Ce projet a été créé par:
 - YETKIN Eren
 
 ## 📄 License
-Ce logiciel est sous [Unlicense](https://web.archive.org/web/20230703162904/https://unlicense.org/), dont les termes sont disponibles dans [UNLICENSE.txt](https://github.com/belmeg/projet-poo/releases/UNLICENSE.txt)
+Ce logiciel est sous [Unlicense](https://web.archive.org/web/20230703162904/https://unlicense.org/), dont les termes sont disponibles dans [UNLICENSE.txt](UNLICENSE.txt)
