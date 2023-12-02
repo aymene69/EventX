@@ -1,45 +1,59 @@
+English | [Français](README_fr.md)
+
 # 📅 **{ EventX }**
 
-
-EventX est une application de gestion d'événements. Il offre une plateforme permettant la création, la modification et la suppression d'événements, stands, managers et aussi de participants, démontrant mes compétences en développement logiciel et en conception d'interfaces utilisateur. EventX facilite la coordination efficace des divers éléments d'un événement. Réalisé en C++ à l'aide du framework Qt, ce projet avait pour but de mettre en application les principes de la Programmation Orientée Objet ainsi que des classes.
+EventX is an event management application. It provides a platform for creating, modifying and deleting events, stands, managers and participants, demonstrating my skills in software development and user interface design. EventX facilitates efficient coordination of the various elements of an event. Developed in C++ using the Qt framework, the aim of this project was to apply the principles of Object-Oriented Programming and classes.
 
 ![EventX](https://i.imgur.com/gjX7Pxb.png)
 
+## 🔧 Features
 
+- **Create events:** Add, modify or delete events
+- Attendee management:** Add, edit or delete attendees linked to events.
+- **Stand management:** Add or modify existing stands, including their name and surface area, or delete them.
+- **Manager management:** Create, modify and delete managers associated with specific stands.
+- **Intuitive user interface:** A user-friendly interface simplifies interaction with the application.
 
-## 🔧 Fonctionnalités
+## 📖 How to use it
 
-- **Création d'événements :** Ajoutez ou modifiez voire supprimez les événements
-- **Gestion des participants :** Ajoutez ou modifiez voire supprimez les participants liés à des événements
-- **Gestion des stands :** Ajoutez ou modifiez les stands existants, y compris leur nom et leur surface ou supprimez les.
-- **Gestion des managers :** Créez, modifiez et supprimez des managers associés à des stands spécifiques.
-- **Interface Utilisateur Intuitive :** Une interface utilisateur conviviale simplifie l'interaction avec l'application.
-
-## 📖 Comment l'utiliser
-
-1. **Créer un événement :** Lancez l'application, sélectionnez l'option de création d'événement et saisissez les détails requis.
-3. **Gérer un participant :** Ajoutez, modifiez ou supprimez des participants pour chaque événement.
-2. **Gérer les stands :** Modifiez les stands existants en sélectionnant l'événement associé et en apportant les modifications nécessaires.
-3. **Gérer les managers :** Ajoutez, modifiez ou supprimez des managers pour chaque stand en fonction des besoins de votre événement.
+1. **Create an event:** Launch the application, select the event creation option and enter the required details.
+3. **Manage a participant:** Add, modify or delete participants for each event.
+2. **Manage stands:** Modify existing stands by selecting the associated event and making the necessary changes.
+3. **Manage managers:** Add, modify or delete managers for each stand, according to the needs of your event.
 
 ## 📥️ Installation
 
-Windows: [télécharger](https://github.com/belmeg/projet-poo/releases/)
+Windows: [download](https://github.com/belmeg/projet-poo/releases/)
 
-macOS: [télécharger](https://github.com/belmeg/projet-poo/releases/)
+macOS: [download](https://github.com/belmeg/projet-poo/releases/)
 
-ou alors vous pouvez le compiler:
+or you can compile it:
 
 ## 🔨 Compilation
 
-1. Assurez-vous d'avoir CMake d'installé et d'ajouté au PATH
-2. Compilez:
-- Sous Windows:
-    ```
+1. Make sure you have CMake installed and added to the PATH
+2. Compile:
+- Under Windows::
+    ```shell
     compile.bat
     ```
-- Sous macOS:
-    ```
+- Under macOS:
+    ```bash
     chmod +x compile.sh
     bash compile.sh
     ```
+
+## 🔢 Versioning
+This project is following [semantic versioning schema](https://semver.org/).
+The version number you are using is indicated in the title of the application window on the home page.
+
+## 🤝 Credits
+This project was created by:
+- BELMEGUENAI Aymene
+- BOLARIN Luca
+- COSTA Julien
+- JOURNOUD Lucas
+- YETKIN Eren
+
+## 📄 License
+This software is under the [Unlicense](https://web.archive.org/web/20230703162904/https://unlicense.org/), terms of which are available in [UNLICENSE.txt](UNLICENSE.txt)
