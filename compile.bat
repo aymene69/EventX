@@ -27,8 +27,6 @@ mkdir EventX
 move "EventX.exe" "EventX"
 cd EventX
 
-windeployqt --no-translations .
-
 echo =====================================
 echo Compilation réussie, exécutable dans le dossier build
 echo =====================================

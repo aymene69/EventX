@@ -48,10 +48,9 @@ set(HEADERS
         include/FonctionsJson.hpp
         include/FonctionsDemarrage.hpp
 )
-set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/ressources.rc")
-
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/assets/windows/ressources.rc")
 add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
 
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
-target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets user32 advapi32)
+target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)

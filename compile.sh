@@ -18,6 +18,8 @@ cmake ..
 
 make
 
+rm -r EventX.app
+
 mkdir EventX.app
 mkdir EventX.app/Contents
 mkdir EventX.app/Contents/MacOS
