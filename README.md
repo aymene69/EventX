@@ -52,7 +52,7 @@ Le numéro de version que vous utilisez est indiqué dans le titre de la fenêtr
 ## 🤝 Crédits
 Ce projet a été créé par:
 - B. Aymene
-- BOLARIN Luca
+- BOLARIN Lucas
 - COSTA Julien
 - JOURNOUD Lucas
 - YETKIN Eren
