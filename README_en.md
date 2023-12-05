@@ -1,4 +1,4 @@
-English | [Français](README.md)
+[Français](README.md) | English
 
 # 📅 **{ EventX }**
 
