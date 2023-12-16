@@ -4,6 +4,10 @@ echo "====================================="
 echo "Compilation d'EventX"
 echo "====================================="
 
+export PATH="$PWD/qt5/bin/CMake.app/Contents/bin/:$PWD/qt5/bin/:$PATH"
+echo $PATH
+cmake --version
+
 command -v cmake > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "Erreur : CMake n'est pas installé."
@@ -29,6 +33,7 @@ cp EventX EventX.app/Contents/MacOS/EventX
 cp ../assets/macos/Info.plist EventX.app/Contents/Info.plist
 cp ../assets/macos/EventX.icns EventX.app/Contents/Resources/EventX.icns
 
+macdeployqt EventX.app
 if [ $? -ne 0 ]; then
   echo "Erreur : La compilation a échoué."
   exit 1
