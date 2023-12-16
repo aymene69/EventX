@@ -5,16 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-if(WIN32)
-    set(CMAKE_PREFIX_PATH "qt6win\\lib\\cmake")
-else ()
-    set(CMAKE_PREFIX_PATH "qt6mac/lib/cmake")
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-endif()
+set(CMAKE_PREFIX_PATH "qt5")
 
 set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
 
-find_package(Qt6 COMPONENTS
+find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
@@ -53,4 +48,4 @@ add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
 
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 
-target_link_libraries(EventX Qt6::Core Qt6::Gui Qt6::Widgets)
+target_link_libraries(EventX Qt5::Core Qt5::Gui Qt5::Widgets)

@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtMacExtras.framework/Headers
+
+
+Name: Qt5 MacExtras
+Description: Qt MacExtras module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtMacExtras 
+Cflags: -DQT_MACEXTRAS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui
+

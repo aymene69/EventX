@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtQuickTest.framework/Headers
+
+
+Name: Qt5 QuickTest
+Description: Qt QuickTest module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtQuickTest 
+Cflags: -DQT_QMLTEST_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Test Qt5Widgets
+

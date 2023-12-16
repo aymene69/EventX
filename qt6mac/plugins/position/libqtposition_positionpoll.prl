@@ -1,5 +1,0 @@
-QMAKE_PRL_TARGET = libqtposition_positionpoll.a
-QMAKE_PRL_CONFIG = static
-QMAKE_PRL_VERSION = 6.6.1
-QMAKE_PRL_LIBS = $$[QT_INSTALL_LIBS]/libQt6Positioning.a $$[QT_INSTALL_LIBS]/libQt6Core.a $$[QT_INSTALL_LIBS]/libQt6Core.a -lz -framework IOKit -framework CoreFoundation -framework Foundation -framework DiskArbitration -framework AppKit -framework ApplicationServices -framework CoreServices -framework Security $$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a $$[QT_INSTALL_LIBS]/libQt6Bundled_Clip2Tri.a $$[QT_INSTALL_LIBS]/libQt6Bundled_Clipper.a $$[QT_INSTALL_LIBS]/libQt6Bundled_Poly2Tri.a
-QMAKE_PRL_LIBS_FOR_CMAKE = $$[QT_INSTALL_LIBS]/libQt6Positioning.a;$$[QT_INSTALL_LIBS]/libQt6Core.a;$$[QT_INSTALL_LIBS]/libQt6Core.a;-lz;-framework IOKit;-framework CoreFoundation;-framework Foundation;-framework DiskArbitration;-framework AppKit;-framework ApplicationServices;-framework CoreServices;-framework Security;$$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a;$$[QT_INSTALL_LIBS]/libQt6Bundled_Clip2Tri.a;$$[QT_INSTALL_LIBS]/libQt6Bundled_Clipper.a;$$[QT_INSTALL_LIBS]/libQt6Bundled_Poly2Tri.a

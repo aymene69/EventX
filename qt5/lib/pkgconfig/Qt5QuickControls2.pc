@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtQuickControls2.framework/Headers
+
+
+Name: Qt5 QuickControls2
+Description: Qt QuickControls2 module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtQuickControls2 
+Cflags: -DQT_QUICKCONTROLS2_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Quick
+

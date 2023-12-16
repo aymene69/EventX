@@ -276,17 +276,11 @@ void GestionStandDialog::onEventComboBoxChanged(int index) {
 
     if (jsonSelectedEvent.find("stands") != jsonSelectedEvent.end()) {
         if (pFormLayoutDialog->rowCount() == 6) {
-            pFormLayoutDialog->setRowVisible(1, true);
-            pFormLayoutDialog->setRowVisible(2, true);
-            pFormLayoutDialog->setRowVisible(3, true);
-            pFormLayoutDialog->setRowVisible(4, false);
-            pFormLayoutDialog->setRowVisible(5, true);
+
             dialogParent->setFixedSize(252, 158);
         }
         else if (pFormLayoutDialog->rowCount() == 4) { //Delete stand
-            pFormLayoutDialog->setRowVisible(1, true);
-            pFormLayoutDialog->setRowVisible(2, false);
-            pFormLayoutDialog->setRowVisible(3, true);
+
             dialogParent->setFixedSize(180, 102);
         }
 
@@ -297,17 +291,11 @@ void GestionStandDialog::onEventComboBoxChanged(int index) {
     }
     else {
         if (pFormLayoutDialog->rowCount() == 6) { //Modify stand
-            pFormLayoutDialog->setRowVisible(1, false);
-            pFormLayoutDialog->setRowVisible(2, false);
-            pFormLayoutDialog->setRowVisible(3, false);
-            pFormLayoutDialog->setRowVisible(4, true);
-            pFormLayoutDialog->setRowVisible(5, false);
+
             dialogParent->setFixedSize(452, 158);
         }
         else if (pFormLayoutDialog->rowCount() == 4) { //Delete stand
-            pFormLayoutDialog->setRowVisible(1, false);
-            pFormLayoutDialog->setRowVisible(2, true);
-            pFormLayoutDialog->setRowVisible(3, false);
+
             dialogParent->setFixedSize(265, 102);
         }
     }

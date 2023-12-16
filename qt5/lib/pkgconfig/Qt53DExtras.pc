@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/Qt3DExtras.framework/Headers
+
+
+Name: Qt5 3DExtras
+Description: Qt 3DExtras module
+Version: 5.15.2
+Libs: -F${libdir} -framework Qt3DExtras 
+Cflags: -DQT_3DEXTRAS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt53DCore Qt53DRender Qt53DInput Qt53DLogic
+

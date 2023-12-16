@@ -1,7 +1,7 @@
 #include "include/MainWindow.hpp"
 
 MainWindow::MainWindow(QWidget *pWidgetParent_in) : QMainWindow(pWidgetParent_in) {
-    this->m_pPushButtonManageEvent = new QPushButton("Gérer l'événement", this);
+    this->m_pPushButtonManageEvent = new QPushButton("Gérer les événement", this);
     this->m_pPushButtonManageParticipant = new QPushButton("Gérer les participants", this);
     this->m_pPushButtonManageStand = new QPushButton("Gérer les stands", this);
     this->m_pPushButtonManageManager = new QPushButton("Gérer les managers", this);
@@ -39,13 +39,6 @@ void MainWindow::CreateLayout() {
 
     auto *pGroupBoxManage = new QGroupBox("Gérer", this);
     auto *pBoxLayoutManage = new QHBoxLayout(pGroupBoxManage);
-
-    this->m_pPushButtonManageEvent->setText("Gérer l'événement");
-    this->m_pPushButtonManageParticipant->setText("Gérer les participants");
-    this->m_pPushButtonManageStand->setText("Gérer les stands");
-    this->m_pPushButtonManageManager->setText("Gérer les managers");
-    this->m_pPushButtonViewData->setText("Visualiser les données");
-    this->m_pPushButtonExit->setText("Quitter");
 
     pBoxLayoutManage->addWidget(this->m_pPushButtonManageEvent);
     pBoxLayoutManage->addWidget(this->m_pPushButtonManageParticipant);

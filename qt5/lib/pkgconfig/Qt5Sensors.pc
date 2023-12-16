@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtSensors.framework/Headers
+
+
+Name: Qt5 Sensors
+Description: Qt Sensors module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtSensors 
+Cflags: -DQT_SENSORS_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core
+

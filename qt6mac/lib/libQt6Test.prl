@@ -1,5 +1,0 @@
-QMAKE_PRL_TARGET = libQt6Test.a
-QMAKE_PRL_CONFIG = static
-QMAKE_PRL_VERSION = 6.6.1
-QMAKE_PRL_LIBS = $$[QT_INSTALL_LIBS]/libQt6Core.a $$[QT_INSTALL_LIBS]/libQt6Core.a -lz -framework CoreFoundation -framework DiskArbitration -framework CoreServices $$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a -framework Security -framework AppKit -framework ApplicationServices -framework Foundation -framework IOKit
-QMAKE_PRL_LIBS_FOR_CMAKE = $$[QT_INSTALL_LIBS]/libQt6Core.a;$$[QT_INSTALL_LIBS]/libQt6Core.a;-lz;-framework CoreFoundation;-framework DiskArbitration;-framework CoreServices;$$[QT_INSTALL_LIBS]/libQt6BundledPcre2.a;-framework Security;-framework AppKit;-framework ApplicationServices;-framework Foundation;-framework IOKit

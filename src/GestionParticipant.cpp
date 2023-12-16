@@ -328,19 +328,11 @@ void GestionParticipantDialog::onEventComboBoxChanged(int index) {
 
     if (selectedEvent.find("participants") != selectedEvent.end()) {
         if(formLayout->rowCount()==8) { //Modify participant
-            formLayout->setRowVisible(1, true);
-            formLayout->setRowVisible(2, true);
-            formLayout->setRowVisible(3, true);
-            formLayout->setRowVisible(4, true);
-            formLayout->setRowVisible(5, true);
-            formLayout->setRowVisible(6, false);
-            formLayout->setRowVisible(7, true);
+
             dialog->setFixedSize(280, 208);
         }
          else if (formLayout->rowCount() == 4) { //Delete participant
-            formLayout->setRowVisible(1, true);
-            formLayout->setRowVisible(2, false);
-            formLayout->setRowVisible(3, true);
+
             dialog->setFixedSize(200, 102);
         }
         
@@ -352,19 +344,11 @@ void GestionParticipantDialog::onEventComboBoxChanged(int index) {
     else {
         if (formLayout->rowCount() == 8) {//Modify participant
 
-            formLayout->setRowVisible(1, false);
-            formLayout->setRowVisible(2, false);
-            formLayout->setRowVisible(3, false);
-            formLayout->setRowVisible(4, false);
-            formLayout->setRowVisible(5, false);
-            formLayout->setRowVisible(6, true);
-            formLayout->setRowVisible(7, false);
+
             dialog->setFixedSize(480, 208);
         }
         else if (formLayout->rowCount() == 4) { //Delete participant
-            formLayout->setRowVisible(1, false);
-            formLayout->setRowVisible(2, true);
-            formLayout->setRowVisible(3, false);
+
             dialog->setFixedSize(281, 102);
         }
 
