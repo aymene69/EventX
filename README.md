@@ -23,22 +23,9 @@ EventX est une application de gestion d'événements. Il offre une plateforme pe
 2. **Gérer les stands :** Modifiez les stands existants en sélectionnant l'événement associé et en apportant les modifications nécessaires.
 3. **Gérer les managers :** Ajoutez, modifiez ou supprimez des managers pour chaque stand en fonction des besoins de votre événement.
 
-## 📥️ Installation
-
-Windows: [télécharger](https://github.com/belmeg/projet-poo/releases/)
-
-macOS: [télécharger](https://github.com/belmeg/projet-poo/releases/)
-
-ou alors vous pouvez le compiler:
-
 ## 🔨 Compilation
 
-1. Assurez-vous d'avoir CMake d'installé et d'ajouté au PATH
-2. Compilez:
-- Sous Windows:
-    ```shell
-    compile.bat
-    ```
+1. Compilez:
 - Sous macOS:
     ```bash
     chmod +x compile.sh
