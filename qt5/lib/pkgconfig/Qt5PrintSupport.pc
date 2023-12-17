@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtPrintSupport.framework/Headers
+
+
+Name: Qt5 PrintSupport
+Description: Qt PrintSupport module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtPrintSupport 
+Cflags: -DQT_PRINTSUPPORT_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+

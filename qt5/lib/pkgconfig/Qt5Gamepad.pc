@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtGamepad.framework/Headers
+
+
+Name: Qt5 Gamepad
+Description: Qt Gamepad module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtGamepad 
+Cflags: -DQT_GAMEPAD_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui
+

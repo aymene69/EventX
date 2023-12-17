@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/Qt3DAnimation.framework/Headers
+
+
+Name: Qt5 3DAnimation
+Description: Qt 3DAnimation module
+Version: 5.15.2
+Libs: -F${libdir} -framework Qt3DAnimation 
+Cflags: -DQT_3DANIMATION_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt53DCore Qt53DRender
+

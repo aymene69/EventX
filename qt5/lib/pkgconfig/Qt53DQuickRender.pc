@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/Qt3DQuickRender.framework/Headers
+
+
+Name: Qt5 3DQuickRender
+Description: Qt 3DQuickRender module
+Version: 5.15.2
+Libs: -F${libdir} -framework Qt3DQuickRender 
+Cflags: -DQT_3DQUICKRENDER_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Qml Qt53DCore Qt53DRender Qt53DQuick
+

@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtQmlWorkerScript.framework/Headers
+
+
+Name: Qt5 QmlWorkerScript
+Description: Qt QmlWorkerScript module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtQmlWorkerScript 
+Cflags: -DQT_QMLWORKERSCRIPT_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Qml
+

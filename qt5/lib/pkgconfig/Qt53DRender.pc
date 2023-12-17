@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/Qt3DRender.framework/Headers
+
+
+Name: Qt5 3DRender
+Description: Qt 3DRender module
+Version: 5.15.2
+Libs: -F${libdir} -framework Qt3DRender 
+Cflags: -DQT_3DRENDER_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt53DCore
+

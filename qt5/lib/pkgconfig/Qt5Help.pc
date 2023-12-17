@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtHelp.framework/Headers
+
+
+Name: Qt5 Help
+Description: Qt Help module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtHelp 
+Cflags: -DQT_HELP_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Widgets Qt5Sql
+

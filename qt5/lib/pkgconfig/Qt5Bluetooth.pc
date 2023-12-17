@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtBluetooth.framework/Headers
+
+
+Name: Qt5 Bluetooth
+Description: Qt Bluetooth module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtBluetooth 
+Cflags: -DQT_BLUETOOTH_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core
+

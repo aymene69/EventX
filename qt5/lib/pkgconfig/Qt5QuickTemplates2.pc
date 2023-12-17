@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtQuickTemplates2.framework/Headers
+
+
+Name: Qt5 QuickTemplates2
+Description: Qt QuickTemplates2 module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtQuickTemplates2 
+Cflags: -DQT_QUICKTEMPLATES2_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core Qt5Gui Qt5Quick Qt5QmlModels
+

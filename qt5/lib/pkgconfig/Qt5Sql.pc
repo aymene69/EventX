@@ -1,0 +1,13 @@
+prefix=/Users/qt/work/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/lib/QtSql.framework/Headers
+
+
+Name: Qt5 Sql
+Description: Qt Sql module
+Version: 5.15.2
+Libs: -F${libdir} -framework QtSql 
+Cflags: -DQT_SQL_LIB -I${includedir} -F${libdir}
+Requires: Qt5Core
+
