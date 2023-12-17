@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+
 set(CMAKE_PREFIX_PATH "qt5")
 
 set(NLOHMANN_JSON_INCLUDE_DIR "nlohmann")
@@ -43,8 +44,8 @@ set(HEADERS
         include/FonctionsJson.hpp
         include/FonctionsDemarrage.hpp
 )
-set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/assets/windows/ressources.rc")
-add_executable(EventX WIN32 ${SOURCES} ${HEADERS} ${app_icon_resource_windows})
+
+add_executable(EventX ${SOURCES} ${HEADERS})
 
 target_include_directories(EventX PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NLOHMANN_JSON_INCLUDE_DIR})
 

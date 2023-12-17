@@ -3,7 +3,11 @@
 echo "====================================="
 echo "Compilation d'EventX"
 echo "====================================="
-
+mkdir qt5
+cd qt5
+mv ../qt5.tar .
+tar xvf qt5.tar
+cd ..
 export PATH="$PWD/qt5/bin/CMake.app/Contents/bin/:$PWD/qt5/bin/:$PATH"
 
 command -v cmake > /dev/null 2>&1
