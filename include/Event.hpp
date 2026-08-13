@@ -32,6 +32,7 @@ public:
     void SetEventDate(const std::string& sDate_in);
     void SetEventLocation(const std::string& sLocation_in);
 
+    void Clear();
     // Methods
     void AddParticipant(Participant* pParticipantToAdd_in);
     void AddStand(Stand* pStandToAdd_in);
